@@ -31,7 +31,7 @@ GCC		?= gcc
 DTC		?= dtc
 
 SINGLE_ARCH_OUTDIR		:= $(OUTDIR)/LATEST/SINGLE_ARCH
-MULTI_ARCH_OUTDIR 		:= $(OUTDIR)/LATEST/MULTI_ARCH
+#MULTI_ARCH_OUTDIR 		:= $(OUTDIR)/LATEST/MULTI_ARCH
 LQSPI_XIP_OUTDIR		:= $(OUTDIR)/LATEST/LQSPI_XIP
 
 DTS_FILES			:= $(wildcard *.dts)
@@ -42,8 +42,9 @@ HEADER_FILES		:= $(wildcard *.dtsh)
 
 TARGETS = \
 	$(patsubst %.dts,$(SINGLE_ARCH_OUTDIR)/%.$(1),$(DTS_FILES))    \
-	$(patsubst %.dts,$(MULTI_ARCH_OUTDIR)/%.$(1),$(DTS_FILES))     \
 	$(patsubst %.dts,$(LQSPI_XIP_OUTDIR)/%.$(1),$(DTS_FILES))
+
+#	$(patsubst %.dts,$(MULTI_ARCH_OUTDIR)/%.$(1),$(DTS_FILES))     \
 
 COMPILE = \
 	@mkdir -p $(1); \
