@@ -27,8 +27,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "hpsc-irqs-2.11.dtsh"
-#include "hpsc-memmap-2.11.dtsh"
+#include "hpsc-irqs.dtsh"
+#include "hpsc-memmap.dtsh"
 
 /* QEMU RAM Settings */
 #if defined(MULTI_ARCH)

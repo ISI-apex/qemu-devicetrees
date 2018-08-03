@@ -27,8 +27,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "hpsc-2.11.dtsh"
-#include "hpsc-icnt-2.11.dtsi"
+#include "hpsc.dtsh"
+#include "hpsc-icnt.dtsi"
 
 #define DK_IOU
 /* SPI_FLASH : Helper macro for creating flash devices

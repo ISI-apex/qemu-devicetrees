@@ -27,7 +27,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "hpsc-2.11.dtsh"
+#include "hpsc.dtsh"
 
 #define DK
 
