@@ -821,6 +821,8 @@
     };
 
     hpps: hpps { /* view of address space from HPPS CPUs */
+        #address-cells = <2>;
+        #size-cells = <2>;
         compatible = "simple-bus";
         ranges ;
 
@@ -835,8 +837,8 @@
                 compatible = "arm,arm-gicv3";
                 revision = <3>;
 
-                reg = < 0xf9000000  /* WARN: this size value is unused; hardcoded in source code */ 0x20000    /* prio = */ 0x0   /* GICD */
-                        0xf9100000  /* WARN: this size value is unused; hardcoded in source code */ 0x100000   /* prio = */ 0x0>; /* GICR */
+                reg = <0x0 0xf9000000  /* WARN: this size value is unused; hardcoded in source code */ 0x0 0x20000    /* prio = */ 0x0   /* GICD */
+                       0x0 0xf9100000  /* WARN: this size value is unused; hardcoded in source code */ 0x0 0x100000   /* prio = */ 0x0>; /* GICR */
                 interrupt-controller ;
                 num-irq = <320>;
                 interrupts-extended = /* signals output by the interrupt controller */
@@ -889,48 +891,48 @@
 
         cxtsgen@0xff250000 { /* TODO: present in Chiplet? ATF wants this. */
                 compatible = "arm.generic-timer";
-                reg = <0xff260000 0x1000 /* prio = */0x1>;
+                reg = <0x0 0xff260000 0x0 0x1000 /* prio = */0x1>;
         };
         csu_core@0xffca0000 { /* TODO: present in Chiplet? Probably, not. ATF wants this. */
             compatible = "xlnx,zynqmp-csu-core";
-            reg = <0xffca0000 0x100 /* prio = */ 0x1>;
+            reg = <0x0 0xffca0000 0x0 0x100 /* prio = */ 0x1>;
         };
 
         /* TODO: this will go away: no OCM on Chiplet */
         hpps_rom: hpps_rom@0x00000000 {
             compatible = "qemu:memory-region";
             qemu,ram = <1>;
-            reg = <0x00000000 0x40000 /* prio = */ 0x1>;
+            reg = <0x0 0x00000000 0x0 0x40000 /* prio = */ 0x1>;
         };
 
         /* TODO: this will go away: no OCM on Chiplet */
         hpps_sram: hpps_sram@0xfffc0000 {
             compatible = "qemu:memory-region";
             qemu,ram = <1>;
-            reg = <0xfffc0000 0x40000 /* prio = */ 0x1>;
+            reg = <0x0 0xfffc0000 0x0 0x40000 /* prio = */ 0x1>;
         };
 
         /* TODO: crf and crl will go away once TRCH reset controller is implemented */
         to_crf_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
             compatible = "qemu:memory-region";
             alias = <&crf_bus>;
-            reg = <0x0 0xFFFFFFFF /* prio = -2 */ 0xfffffffe>;
+            reg = <0x0 0x0 0x0 0xFFFFFFFF /* prio = -2 */ 0xfffffffe>;
         };
         to_crl_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
             compatible = "qemu:memory-region";
             alias = <&crl_bus>;
-            reg = <0x0 0xFFFFFFFF /* prio = -2 */ 0xfffffffe>;
+            reg = <0x0 0x0 0x0 0xFFFFFFFF /* prio = -2 */ 0xfffffffe>;
         };
         to_apu_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
             compatible = "qemu:memory-region";
             alias = <&apu_bus>;
-            reg = <0x0 0xFFFFFFFF /* prio = -2 */ 0xfffffffe>;
+            reg = <0x0 0x0 0x0 0xFFFFFFFF /* prio = -2 */ 0xfffffffe>;
         };
 
 
         pmu_global: pmu_global@0xffd80000 {
             compatible = "xlnx,pmu_global";
-            reg = <0xffd80000 0x40000 /* prio= */ 0x0>;
+            reg = <0x0 0xffd80000 0x0 0x40000 /* prio= */ 0x0>;
             gpio-controller;
             #gpio-cells = <1>;
             num-gpios = <30>; /* pmu_global_client_gpios(30), pmu_global_controller_gpios(3 or 4) in xilinx_zynqmp_pmu_global.c */
@@ -940,7 +942,7 @@
         to_ccn {
             compatible = "qemu:memory-region";
             alias = <&ccn>;
-            reg = <0x0 0xFFFFFFFF /* prio = -1 */ 0xfffffffe>;
+            reg = <0x0 0x0 /* size = */ 0xFFFFFFFF 0xFFFFFFFF /* prio = -1 */ 0xfffffffe>;
         };
     };
 
@@ -1303,6 +1305,8 @@
     };
 
     ccn: ccn {
+        #address-cells = <2>;
+
         compatible = "simple-bus";
         ranges ;
 
@@ -1310,31 +1314,28 @@
             compatible = "qemu:memory-region";
             device_type = "memory";
             qemu,ram = <1>;
-            reg = <0x80000000 0x40000000 /* prio = */ 0x0>;
+            reg = <0x0 0x80000000 0x40000000 /* prio = */ 0x0>;
         };
 
-#if 0
         hpps_ddr_high0: hpps_ddr_high0@0x100000000 { /* TODO: TZC400 */
-            #address-cells = <2>; /* TODO: WARNING: probably has to be in parent */
             compatible = "qemu:memory-region";
             device_type = "memory";
             qemu,ram = <1>;
             reg = <0x1 0x00000000 0x80000000 /* prio = */ 0x0>;
         };
-#endif
 
         to_nic6 {
             compatible = "qemu:memory-region";
             alias = <&nic6>;
             /* reg = <0xF9220000 0x000C0000 * prio = -1 * 0xffffffff>; */ /* TODO: why does this not work? */
-            reg = <0x0 0xffffffff /* prio = -1 */ 0xffffffff>;
+            reg = <0x0 0x0 0xffffffff /* prio = -1 */ 0xffffffff>;
         };
 
         to_nic7 {
             compatible = "qemu:memory-region";
             alias = <&nic7>;
             /* reg = <0xE3000000 0x02330000 * prio = -1 * 0xffffffff>; */ /* TODO: why does this not work? */
-            reg = <0x0 0xffffffff /* prio = -2 */ 0xfffffffe>;
+            reg = <0x0 0x0 0xffffffff /* prio = -2 */ 0xfffffffe>;
         };
     };
 
