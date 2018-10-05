@@ -1009,14 +1009,14 @@
             reg = <0x40000000 0x40000000 /* prio= */ 0x0>;
         };
 
-        rtps_smmu_reg: smmu_reg0@0x38801000 {
+        rtps_smmu_reg: rtps_smmu_reg@0x38801000 {
             compatible = "xlnx,smmu-reg";
             reg = <0x38801000 0x1000>;
             interrupt-controller;
             interrupts = <RTPS_SMMU_IRQ>;
         };
 
-        rtps_smmu: smmu0@0x38800000 {
+        rtps_smmu: rtps_smmu@0x38800000 {
             compatible = "arm,mmu-500";
             reg-extended = <&nic3 0x38800000 0x10000  /* prio= */ 0x0 /* nic3? */
                             &rtps_smmu_tbu0 0 0xffffffff 0xfffffff /* prio= */ 0x0f
@@ -1120,7 +1120,6 @@
             dma = <&ccn>;
             mr-0 = <&ccn>;
             /* mr-1 = <&pcie>; */
-
         };
 
         to_nic4 { /* lsio */
