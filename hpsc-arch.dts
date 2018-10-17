@@ -646,42 +646,42 @@
         compatible = "simple-bus";
         ranges ;
 
-        tcm_ram_r5_0_A: tcm_ram_r5_0_A@0x00000 {
+        tcm_ram_r5_0_A: tcm_ram_r5_0_A@0x000000 {
             compatible = "qemu:memory-region";
             qemu,ram = <1>;
-            reg = <0x0 0x10000 /* prio = */ 0x1>;
+            reg = <0x0 0x100000 /* prio = */ 0x1>;
         };
 
         /* alias into RPU1 TCM for lockstep mode */
         atcm1_for_rpu0: atcm1_for_rpu0 {
             compatible = "qemu:memory-region";
             alias = <&tcm_ram_r5_1_A>;
-            reg = <0x10000 0x10000 /* prio = */ 0x1>;
+            reg = <0x100000 0x100000 /* prio = */ 0x1>;
         };
 
-        tcm_ram_r5_0_B: tcm_ram_r5_0_B@0x20000 {
+        tcm_ram_r5_0_B: tcm_ram_r5_0_B@0x200000 {
             compatible = "qemu:memory-region";
             qemu,ram = <1>;
-            reg = <0x20000 0x10000 /* prio = */ 0x1>;
+            reg = <0x200000 0x100000 /* prio = */ 0x1>;
         };
 
         /* alias into RPU1 TCM for lockstep mode */
         btcm1_for_rpu0: btcm1_for_rpu0 {
             compatible = "qemu:memory-region";
             alias = <&tcm_ram_r5_1_B>;
-            reg = <0x30000 0x10000 /* prio = */ 0x1>;
+            reg = <0x300000 0x100000 /* prio = */ 0x1>;
         };
 
-        icache_rpu0: icache_rpu0@0x40000 {
+        icache_rpu0: icache_rpu0@0x400000 {
             compatible = "qemu:memory-region";
             qemu,ram = <1>;
-            reg = <0x40000 0x8000 /* prio = */ 0x1>;
+            reg = <0x400000 0x8000 /* prio = */ 0x1>;
         };
 
-        dcache_rpu0: dcache_rpu0@0x50000 {
+        dcache_rpu0: dcache_rpu0@0x500000 {
             compatible = "qemu:memory-region";
             qemu,ram = <1>;
-            reg = <0x50000 0x8000 /* prio = */ 0x1>;
+            reg = <0x500000 0x8000 /* prio = */ 0x1>;
         };
 
         to_rtps {
