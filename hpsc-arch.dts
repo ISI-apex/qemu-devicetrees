@@ -25,31 +25,27 @@
 #define XGMAC_IRQ_0			 57
 #define XGMAC_IRQ_1_WAKE		 58
 
-#define RTPS_TRCH_MAILBOX_IRQ_0		161
-#define RTPS_TRCH_MAILBOX_IRQ_1		162
-#define HPPS_TRCH_MAILBOX_IRQ_0		163
-#define HPPS_TRCH_MAILBOX_IRQ_1		164
-#define HPPS_RTPS_MAILBOX_IRQ_0		165
-#define HPPS_RTPS_MAILBOX_IRQ_1		166
+#define TRCH_DMA_IRQ_0			59
+#define TRCH_DMA_IRQ_1			60
+#define RTPS_DMA_IRQ_0			61
+#define RTPS_DMA_IRQ_1			62
+#define HPPS_DMA_IRQ_0			63
+#define HPPS_DMA_IRQ_1			64
+#define SRIO0_DMA_IRQ_0			65
+#define SRIO0_DMA_IRQ_1			66
+#define SRIO1_DMA_IRQ_0			67
+#define SRIO1_DMA_IRQ_1			68
 
-#define TRCH_DMA_IRQ_0			167
-#define TRCH_DMA_IRQ_1			168
-#define RTPS_DMA_IRQ_0			169
-#define RTPS_DMA_IRQ_1			170
-#define HPPS_DMA_IRQ_0			171
-#define HPPS_DMA_IRQ_1			172
-#define SRIO0_DMA_IRQ_0			173
-#define SRIO0_DMA_IRQ_1			174
-#define SRIO1_DMA_IRQ_0			175
-#define SRIO1_DMA_IRQ_1			176
+#define RTPS_SMMU_IRQ			69
+#define HPPS_SMMU0_IRQ			70
+#define HPPS_SMMU1_IRQ			71
 
-#define RTPS_SMMU_IRQ			177
-#define HPPS_SMMU0_IRQ			178
-#define HPPS_SMMU1_IRQ			179
+/* #define TRCH_MAILBOX_{0-31}_IRQ_{A,B}  	72-135 */
+/* #define HPPS_MAILBOX_{0-31}_IRQ_{A,B}  	136-199 */
 
 #if 0 /* TODO: check if used before adding */
 #define CRL_int_IRQ_0				11
-#define TRCH_IPI0_IRQ_0				156
+#define TRCH_IPI0_IRQ_0				12
 #define RPU_IPI0_IRQ_0				33
 #define RPU_IPI1_IRQ_0				34
 #define APU_IPI0_IRQ_0				35
@@ -93,10 +89,74 @@
         <0 0 CRL_int_IRQ_0           &trch_nvic 0 CRL_int_IRQ_0           4>,
         <0 0 TRCH_IPI0_IRQ_0         &trch_nvic 0 TRCH_IPI0_IRQ_0         4>,
 #endif
-        <0 0 RTPS_TRCH_MAILBOX_IRQ_0 &trch_nvic 0 RTPS_TRCH_MAILBOX_IRQ_0 4>,
-        <0 0 RTPS_TRCH_MAILBOX_IRQ_1 &trch_nvic 0 RTPS_TRCH_MAILBOX_IRQ_1 4>,
-        <0 0 HPPS_TRCH_MAILBOX_IRQ_0 &trch_nvic 0 HPPS_TRCH_MAILBOX_IRQ_0 4>,
-        <0 0 HPPS_TRCH_MAILBOX_IRQ_1 &trch_nvic 0 HPPS_TRCH_MAILBOX_IRQ_1 4>,
+        /* LSIO mailbox */
+        <0 0 72 &trch_nvic 0 72 4>, <0 0 73 &trch_nvic 0 73 4>,
+        <0 0 74 &trch_nvic 0 74 4>, <0 0 75 &trch_nvic 0 75 4>,
+        <0 0 76 &trch_nvic 0 76 4>, <0 0 77 &trch_nvic 0 77 4>,
+        <0 0 78 &trch_nvic 0 78 4>, <0 0 79 &trch_nvic 0 79 4>,
+        <0 0 80 &trch_nvic 0 80 4>, <0 0 81 &trch_nvic 0 81 4>,
+        <0 0 82 &trch_nvic 0 82 4>, <0 0 83 &trch_nvic 0 83 4>,
+        <0 0 84 &trch_nvic 0 84 4>, <0 0 85 &trch_nvic 0 85 4>,
+        <0 0 86 &trch_nvic 0 86 4>, <0 0 87 &trch_nvic 0 87 4>,
+        <0 0 88 &trch_nvic 0 88 4>, <0 0 89 &trch_nvic 0 89 4>,
+        <0 0 90 &trch_nvic 0 90 4>, <0 0 91 &trch_nvic 0 91 4>,
+        <0 0 92 &trch_nvic 0 92 4>, <0 0 93 &trch_nvic 0 93 4>,
+        <0 0 94 &trch_nvic 0 94 4>, <0 0 95 &trch_nvic 0 95 4>,
+        <0 0 96 &trch_nvic 0 96 4>, <0 0 97 &trch_nvic 0 97 4>,
+        <0 0 98 &trch_nvic 0 98 4>, <0 0 99 &trch_nvic 0 99 4>,
+        <0 0 100 &trch_nvic 0 100 4>, <0 0 101 &trch_nvic 0 101 4>,
+        <0 0 102 &trch_nvic 0 102 4>, <0 0 103 &trch_nvic 0 103 4>,
+        <0 0 104 &trch_nvic 0 104 4>, <0 0 105 &trch_nvic 0 105 4>,
+        <0 0 106 &trch_nvic 0 106 4>, <0 0 107 &trch_nvic 0 107 4>,
+        <0 0 108 &trch_nvic 0 108 4>, <0 0 109 &trch_nvic 0 109 4>,
+        <0 0 110 &trch_nvic 0 110 4>, <0 0 111 &trch_nvic 0 111 4>,
+        <0 0 112 &trch_nvic 0 112 4>, <0 0 113 &trch_nvic 0 113 4>,
+        <0 0 114 &trch_nvic 0 114 4>, <0 0 115 &trch_nvic 0 115 4>,
+        <0 0 116 &trch_nvic 0 116 4>, <0 0 117 &trch_nvic 0 117 4>,
+        <0 0 118 &trch_nvic 0 118 4>, <0 0 119 &trch_nvic 0 119 4>,
+        <0 0 120 &trch_nvic 0 120 4>, <0 0 121 &trch_nvic 0 121 4>,
+        <0 0 122 &trch_nvic 0 122 4>, <0 0 123 &trch_nvic 0 123 4>,
+        <0 0 124 &trch_nvic 0 124 4>, <0 0 125 &trch_nvic 0 125 4>,
+        <0 0 126 &trch_nvic 0 126 4>, <0 0 127 &trch_nvic 0 127 4>,
+        <0 0 128 &trch_nvic 0 128 4>, <0 0 129 &trch_nvic 0 129 4>,
+        <0 0 130 &trch_nvic 0 130 4>, <0 0 131 &trch_nvic 0 131 4>,
+        <0 0 132 &trch_nvic 0 132 4>, <0 0 133 &trch_nvic 0 133 4>,
+        <0 0 134 &trch_nvic 0 134 4>, <0 0 135 &trch_nvic 0 135 4>,
+
+        /* HPPS mailbox */
+        <0 0 136 &trch_nvic 0 136 4>, <0 0 137 &trch_nvic 0 137 4>,
+        <0 0 138 &trch_nvic 0 138 4>, <0 0 139 &trch_nvic 0 139 4>,
+        <0 0 140 &trch_nvic 0 140 4>, <0 0 141 &trch_nvic 0 141 4>,
+        <0 0 142 &trch_nvic 0 142 4>, <0 0 143 &trch_nvic 0 143 4>,
+        <0 0 144 &trch_nvic 0 144 4>, <0 0 145 &trch_nvic 0 145 4>,
+        <0 0 146 &trch_nvic 0 146 4>, <0 0 147 &trch_nvic 0 147 4>,
+        <0 0 148 &trch_nvic 0 148 4>, <0 0 149 &trch_nvic 0 149 4>,
+        <0 0 150 &trch_nvic 0 150 4>, <0 0 151 &trch_nvic 0 151 4>,
+        <0 0 152 &trch_nvic 0 152 4>, <0 0 153 &trch_nvic 0 153 4>,
+        <0 0 154 &trch_nvic 0 154 4>, <0 0 155 &trch_nvic 0 155 4>,
+        <0 0 156 &trch_nvic 0 156 4>, <0 0 157 &trch_nvic 0 157 4>,
+        <0 0 158 &trch_nvic 0 158 4>, <0 0 159 &trch_nvic 0 159 4>,
+        <0 0 160 &trch_nvic 0 160 4>, <0 0 161 &trch_nvic 0 161 4>,
+        <0 0 162 &trch_nvic 0 162 4>, <0 0 163 &trch_nvic 0 163 4>,
+        <0 0 164 &trch_nvic 0 164 4>, <0 0 165 &trch_nvic 0 165 4>,
+        <0 0 166 &trch_nvic 0 166 4>, <0 0 167 &trch_nvic 0 167 4>,
+        <0 0 168 &trch_nvic 0 168 4>, <0 0 169 &trch_nvic 0 169 4>,
+        <0 0 170 &trch_nvic 0 170 4>, <0 0 171 &trch_nvic 0 171 4>,
+        <0 0 172 &trch_nvic 0 172 4>, <0 0 173 &trch_nvic 0 173 4>,
+        <0 0 174 &trch_nvic 0 174 4>, <0 0 175 &trch_nvic 0 175 4>,
+        <0 0 176 &trch_nvic 0 176 4>, <0 0 177 &trch_nvic 0 177 4>,
+        <0 0 178 &trch_nvic 0 178 4>, <0 0 179 &trch_nvic 0 179 4>,
+        <0 0 180 &trch_nvic 0 180 4>, <0 0 181 &trch_nvic 0 181 4>,
+        <0 0 182 &trch_nvic 0 182 4>, <0 0 183 &trch_nvic 0 183 4>,
+        <0 0 184 &trch_nvic 0 184 4>, <0 0 185 &trch_nvic 0 185 4>,
+        <0 0 186 &trch_nvic 0 186 4>, <0 0 187 &trch_nvic 0 187 4>,
+        <0 0 188 &trch_nvic 0 188 4>, <0 0 189 &trch_nvic 0 189 4>,
+        <0 0 190 &trch_nvic 0 190 4>, <0 0 191 &trch_nvic 0 191 4>,
+        <0 0 192 &trch_nvic 0 192 4>, <0 0 193 &trch_nvic 0 193 4>,
+        <0 0 194 &trch_nvic 0 194 4>, <0 0 195 &trch_nvic 0 195 4>,
+        <0 0 196 &trch_nvic 0 196 4>, <0 0 197 &trch_nvic 0 197 4>,
+        <0 0 198 &trch_nvic 0 198 4>, <0 0 199 &trch_nvic 0 199 4>,
+
         <0 0 TRCH_DMA_IRQ_0          &trch_nvic 0 TRCH_DMA_IRQ_0          4>,
         <0 0 TRCH_DMA_IRQ_1          &trch_nvic 0 TRCH_DMA_IRQ_1          4>,
 
@@ -106,10 +166,74 @@
         <0 0 RPU_IPI0_IRQ_0          &rtps_gic 0 RPU_IPI0_IRQ_0          4>,
         <0 0 RPU_IPI1_IRQ_0          &rtps_gic 0 RPU_IPI1_IRQ_0          4>,
 #endif
-        <0 0 RTPS_TRCH_MAILBOX_IRQ_0 &rtps_gic 0 RTPS_TRCH_MAILBOX_IRQ_0 4>,
-        <0 0 RTPS_TRCH_MAILBOX_IRQ_1 &rtps_gic 0 RTPS_TRCH_MAILBOX_IRQ_1 4>,
-        <0 0 HPPS_RTPS_MAILBOX_IRQ_0 &rtps_gic 0 HPPS_RTPS_MAILBOX_IRQ_0 4>,
-        <0 0 HPPS_RTPS_MAILBOX_IRQ_1 &rtps_gic 0 HPPS_RTPS_MAILBOX_IRQ_1 4>,
+        /* LSIO mailbox */
+        <0 0 72 &rtps_gic 0 72 4>, <0 0 73 &rtps_gic 0 73 4>,
+        <0 0 74 &rtps_gic 0 74 4>, <0 0 75 &rtps_gic 0 75 4>,
+        <0 0 76 &rtps_gic 0 76 4>, <0 0 77 &rtps_gic 0 77 4>,
+        <0 0 78 &rtps_gic 0 78 4>, <0 0 79 &rtps_gic 0 79 4>,
+        <0 0 80 &rtps_gic 0 80 4>, <0 0 81 &rtps_gic 0 81 4>,
+        <0 0 82 &rtps_gic 0 82 4>, <0 0 83 &rtps_gic 0 83 4>,
+        <0 0 84 &rtps_gic 0 84 4>, <0 0 85 &rtps_gic 0 85 4>,
+        <0 0 86 &rtps_gic 0 86 4>, <0 0 87 &rtps_gic 0 87 4>,
+        <0 0 88 &rtps_gic 0 88 4>, <0 0 89 &rtps_gic 0 89 4>,
+        <0 0 90 &rtps_gic 0 90 4>, <0 0 91 &rtps_gic 0 91 4>,
+        <0 0 92 &rtps_gic 0 92 4>, <0 0 93 &rtps_gic 0 93 4>,
+        <0 0 94 &rtps_gic 0 94 4>, <0 0 95 &rtps_gic 0 95 4>,
+        <0 0 96 &rtps_gic 0 96 4>, <0 0 97 &rtps_gic 0 97 4>,
+        <0 0 98 &rtps_gic 0 98 4>, <0 0 99 &rtps_gic 0 99 4>,
+        <0 0 100 &rtps_gic 0 100 4>, <0 0 101 &rtps_gic 0 101 4>,
+        <0 0 102 &rtps_gic 0 102 4>, <0 0 103 &rtps_gic 0 103 4>,
+        <0 0 104 &rtps_gic 0 104 4>, <0 0 105 &rtps_gic 0 105 4>,
+        <0 0 106 &rtps_gic 0 106 4>, <0 0 107 &rtps_gic 0 107 4>,
+        <0 0 108 &rtps_gic 0 108 4>, <0 0 109 &rtps_gic 0 109 4>,
+        <0 0 110 &rtps_gic 0 110 4>, <0 0 111 &rtps_gic 0 111 4>,
+        <0 0 112 &rtps_gic 0 112 4>, <0 0 113 &rtps_gic 0 113 4>,
+        <0 0 114 &rtps_gic 0 114 4>, <0 0 115 &rtps_gic 0 115 4>,
+        <0 0 116 &rtps_gic 0 116 4>, <0 0 117 &rtps_gic 0 117 4>,
+        <0 0 118 &rtps_gic 0 118 4>, <0 0 119 &rtps_gic 0 119 4>,
+        <0 0 120 &rtps_gic 0 120 4>, <0 0 121 &rtps_gic 0 121 4>,
+        <0 0 122 &rtps_gic 0 122 4>, <0 0 123 &rtps_gic 0 123 4>,
+        <0 0 124 &rtps_gic 0 124 4>, <0 0 125 &rtps_gic 0 125 4>,
+        <0 0 126 &rtps_gic 0 126 4>, <0 0 127 &rtps_gic 0 127 4>,
+        <0 0 128 &rtps_gic 0 128 4>, <0 0 129 &rtps_gic 0 129 4>,
+        <0 0 130 &rtps_gic 0 130 4>, <0 0 131 &rtps_gic 0 131 4>,
+        <0 0 132 &rtps_gic 0 132 4>, <0 0 133 &rtps_gic 0 133 4>,
+        <0 0 134 &rtps_gic 0 134 4>, <0 0 135 &rtps_gic 0 135 4>,
+
+        /* HPPS mailbox */
+        <0 0 136 &rtps_gic 0 136 4>, <0 0 137 &rtps_gic 0 137 4>,
+        <0 0 138 &rtps_gic 0 138 4>, <0 0 139 &rtps_gic 0 139 4>,
+        <0 0 140 &rtps_gic 0 140 4>, <0 0 141 &rtps_gic 0 141 4>,
+        <0 0 142 &rtps_gic 0 142 4>, <0 0 143 &rtps_gic 0 143 4>,
+        <0 0 144 &rtps_gic 0 144 4>, <0 0 145 &rtps_gic 0 145 4>,
+        <0 0 146 &rtps_gic 0 146 4>, <0 0 147 &rtps_gic 0 147 4>,
+        <0 0 148 &rtps_gic 0 148 4>, <0 0 149 &rtps_gic 0 149 4>,
+        <0 0 150 &rtps_gic 0 150 4>, <0 0 151 &rtps_gic 0 151 4>,
+        <0 0 152 &rtps_gic 0 152 4>, <0 0 153 &rtps_gic 0 153 4>,
+        <0 0 154 &rtps_gic 0 154 4>, <0 0 155 &rtps_gic 0 155 4>,
+        <0 0 156 &rtps_gic 0 156 4>, <0 0 157 &rtps_gic 0 157 4>,
+        <0 0 158 &rtps_gic 0 158 4>, <0 0 159 &rtps_gic 0 159 4>,
+        <0 0 160 &rtps_gic 0 160 4>, <0 0 161 &rtps_gic 0 161 4>,
+        <0 0 162 &rtps_gic 0 162 4>, <0 0 163 &rtps_gic 0 163 4>,
+        <0 0 164 &rtps_gic 0 164 4>, <0 0 165 &rtps_gic 0 165 4>,
+        <0 0 166 &rtps_gic 0 166 4>, <0 0 167 &rtps_gic 0 167 4>,
+        <0 0 168 &rtps_gic 0 168 4>, <0 0 169 &rtps_gic 0 169 4>,
+        <0 0 170 &rtps_gic 0 170 4>, <0 0 171 &rtps_gic 0 171 4>,
+        <0 0 172 &rtps_gic 0 172 4>, <0 0 173 &rtps_gic 0 173 4>,
+        <0 0 174 &rtps_gic 0 174 4>, <0 0 175 &rtps_gic 0 175 4>,
+        <0 0 176 &rtps_gic 0 176 4>, <0 0 177 &rtps_gic 0 177 4>,
+        <0 0 178 &rtps_gic 0 178 4>, <0 0 179 &rtps_gic 0 179 4>,
+        <0 0 180 &rtps_gic 0 180 4>, <0 0 181 &rtps_gic 0 181 4>,
+        <0 0 182 &rtps_gic 0 182 4>, <0 0 183 &rtps_gic 0 183 4>,
+        <0 0 184 &rtps_gic 0 184 4>, <0 0 185 &rtps_gic 0 185 4>,
+        <0 0 186 &rtps_gic 0 186 4>, <0 0 187 &rtps_gic 0 187 4>,
+        <0 0 188 &rtps_gic 0 188 4>, <0 0 189 &rtps_gic 0 189 4>,
+        <0 0 190 &rtps_gic 0 190 4>, <0 0 191 &rtps_gic 0 191 4>,
+        <0 0 192 &rtps_gic 0 192 4>, <0 0 193 &rtps_gic 0 193 4>,
+        <0 0 194 &rtps_gic 0 194 4>, <0 0 195 &rtps_gic 0 195 4>,
+        <0 0 196 &rtps_gic 0 196 4>, <0 0 197 &rtps_gic 0 197 4>,
+        <0 0 198 &rtps_gic 0 198 4>, <0 0 199 &rtps_gic 0 199 4>,
+
         <0 0 RTPS_DMA_IRQ_0          &rtps_gic 0 RTPS_DMA_IRQ_0          4>,
         <0 0 RTPS_DMA_IRQ_1          &rtps_gic 0 RTPS_DMA_IRQ_1          4>,
 
@@ -121,10 +245,41 @@
         <0 0 APU_IPI0_IRQ_0          &hpps_gic  0 APU_IPI0_IRQ_0          4>,
 #endif
         <0 0 NAND_IRQ_0 	     &hpps_gic  0 NAND_IRQ_0		  4>,
-        <0 0 HPPS_TRCH_MAILBOX_IRQ_0 &hpps_gic  0 HPPS_TRCH_MAILBOX_IRQ_0 4>,
-        <0 0 HPPS_TRCH_MAILBOX_IRQ_1 &hpps_gic  0 HPPS_TRCH_MAILBOX_IRQ_1 4>,
-        <0 0 HPPS_RTPS_MAILBOX_IRQ_0 &hpps_gic  0 HPPS_RTPS_MAILBOX_IRQ_0 4>,
-        <0 0 HPPS_RTPS_MAILBOX_IRQ_1 &hpps_gic  0 HPPS_RTPS_MAILBOX_IRQ_1 4>,
+
+        /* HPPS mailbox */
+        <0 0 136 &hpps_gic 0 136 4>, <0 0 137 &hpps_gic 0 137 4>,
+        <0 0 138 &hpps_gic 0 138 4>, <0 0 139 &hpps_gic 0 139 4>,
+        <0 0 140 &hpps_gic 0 140 4>, <0 0 141 &hpps_gic 0 141 4>,
+        <0 0 142 &hpps_gic 0 142 4>, <0 0 143 &hpps_gic 0 143 4>,
+        <0 0 144 &hpps_gic 0 144 4>, <0 0 145 &hpps_gic 0 145 4>,
+        <0 0 146 &hpps_gic 0 146 4>, <0 0 147 &hpps_gic 0 147 4>,
+        <0 0 148 &hpps_gic 0 148 4>, <0 0 149 &hpps_gic 0 149 4>,
+        <0 0 150 &hpps_gic 0 150 4>, <0 0 151 &hpps_gic 0 151 4>,
+        <0 0 152 &hpps_gic 0 152 4>, <0 0 153 &hpps_gic 0 153 4>,
+        <0 0 154 &hpps_gic 0 154 4>, <0 0 155 &hpps_gic 0 155 4>,
+        <0 0 156 &hpps_gic 0 156 4>, <0 0 157 &hpps_gic 0 157 4>,
+        <0 0 158 &hpps_gic 0 158 4>, <0 0 159 &hpps_gic 0 159 4>,
+        <0 0 160 &hpps_gic 0 160 4>, <0 0 161 &hpps_gic 0 161 4>,
+        <0 0 162 &hpps_gic 0 162 4>, <0 0 163 &hpps_gic 0 163 4>,
+        <0 0 164 &hpps_gic 0 164 4>, <0 0 165 &hpps_gic 0 165 4>,
+        <0 0 166 &hpps_gic 0 166 4>, <0 0 167 &hpps_gic 0 167 4>,
+        <0 0 168 &hpps_gic 0 168 4>, <0 0 169 &hpps_gic 0 169 4>,
+        <0 0 170 &hpps_gic 0 170 4>, <0 0 171 &hpps_gic 0 171 4>,
+        <0 0 172 &hpps_gic 0 172 4>, <0 0 173 &hpps_gic 0 173 4>,
+        <0 0 174 &hpps_gic 0 174 4>, <0 0 175 &hpps_gic 0 175 4>,
+        <0 0 176 &hpps_gic 0 176 4>, <0 0 177 &hpps_gic 0 177 4>,
+        <0 0 178 &hpps_gic 0 178 4>, <0 0 179 &hpps_gic 0 179 4>,
+        <0 0 180 &hpps_gic 0 180 4>, <0 0 181 &hpps_gic 0 181 4>,
+        <0 0 182 &hpps_gic 0 182 4>, <0 0 183 &hpps_gic 0 183 4>,
+        <0 0 184 &hpps_gic 0 184 4>, <0 0 185 &hpps_gic 0 185 4>,
+        <0 0 186 &hpps_gic 0 186 4>, <0 0 187 &hpps_gic 0 187 4>,
+        <0 0 188 &hpps_gic 0 188 4>, <0 0 189 &hpps_gic 0 189 4>,
+        <0 0 190 &hpps_gic 0 190 4>, <0 0 191 &hpps_gic 0 191 4>,
+        <0 0 192 &hpps_gic 0 192 4>, <0 0 193 &hpps_gic 0 193 4>,
+        <0 0 194 &hpps_gic 0 194 4>, <0 0 195 &hpps_gic 0 195 4>,
+        <0 0 196 &hpps_gic 0 196 4>, <0 0 197 &hpps_gic 0 197 4>,
+        <0 0 198 &hpps_gic 0 198 4>, <0 0 199 &hpps_gic 0 199 4>,
+
         <0 0 HPPS_UART0_IRQ_0        &hpps_gic  0 HPPS_UART0_IRQ_0        4>,
         <0 0 XGMAC_IRQ_0             &hpps_gic  0 XGMAC_IRQ_0             4>,
         <0 0 XGMAC_IRQ_1_WAKE        &hpps_gic  0 XGMAC_IRQ_1_WAKE        4>,
@@ -1055,9 +1210,16 @@
         compatible = "simple-bus";
         ranges ;
 
-        rtps_trch_mailbox: mailbox@0x3000a000 {
+        lsio_mailbox: mailbox@0x3000a000 {
             compatible = "hpsc,hpsc-mbox";
-            interrupts = <RTPS_TRCH_MAILBOX_IRQ_0 RTPS_TRCH_MAILBOX_IRQ_1>;
+            interrupts  = <  72  73  74  75  76  77  78  79
+                             80  81  82  83  84  85  86  87
+                             88  89  90  91  92  93  94  95
+                             96  97  98  99 100 101 102 103
+                            104 105 106 107 108 109 110 111
+                            112 113 114 115 116 117 118 119
+                            120 121 122 123 124 125 126 127
+                            128 129 130 131 132 133 134 135>;
             reg = <0x3000a000 0x80000 /* prio = */ 0x0>;
         };
 
@@ -1134,16 +1296,17 @@
         compatible = "simple-bus";
         ranges ;
 
-        hpps_trch_mailbox: mailbox@0xf9220000 {
+        hpps_mailbox: mailbox@0xf9220000 {
             compatible = "hpsc,hpsc-mbox";
-            interrupts = <HPPS_TRCH_MAILBOX_IRQ_0 HPPS_TRCH_MAILBOX_IRQ_1>;
+            interrupts = <136 137 138 139 140 141 142 143
+                          144 145 146 147 148 149 150 151
+                          152 153 154 155 156 157 158 159
+                          160 161 162 163 164 165 166 167
+                          168 169 170 171 172 173 174 175
+                          176 177 178 179 180 181 182 183
+                          184 185 186 187 188 189 190 191
+                          192 193 194 195 196 197 198 199>;
             reg = <0xf9220000 0x80000 /* prio = */ 0x0>;
-        };
-
-        hpps_rtps_mailbox: mailbox@0xf9230000 {
-            compatible = "hpsc,hpsc-mbox";
-            interrupts = <HPPS_RTPS_MAILBOX_IRQ_0 HPPS_RTPS_MAILBOX_IRQ_1>;
-            reg = <0xf9230000 0x80000 /* prio = */ 0x0>;
         };
 
         hpps_uart_0: serial@0xf92c0000 {
