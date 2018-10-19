@@ -697,11 +697,13 @@
             cpu-id = <0>; /* TODO: could this be a ref to the cpu node? */
         };
 
-        trch_rom: trch_rom@0x00000000 { /* accessed over I-/D-Code bus, so not over nic1 */
+#if 0 /* TODO: TRCH boot ROM not in current mem map
+        trch_rom: trch_rom@TODO { /* accessed over I-/D-Code bus, so not over nic1 */
             compatible = "qemu:memory-region";
             qemu,ram = <1>;
-            reg = <0x00000000 0x00100000 /* prio = */ 0x1>;
+            reg = <TODO TODO /* prio = */ 0x1>;
         };
+#endif
 
         /* TODO: crf and crl will go away once TRCH reset controller is implemented */
         to_crf_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
@@ -1105,12 +1107,12 @@
         compatible = "simple-bus";
         ranges ;
 
-        trch_sram: trch_sram@0x20000000 { /* TODO: could this also be accessed over I-/D-Code bus?
+        trch_sram: trch_sram@0x00000000 { /* TODO: could this also be accessed over I-/D-Code bus?
                                              If so, then we should move the definition one level
                                              above and add aliases to both here nic1{} and trch{}  */
             compatible = "qemu:memory-region";
             qemu,ram = <1>;
-            reg = <0x20000000 0x100000 /* prio = */ 0x1>;
+            reg = <0x00000000 0x100000 /* prio = */ 0x1>;
         };
 
         trch_dma: dma-controller@0x3000b000 {
