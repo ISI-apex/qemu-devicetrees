@@ -1046,16 +1046,16 @@
             reg = <0x40000000 0x40000000 /* prio= */ 0x0>;
         };
 
-        rtps_smmu_reg: rtps_smmu_reg@0x38801000 {
+        rtps_smmu_reg: rtps_smmu_reg@0x31801000 {
             compatible = "xlnx,smmu-reg";
-            reg = <0x38801000 0x1000>;
+            reg = <0x31001000 0x1000>;
             interrupt-controller;
             interrupts = <RTPS_SMMU_IRQ>;
         };
 
-        rtps_smmu: rtps_smmu@0x38800000 {
+        rtps_smmu: rtps_smmu@0x31000000 {
             compatible = "arm,mmu-500";
-            reg-extended = <&nic3 0x38800000 0x10000  /* prio= */ 0x0 /* nic3? */
+            reg-extended = <&nic3 0x31000000 0x10000  /* prio= */ 0x0 /* nic3? */
                             &rtps_smmu_tbu0 0 0xffffffff 0xfffffff /* prio= */ 0x0f
                             /* &rtps_smmu_tb1 "PCIE" */
                             >;
@@ -1135,20 +1135,21 @@
         compatible = "simple-bus";
         ranges ;
 
-        hpps_smmu0_reg: smmu_reg0@0xf92f1000 {
+        /* {RTPS,TRCH} -> HPPS MMU */
+        rt_smmu_reg: smmu_reg0@0x31101000 {
             compatible = "xlnx,smmu-reg";
-            reg = <0xf92f1000 0x1000 /* prio = */ 0x0>;
+            reg = <0x31101000 0x1000 /* prio = */ 0x0>;
             interrupt-controller;
             interrupts = <HPPS_SMMU0_IRQ>;
         };
 
-        hpps_smmu0: smmu0@0xf92f0000 {
+        rt_smmu: smmu0@0x31100000 {
             compatible = "arm,mmu-500";
-            reg-extended = <&nic5 0xf92f0000 0x10000  /* prio = */ 0x0 /* nic5? */
+            reg-extended = <&nic5 0x31100000 0x10000  /* prio = */ 0x0 /* nic5? */
                             /* TODO: a narrower range? */
                             &nic5 0          0xffffffff  /* prio = */  0xfffffffe>; /* master connected to slave interface of MMU */
 
-            interrupt-parent = <&hpps_smmu0_reg>;
+            interrupt-parent = <&rt_smmu_reg>;
             interrupts = <0 1 2 3 4 5 6 7 8
                             8 9 10 11 12 13 14 15 16
                             17>;
@@ -1247,16 +1248,16 @@
         compatible = "simple-bus";
         ranges ;
 
-        hpps_smmu1_reg: smmu_reg0@0xf92f3000 {
+        hpps_smmu1_reg: smmu_reg0@0xf9301000 {
                 compatible = "xlnx,smmu-reg";
-                reg = <0xf92f3000 0x1000 /* prio = */ 0x0>;
+                reg = <0xf9301000 0x1000 /* prio = */ 0x0>;
                 interrupt-controller;
                 interrupts = <HPPS_SMMU1_IRQ>;
         };
 
-        hpps_smmu1: smmu1@0xf92f2000 {
+        hpps_smmu1: smmu1@0xf9300000 {
                 compatible = "arm,mmu-500";
-                reg-extended = <&nic7 0xf92f2000 0x10000 /* nic7? */ /* prio = */ 0x1
+                reg-extended = <&nic7 0xf9300000 0x10000 /* nic7? */ /* prio = */ 0x1
                                 &hpps_smmu1_tbu_dma   0 0xffffffff  /* prio = */ 0x0
                                 &hpps_smmu1_tbu_xgmac 0 0xffffffff  /* prio = */ 0x1>;
 
