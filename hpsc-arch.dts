@@ -1193,44 +1193,60 @@
             ttrig-polarity = <1>;
         };
 
-       smc353: smc353@0xf92d0000 {
-           #address-cells = <2>;
-           #size-cells = <2>;
-           #priority-cells = <0>;
+        smc353: smc353@0xf92d0000 {
+            #address-cells = <2>;
+            #size-cells = <2>;
+            arm,addr25 = <0x0>;
+            clock-names = "memclk", "aclk";
+            clocks = <&misc_clk>, <&misc_clk>;
+            compatible = "arm,pl35x";
+            reg = <0xf92d0000 0x1000 /* prio = */ 0x0>;
+            interrupts = <NAND_IRQ_0>;
+            x = <3>;
+            ranges ;
+			nand {
+				#address-cells = <1>;
+				#size-cells = <1>;
 
-           compatible = "arm,pl35x";
-           reg = <0xf92d0000 0x1000 /* prio = */ 0x0>;
-
-           arm,addr25 = <0x0>;
-/*
-           arm,nor-chip-sel0 = <0x0>;
-           arm,nor-chip-sel1 = <0x0>;
-           arm,sram-chip-sel0 = <0x0>;
-           arm,sram-chip-sel1 = <0x0>;
-*/
-           interrupts = <NAND_IRQ_0>;
-           clock-names = "memclk", "aclk";
-           clocks = <&misc_clk>, <&misc_clk>;
-           ranges ;
-
-           nand0: nand0@0x600000000 {
-               compatible = "nand";
-               reg = <0x06 0x00000000 0x1 0x00000000>;
-
-               label = "nand0";
-               manufacturer_id = <0x2c>;
-               chip_id = <0xaa>;
-               drive = "";
-               status = "disabled";
-
-               arm,nand-cycle-t0 = <0x4>;
-               arm,nand-cycle-t1 = <0x4>;
-               arm,nand-cycle-t2 = <0x1>;
-               arm,nand-cycle-t3 = <0x2>;
-               arm,nand-cycle-t4 = <0x2>;
-               arm,nand-cycle-t5 = <0x2>;
-               arm,nand-cycle-t6 = <0x4>;
+				partition@0 {
+					label = "all";
+					reg   = <0x00000000 0x80000000>;
+				};
+			};
+			sram {
+				#address-cells = <1>;
+				#size-cells = <1>;
+					reg   = <0x80000000 0x80000000>;
+			};
+#ifdef ORG
+            nand0: nand0@0x600000000 {
+                arm,nand-cycle-t0 = <0x4>;
+                arm,nand-cycle-t1 = <0x4>;
+                arm,nand-cycle-t2 = <0x1>;
+                arm,nand-cycle-t3 = <0x2>;
+                arm,nand-cycle-t4 = <0x2>;
+                arm,nand-cycle-t5 = <0x2>;
+                arm,nand-cycle-t6 = <0x4>;
+                chip_id = <0xaa>;
+                manufacturer_id = <0x2c>;
+                drive = "";
+                label = "nand0";
+                status = "disabled";
+                compatible = "nand";
+                reg = <0x6 0x00000000 0x0 0x80000000 /* prio = 0 */ 0x0>;
+                #address-cells = <0x2>;
+                #size-cells = <0x2>;
             };
+#endif
+#ifdef SRAM
+            sram0: sram0@0x680000000 {
+                compatible = "qemu:memory-region";
+                qemu,ram = <1>;
+                reg = <0x6 0x80000000 0x0 0x80000000 /* prio = */ 0x0>;
+                #address-cells = <0x2>;
+                #size-cells = <0x2>;
+            }; 
+#endif 
         };
     };
 
@@ -1339,6 +1355,7 @@
 
     ccn: ccn {
         #address-cells = <2>;
+	#size-cells = <2>;    
 
         compatible = "simple-bus";
         ranges ;
@@ -1347,28 +1364,28 @@
             compatible = "qemu:memory-region";
             device_type = "memory";
             qemu,ram = <1>;
-            reg = <0x0 0x80000000 0x40000000 /* prio = */ 0x0>;
+            reg = <0x0 0x80000000 0x0 0x40000000 /* prio = */ 0x0>;
         };
 
         hpps_ddr_high0: hpps_ddr_high0@0x100000000 { /* TODO: TZC400 */
             compatible = "qemu:memory-region";
             device_type = "memory";
             qemu,ram = <1>;
-            reg = <0x1 0x00000000 0x80000000 /* prio = */ 0x0>;
+            reg = <0x1 0x00000000 0x0 0x80000000 /* prio = */ 0x0>;
         };
 
         to_nic6 {
             compatible = "qemu:memory-region";
             alias = <&nic6>;
             /* reg = <0xF9220000 0x000C0000 * prio = -1 * 0xffffffff>; */ /* TODO: why does this not work? */
-            reg = <0x0 0x0 0xffffffff /* prio = -1 */ 0xffffffff>;
+            reg = <0x0 0x0 0x6 0xffffffff /* prio = -1 */ 0xffffffff>;
         };
 
         to_nic7 {
             compatible = "qemu:memory-region";
             alias = <&nic7>;
             /* reg = <0xE3000000 0x02330000 * prio = -1 * 0xffffffff>; */ /* TODO: why does this not work? */
-            reg = <0x0 0x0 0xffffffff /* prio = -2 */ 0xfffffffe>;
+            reg = <0x0 0x0 0x0 0xffffffff /* prio = -2 */ 0xfffffffe>;
         };
     };
 
