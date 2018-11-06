@@ -231,7 +231,7 @@
                 arm,reset_sctlr = <0x30c50838>;        \
                 arm,rvbar = <0x60000000>;              \
                 arm,vbar = <0x60000000>;               \
-                arm,cfgperiphbase = <0xf9a00000>;      \
+                arm,cfgperiphbase = <0x28000000>;      \
                 arm,buildoptr= <0x00f00000>;           \
                 arm,pinoptr= <0x00000000>;             \
                 arm,atcmregionr = <0x00000014>;        \
@@ -619,7 +619,7 @@
         compatible = "simple-bus";
         ranges ;
 
-        rtps_gic: interrupt-controller@0xf9a00000 {
+        rtps_gic: interrupt-controller@0x30E00000{
                 #address-cells = <0>;
                 #size-cells = <0>;
                 #interrupt-cells = <3>;
@@ -631,8 +631,8 @@
                 revision = <3>;
 
                 /* NOTE: if you change this address, also change arm,cfgperiphbase in cpu node */
-                reg = <0xf9a00000 /* WARN: this size value is unused; hardcoded in source code */  0x20000    /* prio = */ 0x1 /* GICD */
-                       0xf9b00000 /* WARN: this size value is unused; hardcoded in source code */ 0x100000    /* prio = */ 0x1>;  /* GICR */
+                reg = <0x30E00000/* WARN: this size value is unused; hardcoded in source code */  0x20000    /* prio = */ 0x1 /* GICD */
+                       0x30F00000 /* WARN: this size value is unused; hardcoded in source code */ 0x100000    /* prio = */ 0x1>;  /* GICR */
                 interrupt-controller ;
 
                 num-irq = <320>;
