@@ -13,6 +13,11 @@
 #define MASTER_ID_HPPS_CPU7 0x9f
 
 #define MASTER_ID_XGMAC     0x874
+#define MASTER_ID_TRCH_DMA  0x875
+#define MASTER_ID_RTPS_DMA  0x876
+#define MASTER_ID_HPPS_DMA  0x877
+#define MASTER_ID_SRIO0_DMA 0x878
+#define MASTER_ID_SRIO1_DMA 0x879
 
 /* TODO: renumber IRQs */
 
@@ -989,6 +994,12 @@
             reg = <0x00000000 0x100000 /* prio = */ 0x1>;
         };
 
+        trch_dma_memattr: trch_dma_memattr@0 {
+            compatible = "qemu:memory-transaction-attr";
+            secure = <1>;
+            master-id = <MASTER_ID_TRCH_DMA>;
+        };
+
         trch_dma: dma-controller@0x21000000 {
             compatible = "arm,pl330", "arm,primecell";
             reg = <0x21000000 0x1000 /* prio= */ 0x0>;
@@ -996,6 +1007,7 @@
                           TRCH_DMA_EV0_IRQ>; /* count must match num_events */
             #dma-cells = <1>;
             dma = <&nic1>;
+            memattr = <&trch_dma_memattr>;
             num_chnls  = <1>;
             num_events = <1>;
             num_periph_req = <0>;
@@ -1071,6 +1083,12 @@
             /* mr-1 = <&pcie>; */
         };
 
+        rtps_dma_memattr: rtps_dma_memattr@0 {
+            compatible = "qemu:memory-transaction-attr";
+            secure = <1>;
+            master-id = <MASTER_ID_RTPS_DMA>;
+        };
+
         /* TODO: non-secure APB iface is at 0x30a09000: another node? */
         rtps_dma: dma-controller@0x30a08000 {
             compatible = "arm,pl330", "arm,primecell";
@@ -1079,6 +1097,7 @@
                           RTPS_DMA_EV0_IRQ>;
             #dma-cells = <1>;
             dma = <&rtps_smmu_tbu0>;
+            memattr = <&rtps_dma_memattr>;
             num_chnls  = <1>;
             num_events = <1>;
             num_periph_req = <0>;
@@ -1294,6 +1313,12 @@
                 /* mr-2 = PCIe */
         };
 
+        hpps_dma_memattr: hpps_dma_memattr@0 {
+            compatible = "qemu:memory-transaction-attr";
+            secure = <0>;
+            master-id = <MASTER_ID_HPPS_DMA>;
+        };
+
         /* TODO: secure at 0xf92f0000: another node? */
         hpps_dma: dma-controller@0xf92e0000 {
             compatible = "arm,pl330", "arm,primecell";
@@ -1306,10 +1331,17 @@
 #else
             dma = <&ccn>;
 #endif
+            memattr = <&hpps_dma_memattr>;
             num_chnls  = <1>;
             num_events = <1>;
             num_periph_req = <0>;
             mgr_ns_at_rst = <1>; /* boot into non-secure mode */
+        };
+
+        srio0_dma_memattr: srio0_dma_memattr@0 {
+            compatible = "qemu:memory-transaction-attr";
+            secure = <0>;
+            master-id = <MASTER_ID_SRIO0_DMA>;
         };
 
         /* TODO: secure at 0xe5320000: another node? */
@@ -1320,10 +1352,17 @@
                           SRIO0_DMA_EV0_IRQ>;
             #dma-cells = <1>;
             dma = <&nic7>;
+            memattr = <&srio0_dma_memattr>;
             num_chnls  = <1>;
             num_events = <1>;
             num_periph_req = <0>;
             mgr_ns_at_rst = <1>; /* boot into non-secure mode */
+        };
+
+        srio1_dma_memattr: srio1_dma_memattr@0 {
+            compatible = "qemu:memory-transaction-attr";
+            secure = <0>;
+            master-id = <MASTER_ID_SRIO1_DMA>;
         };
 
         /* TODO: secure at 0xe5340000: another node? */
@@ -1334,6 +1373,7 @@
                           SRIO1_DMA_EV0_IRQ>;
             #dma-cells = <1>;
             dma = <&nic7>;
+            memattr = <&srio1_dma_memattr>;
             num_chnls  = <1>;
             num_events = <1>;
             num_periph_req = <0>;
