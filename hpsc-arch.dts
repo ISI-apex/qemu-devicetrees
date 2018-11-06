@@ -25,16 +25,16 @@
 #define XGMAC_IRQ_0			 57
 #define XGMAC_IRQ_1_WAKE		 58
 
-#define TRCH_DMA_IRQ_0			59
-#define TRCH_DMA_IRQ_1			60
-#define RTPS_DMA_IRQ_0			61
-#define RTPS_DMA_IRQ_1			62
-#define HPPS_DMA_IRQ_0			63
-#define HPPS_DMA_IRQ_1			64
-#define SRIO0_DMA_IRQ_0			65
-#define SRIO0_DMA_IRQ_1			66
-#define SRIO1_DMA_IRQ_0			67
-#define SRIO1_DMA_IRQ_1			68
+#define TRCH_DMA_ABORT_IRQ		59
+#define TRCH_DMA_EV0_IRQ		60
+#define RTPS_DMA_ABORT_IRQ		61
+#define RTPS_DMA_EV0_IRQ		62
+#define HPPS_DMA_ABORT_IRQ		63
+#define HPPS_DMA_EV0_IRQ		64
+#define SRIO0_DMA_ABORT_IRQ		65
+#define SRIO0_DMA_EV0_IRQ		66
+#define SRIO1_DMA_ABORT_IRQ		67
+#define SRIO1_DMA_EV0_IRQ		68
 
 #define RTPS_SMMU_IRQ			69
 #define HPPS_SMMU0_IRQ			70
@@ -109,8 +109,8 @@
         <0 0 148 &trch_nvic 0 148 4>, <0 0 149 &trch_nvic 0 149 4>,
         <0 0 150 &trch_nvic 0 150 4>, <0 0 151 &trch_nvic 0 151 4>,
 
-        <0 0 TRCH_DMA_IRQ_0          &trch_nvic 0 TRCH_DMA_IRQ_0          4>,
-        <0 0 TRCH_DMA_IRQ_1          &trch_nvic 0 TRCH_DMA_IRQ_1          4>,
+        <0 0 TRCH_DMA_ABORT_IRQ      &trch_nvic 0 TRCH_DMA_ABORT_IRQ        4>,
+        <0 0 TRCH_DMA_EV0_IRQ        &trch_nvic 0 TRCH_DMA_EV0_IRQ          4>,
 
         /*                       RTPS                                          */
         /* 3-cell int specifier      int ctrl   ? input #              int type  */ 
@@ -138,8 +138,8 @@
         <0 0 148 &rtps_gic 0 148 4>, <0 0 149 &rtps_gic 0 149 4>,
         <0 0 150 &rtps_gic 0 150 4>, <0 0 151 &rtps_gic 0 151 4>,
 
-        <0 0 RTPS_DMA_IRQ_0          &rtps_gic 0 RTPS_DMA_IRQ_0          4>,
-        <0 0 RTPS_DMA_IRQ_1          &rtps_gic 0 RTPS_DMA_IRQ_1          4>,
+        <0 0 RTPS_DMA_ABORT_IRQ      &rtps_gic 0 RTPS_DMA_ABORT_IRQ     4>,
+        <0 0 RTPS_DMA_EV0_IRQ        &rtps_gic 0 RTPS_DMA_EV0_IRQ       4>,
 
         /*                       HPPS                                          */
         /* 3-cell int specifier      int ctrl   ? input #              int type  */ 
@@ -163,12 +163,12 @@
         <0 0 HPPS_UART0_IRQ_0        &hpps_gic  0 HPPS_UART0_IRQ_0        4>,
         <0 0 XGMAC_IRQ_0             &hpps_gic  0 XGMAC_IRQ_0             4>,
         <0 0 XGMAC_IRQ_1_WAKE        &hpps_gic  0 XGMAC_IRQ_1_WAKE        4>,
-        <0 0 HPPS_DMA_IRQ_0          &hpps_gic  0 HPPS_DMA_IRQ_0          4>,
-        <0 0 HPPS_DMA_IRQ_1          &hpps_gic  0 HPPS_DMA_IRQ_1          4>,
-        <0 0 SRIO0_DMA_IRQ_0         &hpps_gic  0 SRIO0_DMA_IRQ_0         4>,
-        <0 0 SRIO0_DMA_IRQ_1         &hpps_gic  0 SRIO0_DMA_IRQ_1         4>,
-        <0 0 SRIO1_DMA_IRQ_0         &hpps_gic  0 SRIO1_DMA_IRQ_0         4>,
-        <0 0 SRIO1_DMA_IRQ_1         &hpps_gic  0 SRIO1_DMA_IRQ_1         4>;
+        <0 0 HPPS_DMA_ABORT_IRQ      &hpps_gic  0 HPPS_DMA_ABORT_IRQ      4>,
+        <0 0 HPPS_DMA_EV0_IRQ        &hpps_gic  0 HPPS_DMA_EV0_IRQ        4>,
+        <0 0 SRIO0_DMA_ABORT_IRQ     &hpps_gic  0 SRIO0_DMA_ABORT_IRQ     4>,
+        <0 0 SRIO0_DMA_EV0_IRQ       &hpps_gic  0 SRIO0_DMA_EV0_IRQ       4>,
+        <0 0 SRIO1_DMA_ABORT_IRQ     &hpps_gic  0 SRIO1_DMA_ABORT_IRQ     4>,
+        <0 0 SRIO1_DMA_EV0_IRQ       &hpps_gic  0 SRIO1_DMA_EV0_IRQ       4>;
 
     cpus {
         #size-cells = <0>;
@@ -995,13 +995,17 @@
             reg = <0x00000000 0x100000 /* prio = */ 0x1>;
         };
 
-        trch_dma: dma-controller@0x3000b000 {
+        trch_dma: dma-controller@0x21000000 {
             compatible = "arm,pl330", "arm,primecell";
-            reg = <0x3000b000 0x1000 /* prio= */ 0x0>;
-            interrupts = <TRCH_DMA_IRQ_0
-                          TRCH_DMA_IRQ_1>;
+            reg = <0x21000000 0x1000 /* prio= */ 0x0>;
+            interrupts = <TRCH_DMA_ABORT_IRQ
+                          TRCH_DMA_EV0_IRQ>; /* count must match num_events */
             #dma-cells = <1>;
             dma = <&nic1>;
+            num_chnls  = <1>;
+            num_events = <1>;
+            num_periph_req = <0>;
+            mgr_ns_at_rst = <0>; /* boot into secure mode */
         };
 
         to_nic2 {
@@ -1072,13 +1076,18 @@
             /* mr-1 = <&pcie>; */
         };
 
-        rtps_dma: dma-controller@0x38440000 {
+        /* TODO: non-secure APB iface is at 0x30a09000: another node? */
+        rtps_dma: dma-controller@0x30a08000 {
             compatible = "arm,pl330", "arm,primecell";
-            reg = <0x38440000 0x1000 /* prio= */ 0x0>;
-            interrupts = <RTPS_DMA_IRQ_0
-                          RTPS_DMA_IRQ_1>;
+            reg = <0x30a08000 0x1000 /* prio= */ 0x0>;
+            interrupts = <RTPS_DMA_ABORT_IRQ
+                          RTPS_DMA_EV0_IRQ>;
             #dma-cells = <1>;
             dma = <&rtps_smmu_tbu0>;
+            num_chnls  = <1>;
+            num_events = <1>;
+            num_periph_req = <0>;
+            mgr_ns_at_rst = <0>; /* boot into secure mode */
         };
 
         to_nic5 {
@@ -1289,36 +1298,51 @@
                 mr-1 = <&hpps_smmu1_tbu_xgmac>;
                 /* mr-2 = PCIe */
         };
-            
+
+        /* TODO: secure at 0xf92f0000: another node? */
         hpps_dma: dma-controller@0xf92e0000 {
             compatible = "arm,pl330", "arm,primecell";
             reg = <0xf92e0000 0x1000 /* prio = */ 0x0>;
-            interrupts = <HPPS_DMA_IRQ_0
-                          HPPS_DMA_IRQ_1>;
+            interrupts = <HPPS_DMA_ABORT_IRQ
+                          HPPS_DMA_EV0_IRQ>;
             #dma-cells = <1>;
 #if 0 /* TODO: MMU */
             dma = <&hpps_smmu1_tbu_dma>;
 #else
             dma = <&ccn>;
 #endif
+            num_chnls  = <1>;
+            num_events = <1>;
+            num_periph_req = <0>;
+            mgr_ns_at_rst = <1>; /* boot into non-secure mode */
         };
 
+        /* TODO: secure at 0xe5320000: another node? */
         srio0_dma: dma-controller@0xe5310000 {
             compatible = "arm,pl330", "arm,primecell";
             reg = <0xe5310000 0x1000 /* prio = */ 0x0>;
-            interrupts = <SRIO0_DMA_IRQ_0
-                          SRIO0_DMA_IRQ_1>;
-            #dma-cells = <1>;
-                        dma = <&nic7>;
-        };
-
-        srio1_dma: dma-controller@0xe5320000 {
-            compatible = "arm,pl330", "arm,primecell";
-            reg = <0xe5320000 0x1000 /* prio = */ 0x0>;
-            interrupts = <SRIO1_DMA_IRQ_0
-                          SRIO1_DMA_IRQ_1>;
+            interrupts = <SRIO0_DMA_ABORT_IRQ
+                          SRIO0_DMA_EV0_IRQ>;
             #dma-cells = <1>;
             dma = <&nic7>;
+            num_chnls  = <1>;
+            num_events = <1>;
+            num_periph_req = <0>;
+            mgr_ns_at_rst = <1>; /* boot into non-secure mode */
+        };
+
+        /* TODO: secure at 0xe5340000: another node? */
+        srio1_dma: dma-controller@0xe5330000 {
+            compatible = "arm,pl330", "arm,primecell";
+            reg = <0xe5330000 0x1000 /* prio = */ 0x0>;
+            interrupts = <SRIO1_DMA_ABORT_IRQ
+                          SRIO1_DMA_EV0_IRQ>;
+            #dma-cells = <1>;
+            dma = <&nic7>;
+            num_chnls  = <1>;
+            num_events = <1>;
+            num_periph_req = <0>;
+            mgr_ns_at_rst = <1>; /* boot into non-secure mode */
         };
 
         xgmac: ethernet@0xe5300000 {
