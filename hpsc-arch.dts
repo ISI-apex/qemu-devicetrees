@@ -1045,7 +1045,7 @@
             reg = <0x40000000 0x40000000 /* prio= */ 0x0>;
         };
 
-        rtps_smmu_reg: rtps_smmu_reg@0x31801000 {
+        rtps_smmu_reg: rtps_smmu_reg@0x31001000 {
             compatible = "xlnx,smmu-reg";
             reg = <0x31001000 0x1000 /* prio */ 0x0>;
             interrupt-controller;
