@@ -1047,7 +1047,7 @@
 
         rtps_smmu_reg: rtps_smmu_reg@0x31801000 {
             compatible = "xlnx,smmu-reg";
-            reg = <0x31001000 0x1000>;
+            reg = <0x31001000 0x1000 /* prio */ 0x0>;
             interrupt-controller;
             interrupts = <RTPS_SMMU_IRQ>;
         };
@@ -1055,7 +1055,7 @@
         rtps_smmu: rtps_smmu@0x31000000 {
             compatible = "arm,mmu-500";
             reg-extended = <&nic3 0x31000000 0x10000  /* prio= */ 0x0 /* nic3? */
-                            &rtps_smmu_tbu0 0 0xffffffff 0xfffffff /* prio= */ 0x0f
+                            &rtps_smmu_tbu0 0x0 0xffffffff /* prio= */ 0x0
                             /* &rtps_smmu_tb1 "PCIE" */
                             >;
 
