@@ -1225,6 +1225,15 @@
         };
     };
 
+    hpps_smmu_tbu0: hpps_smmu_tbu@0 { compatible = "simple-bus"; ranges ; };
+    hpps_smmu_tbu1: hpps_smmu_tbu@1 { compatible = "simple-bus"; ranges ; };
+    hpps_smmu_tbu2: hpps_smmu_tbu@2 { compatible = "simple-bus"; ranges ; };
+    hpps_smmu_tbu3: hpps_smmu_tbu@3 { compatible = "simple-bus"; ranges ; };
+    hpps_smmu_tbu4: hpps_smmu_tbu@4 { compatible = "simple-bus"; ranges ; };
+    hpps_smmu_tbu5: hpps_smmu_tbu@5 { compatible = "simple-bus"; ranges ; };
+    hpps_smmu_tbu6: hpps_smmu_tbu@6 { compatible = "simple-bus"; ranges ; };
+    hpps_smmu_tbu7: hpps_smmu_tbu@7 { compatible = "simple-bus"; ranges ; };
+
     nic6: nic6 {
         compatible = "simple-bus";
         ranges ;
@@ -1311,24 +1320,10 @@
             }; 
 #endif 
         };
-    };
-
-    hpps_smmu_tbu0: hpps_smmu_tbu@0 { compatible = "simple-bus"; ranges ; };
-    hpps_smmu_tbu1: hpps_smmu_tbu@1 { compatible = "simple-bus"; ranges ; };
-    hpps_smmu_tbu2: hpps_smmu_tbu@2 { compatible = "simple-bus"; ranges ; };
-    hpps_smmu_tbu3: hpps_smmu_tbu@3 { compatible = "simple-bus"; ranges ; };
-    hpps_smmu_tbu4: hpps_smmu_tbu@4 { compatible = "simple-bus"; ranges ; };
-    hpps_smmu_tbu5: hpps_smmu_tbu@5 { compatible = "simple-bus"; ranges ; };
-    hpps_smmu_tbu6: hpps_smmu_tbu@6 { compatible = "simple-bus"; ranges ; };
-    hpps_smmu_tbu7: hpps_smmu_tbu@7 { compatible = "simple-bus"; ranges ; };
-
-    nic7: nic7 {
-        compatible = "simple-bus";
-        ranges ;
 
         hpps_smmu: smmu@0xf9300000 {
                 compatible = "arm,mmu-500";
-                reg-extended = <&nic7 0xf9300000  0x20000     /* prio = */ 0x0
+                reg-extended = <&nic6 0xf9300000  0x20000     /* prio = */ 0x0
                                 &hpps_smmu_tbu0 0 0xffffffff  /* prio = */ 0x0
                                 &hpps_smmu_tbu1 0 0xffffffff  /* prio = */ 0x0
                                 &hpps_smmu_tbu2 0 0xffffffff  /* prio = */ 0x0
@@ -1344,26 +1339,17 @@
                               161 162 163 164 165 166 167 168>;
 
                 /* dma:  points to the MR used for PTWs.  */
-                dma = <&ccn>;
+                dma = <&nic7>;
 
                 /* mr-x: points to the per TBU down-stream MR.  */
-                /* NOTE: In this Qemu device tree, we connect the MMU
-                 * downstream ports to the CCN even though they actually are
-                 * connected to a NIC (which is then connected to CCN) in
-                 * physical hardware.
-                 *
-                 * TODO: re-org -- connect all slaves currently under nic7
-                 * node to nic6 (because that's how HW is connected) and
-                 * then optionally add a nic7 which is just a pass-through to
-                 * CCN. */
-                mr-0 = <&ccn>; /* DMA */
-                mr-1 = <&ccn>; /* PCIe */
-                mr-2 = <&ccn>; /* Ethernet */
-                mr-3 = <&ccn>; /* TTE */
-                mr-4 = <&ccn>; /* SRIO DMA 0 */
-                mr-5 = <&ccn>; /* SRIO DMA 1 */
-                mr-6 = <&ccn>; /* SRIO EP 0 */
-                mr-7 = <&ccn>; /* SRIO EP 1 */
+                mr-0 = <&nic7>; /* DMA */
+                mr-1 = <&nic7>; /* PCIe */
+                mr-2 = <&nic7>; /* Ethernet */
+                mr-3 = <&nic7>; /* TTE */
+                mr-4 = <&nic7>; /* SRIO DMA 0 */
+                mr-5 = <&nic7>; /* SRIO DMA 1 */
+                mr-6 = <&nic7>; /* SRIO EP 0 */
+                mr-7 = <&nic7>; /* SRIO EP 1 */
         };
 
         hpps_dma_memattr: hpps_dma_memattr@0 {
@@ -1463,6 +1449,20 @@
         /* TODO: TTE */
     };
 
+    nic7: nic7 { /* HSIO goes through HPPS SMMU then through this NIC */
+        #address-cells = <2>;
+        #size-cells = <2>;
+
+        compatible = "simple-bus";
+        ranges ;
+
+        to_ccn {
+            compatible = "qemu:memory-region";
+            alias = <&ccn>;
+            reg = <0x0 0x0 /* size = */ 0xFFFFFFFF 0xFFFFFFFF /* prio = -1 */ 0xfffffffe>;
+        };
+    };
+
     ccn: ccn {
         #address-cells = <2>;
 	#size-cells = <2>;    
@@ -1489,13 +1489,6 @@
             alias = <&nic6>;
             /* reg = <0xF9220000 0x000C0000 * prio = -1 * 0xffffffff>; */ /* TODO: why does this not work? */
             reg = <0x0 0x0 0x6 0xffffffff /* prio = -1 */ 0xffffffff>;
-        };
-
-        to_nic7 {
-            compatible = "qemu:memory-region";
-            alias = <&nic7>;
-            /* reg = <0xE3000000 0x02330000 * prio = -1 * 0xffffffff>; */ /* TODO: why does this not work? */
-            reg = <0x0 0x0 0x0 0xffffffff /* prio = -2 */ 0xfffffffe>;
         };
     };
 
