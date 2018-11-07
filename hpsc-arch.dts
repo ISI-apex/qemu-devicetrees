@@ -1215,7 +1215,6 @@
             /* mr-x: points to the per TBU down-stream MR.  */
             dma = <&ccn>;
             mr-0 = <&ccn>;
-            /* mr-1 = <&pcie>; */
         };
 
         to_nic4 { /* lsio */
