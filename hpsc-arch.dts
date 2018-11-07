@@ -1150,7 +1150,7 @@
             compatible = "hpsc,hpsc-mbox";
             interrupts  = <  72  73  74  75  76  77  78  79
                              80  81  82  83  84  85  86  87>;
-            reg = <0x3000a000 0x80000 /* prio = */ 0x0>;
+            reg = <0x3000a000 0x1000 /* prio = */ 0x0>;
         };
 
         lsio_uart_0: serial@0x30000000 {
@@ -1223,7 +1223,7 @@
             compatible = "hpsc,hpsc-mbox";
             interrupts = <136 137 138 139 140 141 142 143
                           144 145 146 147 148 149 150 151>;
-            reg = <0xfff50000 0x80000 /* prio = */ 0x0>;
+            reg = <0xfff50000 0x1000 /* prio = */ 0x0>;
         };
 
         /* TODO: HPPS->RTPS mailbox */
