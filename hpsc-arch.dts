@@ -45,8 +45,8 @@
 #define HPPS_SMMU0_IRQ			70
 #define HPPS_SMMU1_IRQ			71
 
-/* #define TRCH_MAILBOX_{0-31}_IRQ_{A,B}  	72-135 */
-/* #define HPPS_MAILBOX_{0-31}_IRQ_{A,B}  	136-199 */
+/* #define TRCH_MAILBOX_IRQs  	        72-87 */
+/* #define HPPS_MAILBOX_IRQs  	        136-151 */
 
 #if 0 /* TODO: check if used before adding */
 #define CRL_int_IRQ_0				11
