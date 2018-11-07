@@ -47,6 +47,12 @@
 
 /* #define TRCH_MAILBOX_IRQs  	        72-87 */
 /* #define HPPS_MAILBOX_IRQs  	        136-151 */
+/* #define HPPS_SMMU_GLOB_IRQ           152 */
+/* #define HPPS_SMMU_CB_IRQ             153-168 */
+/* #define RT_SMMU_GLOB_IRQ             169 */
+/* #define RT_SMMU_CB_IRQ               170-185 */
+/* #define RTPS_SMMU_GLOB_IRQ           186 */
+/* #define RTPS_SMMU_CB_IRQ             187-202 */
 
 #if 0 /* TODO: check if used before adding */
 #define CRL_int_IRQ_0				11
@@ -114,6 +120,17 @@
         <0 0 148 &trch_nvic 0 148 4>, <0 0 149 &trch_nvic 0 149 4>,
         <0 0 150 &trch_nvic 0 150 4>, <0 0 151 &trch_nvic 0 151 4>,
 
+        /* RTPS/TRCH->HPPS (RT) SMMU */
+        <0 0 169 &trch_nvic 0 169 4>,
+        <0 0 170 &trch_nvic 0 170 4>, <0 0 171 &trch_nvic 0 171 4>,
+        <0 0 172 &trch_nvic 0 172 4>, <0 0 173 &trch_nvic 0 173 4>,
+        <0 0 174 &trch_nvic 0 174 4>, <0 0 175 &trch_nvic 0 175 4>,
+        <0 0 176 &trch_nvic 0 176 4>, <0 0 177 &trch_nvic 0 177 4>,
+        <0 0 178 &trch_nvic 0 178 4>, <0 0 179 &trch_nvic 0 179 4>,
+        <0 0 180 &trch_nvic 0 180 4>, <0 0 181 &trch_nvic 0 181 4>,
+        <0 0 182 &trch_nvic 0 182 4>, <0 0 183 &trch_nvic 0 183 4>,
+        <0 0 184 &trch_nvic 0 184 4>, <0 0 185 &trch_nvic 0 185 4>,
+
         <0 0 TRCH_DMA_ABORT_IRQ      &trch_nvic 0 TRCH_DMA_ABORT_IRQ        4>,
         <0 0 TRCH_DMA_EV0_IRQ        &trch_nvic 0 TRCH_DMA_EV0_IRQ          4>,
 
@@ -143,6 +160,17 @@
         <0 0 148 &rtps_gic 0 148 4>, <0 0 149 &rtps_gic 0 149 4>,
         <0 0 150 &rtps_gic 0 150 4>, <0 0 151 &rtps_gic 0 151 4>,
 
+        /* RTPS SMMU */
+        <0 0 186 &rtps_gic 0 186 4>,
+        <0 0 187 &rtps_gic 0 187 4>, <0 0 188 &rtps_gic 0 188 4>,
+        <0 0 189 &rtps_gic 0 155 4>, <0 0 189 &rtps_gic 0 189 4>,
+        <0 0 190 &rtps_gic 0 157 4>, <0 0 191 &rtps_gic 0 191 4>,
+        <0 0 192 &rtps_gic 0 192 4>, <0 0 193 &rtps_gic 0 193 4>,
+        <0 0 194 &rtps_gic 0 194 4>, <0 0 195 &rtps_gic 0 195 4>,
+        <0 0 196 &rtps_gic 0 196 4>, <0 0 197 &rtps_gic 0 197 4>,
+        <0 0 198 &rtps_gic 0 198 4>, <0 0 199 &rtps_gic 0 199 4>,
+        <0 0 200 &rtps_gic 0 200 4>, <0 0 201 &rtps_gic 0 202 4>,
+
         <0 0 RTPS_DMA_ABORT_IRQ      &rtps_gic 0 RTPS_DMA_ABORT_IRQ     4>,
         <0 0 RTPS_DMA_EV0_IRQ        &rtps_gic 0 RTPS_DMA_EV0_IRQ       4>,
 
@@ -164,6 +192,17 @@
         <0 0 146 &hpps_gic 0 146 4>, <0 0 147 &hpps_gic 0 147 4>,
         <0 0 148 &hpps_gic 0 148 4>, <0 0 149 &hpps_gic 0 149 4>,
         <0 0 150 &hpps_gic 0 150 4>, <0 0 151 &hpps_gic 0 151 4>,
+
+        /* HPPS SMMU */
+        <0 0 152 &hpps_gic 0 152 4>,
+        <0 0 153 &hpps_gic 0 153 4>, <0 0 154 &hpps_gic 0 154 4>,
+        <0 0 155 &hpps_gic 0 155 4>, <0 0 156 &hpps_gic 0 156 4>,
+        <0 0 157 &hpps_gic 0 157 4>, <0 0 158 &hpps_gic 0 158 4>,
+        <0 0 159 &hpps_gic 0 159 4>, <0 0 160 &hpps_gic 0 160 4>,
+        <0 0 161 &hpps_gic 0 161 4>, <0 0 162 &hpps_gic 0 162 4>,
+        <0 0 163 &hpps_gic 0 163 4>, <0 0 164 &hpps_gic 0 164 4>,
+        <0 0 165 &hpps_gic 0 165 4>, <0 0 166 &hpps_gic 0 166 4>,
+        <0 0 167 &hpps_gic 0 167 4>, <0 0 168 &hpps_gic 0 168 4>,
 
         <0 0 HPPS_UART0_IRQ_0        &hpps_gic  0 HPPS_UART0_IRQ_0        4>,
         <0 0 XGMAC_IRQ_0             &hpps_gic  0 XGMAC_IRQ_0             4>,
@@ -1055,23 +1094,16 @@
             reg = <0x40000000 0x40000000 /* prio= */ 0x0>;
         };
 
-        rtps_smmu_reg: rtps_smmu_reg@0x31001000 {
-            compatible = "xlnx,smmu-reg";
-            reg = <0x31001000 0x1000 /* prio */ 0x0>;
-            interrupt-controller;
-            interrupts = <RTPS_SMMU_IRQ>;
-        };
-
         rtps_smmu: rtps_smmu@0x31000000 {
             compatible = "arm,mmu-500";
             reg-extended = <&nic3 0x31000000    0x20000    /* prio= */ 0x0
                             &rtps_smmu_tbu0 0x0 0xffffffff /* prio= */ 0x0
                             &rtps_smmu_tbu1 0x0 0xffffffff /* prio= */ 0x0>;
 
-            interrupt-parent = <&rtps_smmu_reg>;
-            interrupts = <0 1 2 3 4 5 6 7 8
-                          8 9 10 11 12 13 14 15 16
-                          17>;
+            interrupts = <186 /* global irq */
+                          /* context irqs */
+                          187 188 189 190 191 192 193 194
+                          195 196 197 198 199 200 201 202>;
 
             /* dma:  points to the MR used for PTWs.  */
             dma = <&nic3>;
@@ -1158,22 +1190,15 @@
         ranges ;
 
         /* {RTPS,TRCH} -> HPPS MMU */
-        rt_smmu_reg: smmu_reg0@0x31101000 {
-            compatible = "xlnx,smmu-reg";
-            reg = <0x31101000 0x1000 /* prio = */ 0x0>;
-            interrupt-controller;
-            interrupts = <HPPS_SMMU0_IRQ>;
-        };
-
         rt_smmu: smmu0@0x31100000 {
             compatible = "arm,mmu-500";
             reg-extended = <&nic5 0x31100000 0x20000     /* prio = */ 0x0
                             &nic5 0          0xffffffff  /* prio = */ 0xfffffffe>; /* master connected to slave interface of MMU */
 
-            interrupt-parent = <&rt_smmu_reg>;
-            interrupts = <0 1 2 3 4 5 6 7 8
-                            8 9 10 11 12 13 14 15 16
-                            17>;
+            interrupts = <169 /* global irq */
+                          /* context irqs (16 contexts hardcoded in model) */
+                          170 171 172 173 174 175 176 177
+                          178 179 180 181 182 183 184 185>;
 
             /* dma:  points to the MR used for PTWs.  */
             /* mr-x: points to the per TBU down-stream MR.  */
@@ -1284,13 +1309,6 @@
         compatible = "simple-bus";
         ranges ;
 
-        hpps_smmu_reg: smmu_reg0@0xf9301000 {
-                compatible = "xlnx,smmu-reg";
-                reg = <0xf9301000 0x1000 /* prio = */ 0x0>;
-                interrupt-controller;
-                interrupts = <HPPS_SMMU1_IRQ>;
-        };
-
         hpps_smmu: smmu@0xf9300000 {
                 compatible = "arm,mmu-500";
                 reg-extended = <&nic7 0xf9300000  0x20000     /* prio = */ 0x0
@@ -1303,10 +1321,10 @@
                                 &hpps_smmu_tbu6 0 0xffffffff  /* prio = */ 0x0
                                 &hpps_smmu_tbu7 0 0xffffffff  /* prio = */ 0x0>;
 
-                interrupt-parent = <&hpps_smmu_reg>;
-                interrupts = <0 1 2 3 4 5 6 7 8
-                                8 9 10 11 12 13 14 15 16
-                                17>;
+                interrupts = <152 /* global irq */
+                              /* context irqs (16 ctx hardcoded into model) */
+                              153 154 155 156 157 158 159 160
+                              161 162 163 164 165 166 167 168>;
 
                 /* dma:  points to the MR used for PTWs.  */
                 dma = <&ccn>;
