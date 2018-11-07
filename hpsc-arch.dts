@@ -1066,7 +1066,7 @@
 
         rtps_smmu: rtps_smmu@0x31000000 {
             compatible = "arm,mmu-500";
-            reg-extended = <&nic3 0x31000000 0x10000  /* prio= */ 0x0 /* nic3? */
+            reg-extended = <&nic3 0x31000000    0x100000   /* prio= */ 0x0
                             &rtps_smmu_tbu0 0x0 0xffffffff /* prio= */ 0x0
                             /* &rtps_smmu_tb1 "PCIE" */
                             >;
@@ -1168,9 +1168,8 @@
 
         rt_smmu: smmu0@0x31100000 {
             compatible = "arm,mmu-500";
-            reg-extended = <&nic5 0x31100000 0x10000  /* prio = */ 0x0 /* nic5? */
-                            /* TODO: a narrower range? */
-                            &nic5 0          0xffffffff  /* prio = */  0xfffffffe>; /* master connected to slave interface of MMU */
+            reg-extended = <&nic5 0x31100000 0x100000    /* prio = */ 0x0
+                            &nic5 0          0xffffffff  /* prio = */ 0xfffffffe>; /* master connected to slave interface of MMU */
 
             interrupt-parent = <&rt_smmu_reg>;
             interrupts = <0 1 2 3 4 5 6 7 8
@@ -1295,7 +1294,7 @@
 
         hpps_smmu: smmu1@0xf9300000 {
                 compatible = "arm,mmu-500";
-                reg-extended = <&nic7 0xf9300000 0x10000 /* prio = */ 0x0
+                reg-extended = <&nic7 0xf9300000  0x100000    /* prio = */ 0x0
                                 &hpps_smmu_tbu0 0 0xffffffff  /* prio = */ 0x0
                                 &hpps_smmu_tbu1 0 0xffffffff  /* prio = */ 0x0
                                 &hpps_smmu_tbu2 0 0xffffffff  /* prio = */ 0x0
