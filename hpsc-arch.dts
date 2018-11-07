@@ -46,13 +46,14 @@
 #define HPPS_SMMU1_IRQ			71
 
 /* #define TRCH_MAILBOX_IRQs  	        72-87 */
-/* #define HPPS_MAILBOX_IRQs  	        136-151 */
+/* #define HPPS_TRCH_MAILBOX_IRQs  	136-151 */
 /* #define HPPS_SMMU_GLOB_IRQ           152 */
 /* #define HPPS_SMMU_CB_IRQ             153-168 */
 /* #define RT_SMMU_GLOB_IRQ             169 */
 /* #define RT_SMMU_CB_IRQ               170-185 */
 /* #define RTPS_SMMU_GLOB_IRQ           186 */
 /* #define RTPS_SMMU_CB_IRQ             187-202 */
+/* #define HPPS_RTPS_MAILBOX_IRQs  	203-218 */
 
 #if 0 /* TODO: check if used before adding */
 #define CRL_int_IRQ_0				11
@@ -110,7 +111,7 @@
         <0 0 84 &trch_nvic 0 84 4>, <0 0 85 &trch_nvic 0 85 4>,
         <0 0 86 &trch_nvic 0 86 4>, <0 0 87 &trch_nvic 0 87 4>,
 
-        /* HPPS mailbox */
+        /* HPPS-TRCH mailbox */
         <0 0 136 &trch_nvic 0 136 4>, <0 0 137 &trch_nvic 0 137 4>,
         <0 0 138 &trch_nvic 0 138 4>, <0 0 139 &trch_nvic 0 139 4>,
         <0 0 140 &trch_nvic 0 140 4>, <0 0 141 &trch_nvic 0 141 4>,
@@ -150,15 +151,15 @@
         <0 0 84 &rtps_gic 0 84 4>, <0 0 85 &rtps_gic 0 85 4>,
         <0 0 86 &rtps_gic 0 86 4>, <0 0 87 &rtps_gic 0 87 4>,
 
-        /* HPPS mailbox */
-        <0 0 136 &rtps_gic 0 136 4>, <0 0 137 &rtps_gic 0 137 4>,
-        <0 0 138 &rtps_gic 0 138 4>, <0 0 139 &rtps_gic 0 139 4>,
-        <0 0 140 &rtps_gic 0 140 4>, <0 0 141 &rtps_gic 0 141 4>,
-        <0 0 142 &rtps_gic 0 142 4>, <0 0 143 &rtps_gic 0 143 4>,
-        <0 0 144 &rtps_gic 0 144 4>, <0 0 145 &rtps_gic 0 145 4>,
-        <0 0 146 &rtps_gic 0 146 4>, <0 0 147 &rtps_gic 0 147 4>,
-        <0 0 148 &rtps_gic 0 148 4>, <0 0 149 &rtps_gic 0 149 4>,
-        <0 0 150 &rtps_gic 0 150 4>, <0 0 151 &rtps_gic 0 151 4>,
+        /* HPPS-RTPS mailbox */
+        <0 0 203 &rtps_gic 0 203 4>, <0 0 204 &rtps_gic 0 204 4>,
+        <0 0 205 &rtps_gic 0 205 4>, <0 0 206 &rtps_gic 0 206 4>,
+        <0 0 207 &rtps_gic 0 207 4>, <0 0 208 &rtps_gic 0 208 4>,
+        <0 0 209 &rtps_gic 0 209 4>, <0 0 210 &rtps_gic 0 210 4>,
+        <0 0 211 &rtps_gic 0 211 4>, <0 0 212 &rtps_gic 0 212 4>,
+        <0 0 213 &rtps_gic 0 213 4>, <0 0 214 &rtps_gic 0 214 4>,
+        <0 0 215 &rtps_gic 0 215 4>, <0 0 216 &rtps_gic 0 216 4>,
+        <0 0 217 &rtps_gic 0 217 4>, <0 0 218 &rtps_gic 0 218 4>,
 
         /* RTPS SMMU */
         <0 0 186 &rtps_gic 0 186 4>,
@@ -183,7 +184,7 @@
 #endif
         <0 0 NAND_IRQ_0 	     &hpps_gic  0 NAND_IRQ_0		  4>,
 
-        /* HPPS mailbox */
+        /* HPPS-TRCH mailbox */
         <0 0 136 &hpps_gic 0 136 4>, <0 0 137 &hpps_gic 0 137 4>,
         <0 0 138 &hpps_gic 0 138 4>, <0 0 139 &hpps_gic 0 139 4>,
         <0 0 140 &hpps_gic 0 140 4>, <0 0 141 &hpps_gic 0 141 4>,
@@ -192,6 +193,16 @@
         <0 0 146 &hpps_gic 0 146 4>, <0 0 147 &hpps_gic 0 147 4>,
         <0 0 148 &hpps_gic 0 148 4>, <0 0 149 &hpps_gic 0 149 4>,
         <0 0 150 &hpps_gic 0 150 4>, <0 0 151 &hpps_gic 0 151 4>,
+
+        /* HPPS-RTPS mailbox */
+        <0 0 203 &hpps_gic 0 203 4>, <0 0 204 &hpps_gic 0 204 4>,
+        <0 0 205 &hpps_gic 0 205 4>, <0 0 206 &hpps_gic 0 206 4>,
+        <0 0 207 &hpps_gic 0 207 4>, <0 0 208 &hpps_gic 0 208 4>,
+        <0 0 209 &hpps_gic 0 209 4>, <0 0 210 &hpps_gic 0 210 4>,
+        <0 0 211 &hpps_gic 0 211 4>, <0 0 212 &hpps_gic 0 212 4>,
+        <0 0 213 &hpps_gic 0 213 4>, <0 0 214 &hpps_gic 0 214 4>,
+        <0 0 215 &hpps_gic 0 215 4>, <0 0 216 &hpps_gic 0 216 4>,
+        <0 0 217 &hpps_gic 0 217 4>, <0 0 218 &hpps_gic 0 218 4>,
 
         /* HPPS SMMU */
         <0 0 152 &hpps_gic 0 152 4>,
@@ -1219,14 +1230,19 @@
         compatible = "simple-bus";
         ranges ;
 
-        hpps_mailbox: mailbox@0xfff50000 {
+        hpps_trch_mailbox: mailbox@0xfff50000 {
             compatible = "hpsc,hpsc-mbox";
             interrupts = <136 137 138 139 140 141 142 143
                           144 145 146 147 148 149 150 151>;
             reg = <0xfff50000 0x1000 /* prio = */ 0x0>;
         };
 
-        /* TODO: HPPS->RTPS mailbox */
+        hpps_rtps_mailbox: mailbox@0xfff60000 {
+            compatible = "hpsc,hpsc-mbox";
+            interrupts = <203 204 205 206 207 208 209 210
+                          211 212 213 214 215 216 217 218>;
+            reg = <0xfff60000 0x1000 /* prio = */ 0x0>;
+        };
 
         hpps_uart_0: serial@0xf92c0000 {
             compatible = "xlnx,ps7-uart-1.00.a", "xlnx,xuartps";
