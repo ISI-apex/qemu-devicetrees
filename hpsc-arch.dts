@@ -1219,12 +1219,14 @@
         compatible = "simple-bus";
         ranges ;
 
-        hpps_mailbox: mailbox@0xf9220000 {
+        hpps_mailbox: mailbox@0xfff50000 {
             compatible = "hpsc,hpsc-mbox";
             interrupts = <136 137 138 139 140 141 142 143
                           144 145 146 147 148 149 150 151>;
-            reg = <0xf9220000 0x80000 /* prio = */ 0x0>;
+            reg = <0xfff50000 0x80000 /* prio = */ 0x0>;
         };
+
+        /* TODO: HPPS->RTPS mailbox */
 
         hpps_uart_0: serial@0xf92c0000 {
             compatible = "xlnx,ps7-uart-1.00.a", "xlnx,xuartps";
