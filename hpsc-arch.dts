@@ -1291,7 +1291,7 @@
                 interrupts = <HPPS_SMMU1_IRQ>;
         };
 
-        hpps_smmu: smmu1@0xf9300000 {
+        hpps_smmu: smmu@0xf9300000 {
                 compatible = "arm,mmu-500";
                 reg-extended = <&nic7 0xf9300000  0x20000     /* prio = */ 0x0
                                 &hpps_smmu_tbu0 0 0xffffffff  /* prio = */ 0x0
