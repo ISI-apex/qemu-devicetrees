@@ -663,7 +663,7 @@
         compatible = "simple-bus";
         ranges ;
 
-        rtps_gic: interrupt-controller@0x30E00000{
+        rtps_gic: interrupt-controller@0x30e00000 {
                 #address-cells = <0>;
                 #size-cells = <0>;
                 #interrupt-cells = <3>;
@@ -675,8 +675,8 @@
                 revision = <3>;
 
                 /* NOTE: if you change this address, also change arm,cfgperiphbase in cpu node */
-                reg = <0x30E00000/* WARN: this size value is unused; hardcoded in source code */  0x20000    /* prio = */ 0x1 /* GICD */
-                       0x30F00000 /* WARN: this size value is unused; hardcoded in source code */ 0x100000    /* prio = */ 0x1>;  /* GICR */
+                reg = <0x30e00000 /* WARN: this size value is unused; hardcoded in source code */  0x20000    /* prio = */ 0x1 /* GICD */
+                       0x30f00000 /* WARN: this size value is unused; hardcoded in source code */ 0x100000    /* prio = */ 0x1>;  /* GICR */
                 interrupt-controller ;
 
                 num-irq = <320>;
