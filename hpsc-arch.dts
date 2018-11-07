@@ -1041,10 +1041,8 @@
             
     };
 
-    rtps_smmu_tbu0: rtps_smmu_tbu0 {
-        compatible = "simple-bus";
-        ranges ;
-    };
+    rtps_smmu_tbu0: rtps_smmu_tbu@0 { compatible = "simple-bus"; ranges ; };
+    rtps_smmu_tbu1: rtps_smmu_tbu@1 { compatible = "simple-bus"; ranges ; };
 
     nic3: nic3 {
         compatible = "simple-bus";
@@ -1068,8 +1066,7 @@
             compatible = "arm,mmu-500";
             reg-extended = <&nic3 0x31000000    0x20000    /* prio= */ 0x0
                             &rtps_smmu_tbu0 0x0 0xffffffff /* prio= */ 0x0
-                            /* &rtps_smmu_tb1 "PCIE" */
-                            >;
+                            &rtps_smmu_tbu1 0x0 0xffffffff /* prio= */ 0x0>;
 
             interrupt-parent = <&rtps_smmu_reg>;
             interrupts = <0 1 2 3 4 5 6 7 8
@@ -1077,10 +1074,10 @@
                           17>;
 
             /* dma:  points to the MR used for PTWs.  */
-            /* mr-x: points to the per TBU down-stream MR.  */
             dma = <&nic3>;
+            /* mr-x: points to the per TBU down-stream MR.  */
             mr-0 = <&nic3>;
-            /* mr-1 = <&pcie>; */
+            mr-1 = <&nic3>;
         };
 
         rtps_dma_memattr: rtps_dma_memattr@0 {
@@ -1103,6 +1100,8 @@
             num_periph_req = <0>;
             mgr_ns_at_rst = <0>; /* boot into secure mode */
         };
+
+        /* TODO: PCIe (dma = <&rtps_smmu_tbu1>) */
 
         to_nic5 {
             compatible = "qemu:memory-region";
