@@ -1273,44 +1273,64 @@
         };
     };
 
-    hpps_smmu1_tbu_dma: hpps_smmu1_tbu_dma {
-        compatible = "simple-bus";
-        ranges ;
-    };
-
-    hpps_smmu1_tbu_xgmac: hpps_smmu1_tbu_xgmac {
-        compatible = "simple-bus";
-        ranges ;
-    };
+    hpps_smmu_tbu0: hpps_smmu_tbu@0 { compatible = "simple-bus"; ranges ; };
+    hpps_smmu_tbu1: hpps_smmu_tbu@1 { compatible = "simple-bus"; ranges ; };
+    hpps_smmu_tbu2: hpps_smmu_tbu@2 { compatible = "simple-bus"; ranges ; };
+    hpps_smmu_tbu3: hpps_smmu_tbu@3 { compatible = "simple-bus"; ranges ; };
+    hpps_smmu_tbu4: hpps_smmu_tbu@4 { compatible = "simple-bus"; ranges ; };
+    hpps_smmu_tbu5: hpps_smmu_tbu@5 { compatible = "simple-bus"; ranges ; };
+    hpps_smmu_tbu6: hpps_smmu_tbu@6 { compatible = "simple-bus"; ranges ; };
+    hpps_smmu_tbu7: hpps_smmu_tbu@7 { compatible = "simple-bus"; ranges ; };
 
     nic7: nic7 {
         compatible = "simple-bus";
         ranges ;
 
-        hpps_smmu1_reg: smmu_reg0@0xf9301000 {
+        hpps_smmu_reg: smmu_reg0@0xf9301000 {
                 compatible = "xlnx,smmu-reg";
                 reg = <0xf9301000 0x1000 /* prio = */ 0x0>;
                 interrupt-controller;
                 interrupts = <HPPS_SMMU1_IRQ>;
         };
 
-        hpps_smmu1: smmu1@0xf9300000 {
+        hpps_smmu: smmu1@0xf9300000 {
                 compatible = "arm,mmu-500";
-                reg-extended = <&nic7 0xf9300000 0x10000 /* nic7? */ /* prio = */ 0x1
-                                &hpps_smmu1_tbu_dma   0 0xffffffff  /* prio = */ 0x0
-                                &hpps_smmu1_tbu_xgmac 0 0xffffffff  /* prio = */ 0x1>;
+                reg-extended = <&nic7 0xf9300000 0x10000 /* prio = */ 0x0
+                                &hpps_smmu_tbu0 0 0xffffffff  /* prio = */ 0x0
+                                &hpps_smmu_tbu1 0 0xffffffff  /* prio = */ 0x0
+                                &hpps_smmu_tbu2 0 0xffffffff  /* prio = */ 0x0
+                                &hpps_smmu_tbu3 0 0xffffffff  /* prio = */ 0x0
+                                &hpps_smmu_tbu4 0 0xffffffff  /* prio = */ 0x0
+                                &hpps_smmu_tbu5 0 0xffffffff  /* prio = */ 0x0
+                                &hpps_smmu_tbu6 0 0xffffffff  /* prio = */ 0x0
+                                &hpps_smmu_tbu7 0 0xffffffff  /* prio = */ 0x0>;
 
-                interrupt-parent = <&hpps_smmu1_reg>;
+                interrupt-parent = <&hpps_smmu_reg>;
                 interrupts = <0 1 2 3 4 5 6 7 8
                                 8 9 10 11 12 13 14 15 16
                                 17>;
 
                 /* dma:  points to the MR used for PTWs.  */
-                /* mr-x: points to the per TBU down-stream MR.  */
                 dma = <&ccn>;
-                mr-0 = <&hpps_smmu1_tbu_dma>;
-                mr-1 = <&hpps_smmu1_tbu_xgmac>;
-                /* mr-2 = PCIe */
+
+                /* mr-x: points to the per TBU down-stream MR.  */
+                /* NOTE: In this Qemu device tree, we connect the MMU
+                 * downstream ports to the CCN even though they actually are
+                 * connected to a NIC (which is then connected to CCN) in
+                 * physical hardware.
+                 *
+                 * TODO: re-org -- connect all slaves currently under nic7
+                 * node to nic6 (because that's how HW is connected) and
+                 * then optionally add a nic7 which is just a pass-through to
+                 * CCN. */
+                mr-0 = <&ccn>; /* DMA */
+                mr-1 = <&ccn>; /* PCIe */
+                mr-2 = <&ccn>; /* Ethernet */
+                mr-3 = <&ccn>; /* TTE */
+                mr-4 = <&ccn>; /* SRIO DMA 0 */
+                mr-5 = <&ccn>; /* SRIO DMA 1 */
+                mr-6 = <&ccn>; /* SRIO EP 0 */
+                mr-7 = <&ccn>; /* SRIO EP 1 */
         };
 
         hpps_dma_memattr: hpps_dma_memattr@0 {
@@ -1326,16 +1346,14 @@
             interrupts = <HPPS_DMA_ABORT_IRQ
                           HPPS_DMA_EV0_IRQ>;
             #dma-cells = <1>;
-#if 0 /* TODO: MMU */
-            dma = <&hpps_smmu1_tbu_dma>;
-#else
-            dma = <&ccn>;
-#endif
+            dma = <&hpps_smmu_tbu0>;
             memattr = <&hpps_dma_memattr>;
             num_chnls  = <1>;
             num_events = <1>;
             num_periph_req = <0>;
             mgr_ns_at_rst = <1>; /* boot into non-secure mode */
+            INS = <0xffffffff>; /* mark all events as non-secure */
+            PNS = <0xffffffff>; /* mark all periphs as non-secure */
         };
 
         srio0_dma_memattr: srio0_dma_memattr@0 {
@@ -1351,12 +1369,14 @@
             interrupts = <SRIO0_DMA_ABORT_IRQ
                           SRIO0_DMA_EV0_IRQ>;
             #dma-cells = <1>;
-            dma = <&nic7>;
+            dma = <&hpps_smmu_tbu4>;
             memattr = <&srio0_dma_memattr>;
             num_chnls  = <1>;
             num_events = <1>;
             num_periph_req = <0>;
             mgr_ns_at_rst = <1>; /* boot into non-secure mode */
+            INS = <0xffffffff>; /* mark all events as non-secure */
+            PNS = <0xffffffff>; /* mark all periphs as non-secure */
         };
 
         srio1_dma_memattr: srio1_dma_memattr@0 {
@@ -1372,12 +1392,14 @@
             interrupts = <SRIO1_DMA_ABORT_IRQ
                           SRIO1_DMA_EV0_IRQ>;
             #dma-cells = <1>;
-            dma = <&nic7>;
+            dma = <&hpps_smmu_tbu5>;
             memattr = <&srio1_dma_memattr>;
             num_chnls  = <1>;
             num_events = <1>;
             num_periph_req = <0>;
             mgr_ns_at_rst = <1>; /* boot into non-secure mode */
+            INS = <0xffffffff>; /* mark all events as non-secure */
+            PNS = <0xffffffff>; /* mark all periphs as non-secure */
         };
 
         xgmac: ethernet@0xe5300000 {
@@ -1390,11 +1412,7 @@
             clocks = <&misc_clk>, <&misc_clk>;
             compatible = "xlnx,ps7-ethernet-1.00.a", "cdns,gem";  /* TODO: change to Synopsys DWC_ether */
             interrupts = <XGMAC_IRQ_0 XGMAC_IRQ_1_WAKE>;
-#if 0 /* TODO: MMU */
-            dma = <&hpps_smmu1_tbu_xgmac>;
-#else
-            dma = <&ccn>;
-#endif
+            dma = <&hpps_smmu_tbu2>;
             memattr = <&xgmac_memattr>;
             local-mac-address = [00 0a 35 00 02 90];
             num-priority-queues = <1>;
