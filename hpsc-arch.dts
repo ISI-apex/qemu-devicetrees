@@ -280,7 +280,7 @@
                 arm,pinoptr= <0x00000000>;             \
                 arm,atcmregionr = <0x00000014>;        \
                 arm,btcmregionr = <0x00004014>;        \
-                attrrm,ctcmregionr = <0x00008014>;     \
+                arm,ctcmregionr = <0x00008014>;        \
                 start-powered-off = <1>;               \
 
             rtps_memattr_cpu0: rtps_memattr_cpu@0 {
