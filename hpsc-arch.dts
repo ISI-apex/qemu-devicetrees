@@ -68,7 +68,7 @@
    of a raw address). However, the setting of rvbar CPU property is currently
    broken; so, for now, we define the entry point here. */
 #define HPPS_RESET_ADDR_PRIMARY_CPU   0xfffda000 /* ATF bl31_entrypoint */
-#define HPPS_RESET_ADDR_SECONDARY_CPU 0xfffda0f8 /* ATF bl31_warm_entrypoint */
+#define HPPS_RESET_ADDR_SECONDARY_CPU 0xfffda110 /* ATF bl31_warm_entrypoint */
 
 /dts-v1/;
 
