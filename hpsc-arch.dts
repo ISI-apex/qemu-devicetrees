@@ -60,8 +60,8 @@
 #define TRCH_IPI0_IRQ_0				12
 #define RPU_IPI0_IRQ_0				33
 #define RPU_IPI1_IRQ_0				34
-#define APU_IPI0_IRQ_0				35
 #endif
+#define APU_IPI0_IRQ_0				35
 
 /* TODO: The secondary CPU entry point is normally set by PSCI
    code at time of reset request (also, the PSCI code uses the symbol instead
@@ -180,8 +180,10 @@
 #if 0 /* check how these are used before adding */
         <0 0 CRF_int_IRQ_0           &hpps_gic  0 CRF_int_IRQ_0           4>,
         <0 0 RPU_IPI1_IRQ_0          &hpps_gic  0 RPU_IPI1_IRQ_0          4>,
-        <0 0 APU_IPI0_IRQ_0          &hpps_gic  0 APU_IPI0_IRQ_0          4>,
 #endif
+        /* needed by ATF PSCI code */
+        <0 0 APU_IPI0_IRQ_0          &hpps_gic  0 APU_IPI0_IRQ_0          4>,
+
         <0 0 NAND_IRQ_0 	     &hpps_gic  0 NAND_IRQ_0		  4>,
 
         /* HPPS-TRCH mailbox */
@@ -982,6 +984,25 @@
         csu_core@0xffca0000 { /* TODO: present in Chiplet? Probably, not. ATF wants this. */
             compatible = "xlnx,zynqmp-csu-core";
             reg = <0x0 0xffca0000 0x0 0x100 /* prio = */ 0x1>;
+        };
+
+        /* TODO: both of these IPI nodes will go away once PSCI-via-TRCH is implemented */
+        ipibuf_ram: ipibuf@ff990000 {
+                compatible = "qemu:memory-region";
+                qemu,ram = <1>;
+                reg = <0x0 0xff990000 0x0 0x1000 /* prio = */ 0x1>;
+        };
+        apu_ipi: apu_ipi@0xff300000 {
+            compatible = "xlnx,zynqmp_ipi";
+            gpio-controller;
+            reg = <0x0 0xff300000 0x0 0x1000 /* prio = */ 0x1>;
+            #gpio-cells = <2>;
+            interrupts = <0>;
+            interrupt-map =    <0 0 0 &hpps_gic  0 APU_IPI0_IRQ_0 4>;
+            interrupt-map-mask = <0 0 0 0>;
+            num-gpios = <64>;
+            interrupt-gpios = <&apu_ipi 0 0>;
+            gpios = <&apu_ipi 32 0>;
         };
 
         /* TODO: this will go away: no OCM on Chiplet */
