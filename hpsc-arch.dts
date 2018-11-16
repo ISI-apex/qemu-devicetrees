@@ -313,12 +313,12 @@
                 /* TODO: memattr_s = ? */
                 memattr_ns = <&rtps_memattr_cpu0>;
 
-                // crl 0: controller_gpios: RST_R5(0)
-                // rpu_ctrl 0: controller_gpios: R5_0_HALT
-                // rpu_ctrl 7:                 : wfi_in_0
-                // IS_MULTI_ARCH() = nothing
-                gpios = <&crl 0 &rpu_ctrl 0 &rpu_ctrl 5 >;
-                gpio-names = "reset", "ncpuhalt", "vinithi";
+                gpios = </* RST_R5[0] */    &crl 0
+                         /* R5_0_HALT */    &rpu_ctrl 0
+                         /* R5_0_VINITHI */ &rpu_ctrl 5 >;
+                gpio-names = "reset",
+                             "ncpuhalt",
+                             "vinithi";
             };
 
             rtps_memattr_cpu1: rtps_memattr_cpu@1 {
@@ -338,13 +338,12 @@
                 /* TODO: memattr_s = ? */
                 memattr_ns = <&rtps_memattr_cpu1>;
 
-                // crl 1: controller_gpios: RST_R5(1)
-                // rpu_ctrl 1: controller_gpios: R5_1_HALT
-                // rpu_ctrl 8:                 : wfi_in_1
-                // IS_MULTI_ARCH() = nothing
-                /* still, cannot find "halt" */
-                gpios = <&crl 1 &rpu_ctrl 2 &rpu_ctrl 1 &rpu_ctrl 6 >;
-                gpio-names = "reset", "halt", "ncpuhalt", "vinithi" ;
+                gpios = </* RST_R5[1] */    &crl 1
+                         /* R5_1_HALT */    &rpu_ctrl 1
+                         /* R5_1_VINITHI */ &rpu_ctrl 6 >;
+                gpio-names = "reset",
+                             "ncpuhalt",
+                             "vinithi";
             };
         };
 
