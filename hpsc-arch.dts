@@ -313,7 +313,8 @@
                 /* TODO: memattr_s = ? */
                 memattr_ns = <&rtps_memattr_cpu0>;
 
-                gpios = </* RST_R5[0] */    &crl 0
+                gpios = /* input signals */
+                        </* RST_R5[0] */    &crl 0
                          /* R5_0_HALT */    &rpu_ctrl 0
                          /* R5_0_VINITHI */ &rpu_ctrl 5 >;
                 gpio-names = "reset",
@@ -338,7 +339,8 @@
                 /* TODO: memattr_s = ? */
                 memattr_ns = <&rtps_memattr_cpu1>;
 
-                gpios = </* RST_R5[1] */    &crl 1
+                gpios = /* input signals */
+                        </* RST_R5[1] */    &crl 1
                          /* R5_1_HALT */    &rpu_ctrl 1
                          /* R5_1_VINITHI */ &rpu_ctrl 6 >;
                 gpio-names = "reset",
@@ -390,7 +392,8 @@
                 arm,mp-affinity = <0>;
                 arm,rvbar = <HPPS_RESET_ADDR_PRIMARY_CPU>;
 
-                gpios = </* RESET    */ &crf 0
+                gpios = /* input signals */
+                        </* RESET    */ &crf 0
                          /* NCPUHALT */ &apu 4
                          /* VINITHI  */ &apu 8>;
                 gpio-names = "reset",
@@ -419,7 +422,8 @@
                 arm,mp-affinity = <1>;
                 arm,rvbar = <HPPS_RESET_ADDR_SECONDARY_CPU>;
 
-                gpios = </* RESET    */ &crf 1
+                gpios = /* input signals */
+                        </* RESET    */ &crf 1
                          /* NCPUHALT */ &apu 5
                          /* VINITHI  */ &apu 9>;
                 gpio-names = "reset",
@@ -448,7 +452,8 @@
                 arm,mp-affinity = <2>;
                 arm,rvbar = <HPPS_RESET_ADDR_SECONDARY_CPU>;
 
-                gpios = </* RESET    */ &crf 2
+                gpios = /* input signals */
+                        </* RESET    */ &crf 2
                          /* NCPUHALT */ &apu 6
                          /* VINITHI  */ &apu 10>;
                 gpio-names = "reset",
@@ -477,7 +482,8 @@
                 arm,mp-affinity = <3>;
                 arm,rvbar = <HPPS_RESET_ADDR_SECONDARY_CPU>;
 
-                gpios = </* RESET    */ &crf 3
+                gpios = /* input signals */
+                        </* RESET    */ &crf 3
                          /* NCPUHALT */ &apu 7
                          /* VINITHI  */ &apu 11>;
                 gpio-names = "reset",
@@ -506,7 +512,8 @@
                 arm,mp-affinity = <0x100>;
                 arm,rvbar = <HPPS_RESET_ADDR_SECONDARY_CPU>;
 
-                gpios = </* RESET    */ &crf 4
+                gpios = /* input signals */
+                        </* RESET    */ &crf 4
                          /* NCPUHALT */ &apu1 4
                          /* VINITHI  */ &apu1 8>;
                 gpio-names = "reset",
@@ -535,7 +542,8 @@
                 arm,mp-affinity = <0x101>;
                 arm,rvbar = <HPPS_RESET_ADDR_SECONDARY_CPU>;
 
-                gpios = </* RESET    */ &crf 5
+                gpios = /* input signals */
+                        </* RESET    */ &crf 5
                          /* NCPUHALT */ &apu1 5
                          /* VINITHI  */ &apu1 9>;
                 gpio-names = "reset",
@@ -563,7 +571,8 @@
                 arm,mp-affinity = <0x102>;
                 arm,rvbar = <HPPS_RESET_ADDR_SECONDARY_CPU>;
 
-                gpios = </* RESET    */ &crf 6
+                gpios = /* input signals */
+                        </* RESET    */ &crf 6
                          /* NCPUHALT */ &apu1 6
                          /* VINITHI  */ &apu1 10>;
                 gpio-names = "reset",
@@ -591,7 +600,8 @@
                 arm,mp-affinity = <0x103>;
                 arm,rvbar = <HPPS_RESET_ADDR_SECONDARY_CPU>;
 
-                gpios = </* RESET    */ &crf 7
+                gpios = /* input signals */
+                        </* RESET    */ &crf 7
                          /* NCPUHALT */ &apu1 7
                          /* VINITHI  */ &apu1 11>;
                 gpio-names = "reset",
