@@ -1230,7 +1230,7 @@
         arm-generic-timer-system-counter@0x21001000 { /* TODO: replace with HPSC Elapsed Timer */
             /* The System Counter: the memory-mapped part of the ARM Generic Timers */
             compatible = "arm.generic-timer";
-            reg = <0xff250000 0x1000 /* prio = */ 0x0>;
+            reg = <0x21001000 0x1000 /* prio = */ 0x0>;
         };
 
         to_nic2 {
