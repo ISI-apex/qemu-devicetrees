@@ -26,9 +26,31 @@
 #define WDT_TRCH_ST1_IRQ                 15
 #define WDT_TRCH_ST2_IRQ                 16  /* TODO: should be a physical GPIO signal */
 
+#define WDT_RTPS0_ST1_IRQ                17
+#define WDT_RTPS0_ST2_IRQ                18
+#define WDT_RTPS1_ST1_IRQ                19
+#define WDT_RTPS1_ST2_IRQ                20
+
 #define LSIO_UART0_IRQ_0		 21
 #define LSIO_UART1_IRQ_0		 22
 #define HPPS_UART0_IRQ_0		 23
+
+#define WDT_HPPS0_ST1_IRQ                24
+#define WDT_HPPS0_ST2_IRQ                25
+#define WDT_HPPS1_ST1_IRQ                26
+#define WDT_HPPS1_ST2_IRQ                27
+#define WDT_HPPS2_ST1_IRQ                28
+#define WDT_HPPS2_ST2_IRQ                29
+#define WDT_HPPS3_ST1_IRQ                30
+#define WDT_HPPS3_ST2_IRQ                31
+#define WDT_HPPS4_ST1_IRQ                32
+#define WDT_HPPS4_ST2_IRQ                33
+#define WDT_HPPS5_ST1_IRQ                34
+#define WDT_HPPS5_ST2_IRQ                35
+#define WDT_HPPS6_ST1_IRQ                36
+#define WDT_HPPS6_ST2_IRQ                37
+#define WDT_HPPS7_ST1_IRQ                38
+#define WDT_HPPS7_ST2_IRQ                39
 
 #define XGMAC_IRQ_0			 57
 #define XGMAC_IRQ_1_WAKE		 58
@@ -890,6 +912,13 @@
                 reg = <0x60000 0x10000 /* prio = -1 */ 0xffffffff>;
         };
 
+        /* This is a wormhole in hardware, there's no actual access to nic1 */
+        to_rtps_wdt {
+            compatible = "qemu:memory-region";
+            alias = <&rtps_wdts>;
+            reg = <0x30a0a000 0x2000 /* prio = 0 */ 0x0>;
+        };
+
         to_nic2 {
             compatible = "qemu:memory-region";
             alias = <&nic2>;
@@ -1168,6 +1197,12 @@
             reg = <0x0 0xfffc0000 0x0 0x40000 /* prio = */ 0x1>;
         };
 
+        to_hpps_wdt { /* A wormhole in HW, there's no path to nic1 */
+            compatible = "qemu:memory-region";
+            alias = <&hpps_wdts>;
+            reg = <0x0 0xfff70000 0x0 0x80000 /* prio = 0 */ 0x0>;
+        };
+
         /* TODO: crf and crl will go away once TRCH reset controller is implemented */
         to_crf_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
             compatible = "qemu:memory-region";
@@ -1199,6 +1234,66 @@
             compatible = "qemu:memory-region";
             alias = <&ccn>;
             reg = <0x0 0x0 /* size = */ 0xFFFFFFFF 0xFFFFFFFF /* prio = -1 */ 0xfffffffe>;
+        };
+    };
+
+    rtps_wdts: rtps_wdts { /* accessible from TRCH nic1 and from RTPS */
+        compatible = "simple-bus";
+        ranges ;
+        rtps_wdt0: wdt@0x0 {
+            compatible = "hpsc,hpsc-wdt";
+            reg = <0x0 0x1000 /* prio = */ 0x0>;
+            interrupts = <WDT_RTPS0_ST1_IRQ WDT_RTPS0_ST2_IRQ>;
+        };
+        rtps_wdt1: wdt@0x1000 {
+            compatible = "hpsc,hpsc-wdt";
+            reg = <0x1000 0x1000 /* prio = */ 0x0>;
+            interrupts = <WDT_RTPS1_ST1_IRQ WDT_RTPS1_ST2_IRQ>;
+        };
+    };
+
+    hpps_wdts: hpps_wdts { /* accessible from TRCH nic1 and from HPPS */
+        compatible = "simple-bus";
+        ranges ;
+        hpps_wdt0: wdt@0x0 {
+            compatible = "hpsc,hpsc-wdt";
+            reg = <0x0 0x1000 /* prio = */ 0x0>;
+            interrupts = <WDT_HPPS0_ST1_IRQ WDT_HPPS0_ST2_IRQ>;
+        };
+        hpps_wdt1: wdt@0x10000 {
+            compatible = "hpsc,hpsc-wdt";
+            reg = <0x10000 0x10000 /* prio = */ 0x0>;
+            interrupts = <WDT_HPPS1_ST1_IRQ WDT_HPPS1_ST2_IRQ>;
+        };
+        hpps_wdt2: wdt@0x20000 {
+            compatible = "hpsc,hpsc-wdt";
+            reg = <0x20000 0x10000 /* prio = */ 0x0>;
+            interrupts = <WDT_HPPS2_ST1_IRQ WDT_HPPS2_ST2_IRQ>;
+        };
+        hpps_wdt3: wdt@0x30000 {
+            compatible = "hpsc,hpsc-wdt";
+            reg = <0x30000 0x10000 /* prio = */ 0x0>;
+            interrupts = <WDT_HPPS3_ST1_IRQ WDT_HPPS3_ST2_IRQ>;
+        };
+        hpps_wdt4: wdt@0x40000  {
+            compatible = "hpsc,hpsc-wdt";
+            reg = <0x40000 0x10000 /* prio = */ 0x0>;
+            interrupts = <WDT_HPPS4_ST1_IRQ WDT_HPPS4_ST2_IRQ>;
+        };
+        hpps_wdt5: wdt@0x50000 {
+            compatible = "hpsc,hpsc-wdt";
+            reg = <0x50000 0x10000 /* prio = */ 0x0>;
+            interrupts = <WDT_HPPS5_ST1_IRQ WDT_HPPS5_ST2_IRQ>;
+        };
+        hpps_wdt6: wdt@0x60000 {
+            compatible = "hpsc,hpsc-wdt";
+            reg = <0x60000 0x10000 /* prio = */ 0x0>;
+            interrupts = <WDT_HPPS6_ST1_IRQ WDT_HPPS6_ST2_IRQ>;
+        };
+        hpps_wdt7: wdt@0x70000 {
+            compatible = "hpsc,hpsc-wdt";
+            reg = <0x70000 0x10000 /* prio = */ 0x0>;
+            interrupts = <WDT_HPPS7_ST1_IRQ WDT_HPPS7_ST2_IRQ>;
         };
     };
 
@@ -1240,10 +1335,23 @@
             reg = <0x21001000 0x1000 /* prio = */ 0x0>;
         };
 
+        /* TODO: update addresses once defined in HW mem map */
         trch_wdt: wdt@0x21002000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x21002000 0x1000 /* prio = */ 0x0>;
             interrupts = <WDT_TRCH_ST1_IRQ WDT_TRCH_ST2_IRQ>;
+        };
+
+        to_rtps_wdt {
+            compatible = "qemu:memory-region";
+            alias = <&rtps_wdts>;
+            reg = <0x21003000 0x2000 /* prio = 0 */ 0x0>;
+        };
+
+        to_hpps_wdt {
+            compatible = "qemu:memory-region";
+            alias = <&hpps_wdts>;
+            reg = <0x21005000 0x80000 /* prio = 0 */ 0x0>;
         };
 
         to_nic2 {
