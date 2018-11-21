@@ -26,31 +26,21 @@
 #define WDT_TRCH_ST1_IRQ                 15
 #define WDT_TRCH_ST2_IRQ                 16  /* TODO: should be a physical GPIO signal */
 
-#define WDT_RTPS0_ST1_IRQ                17
-#define WDT_RTPS0_ST2_IRQ                18
-#define WDT_RTPS1_ST1_IRQ                19
-#define WDT_RTPS1_ST2_IRQ                20
+#define WDT_RTPS0_ST2_IRQ                17
+#define WDT_RTPS1_ST2_IRQ                18
 
 #define LSIO_UART0_IRQ_0		 21
 #define LSIO_UART1_IRQ_0		 22
 #define HPPS_UART0_IRQ_0		 23
 
-#define WDT_HPPS0_ST1_IRQ                24
-#define WDT_HPPS0_ST2_IRQ                25
-#define WDT_HPPS1_ST1_IRQ                26
-#define WDT_HPPS1_ST2_IRQ                27
-#define WDT_HPPS2_ST1_IRQ                28
-#define WDT_HPPS2_ST2_IRQ                29
-#define WDT_HPPS3_ST1_IRQ                30
-#define WDT_HPPS3_ST2_IRQ                31
-#define WDT_HPPS4_ST1_IRQ                32
-#define WDT_HPPS4_ST2_IRQ                33
-#define WDT_HPPS5_ST1_IRQ                34
-#define WDT_HPPS5_ST2_IRQ                35
-#define WDT_HPPS6_ST1_IRQ                36
-#define WDT_HPPS6_ST2_IRQ                37
-#define WDT_HPPS7_ST1_IRQ                38
-#define WDT_HPPS7_ST2_IRQ                39
+#define WDT_HPPS0_ST2_IRQ                24
+#define WDT_HPPS1_ST2_IRQ                25
+#define WDT_HPPS2_ST2_IRQ                26
+#define WDT_HPPS3_ST2_IRQ                27
+#define WDT_HPPS4_ST2_IRQ                28
+#define WDT_HPPS5_ST2_IRQ                29
+#define WDT_HPPS6_ST2_IRQ                30
+#define WDT_HPPS7_ST2_IRQ                31
 
 #define XGMAC_IRQ_0			 57
 #define XGMAC_IRQ_1_WAKE		 58
@@ -96,6 +86,7 @@
 #define TIMER_HYP_PPI_IRQ               10
 
 #define GIC_MAINT_PPI_IRQ                9
+#define WDT_PPI_IRQ                      8
 
 /* TODO: The secondary CPU entry point is normally set by PSCI
    code at time of reset request (also, the PSCI code uses the symbol instead
@@ -1243,12 +1234,18 @@
         rtps_wdt0: wdt@0x0 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x0 0x1000 /* prio = */ 0x0>;
-            interrupts = <WDT_RTPS0_ST1_IRQ WDT_RTPS0_ST2_IRQ>;
+            interrupts = <0 1>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map =    <0 0 0 &rtps_gic GIC_PPI WDT_PPI_IRQ 0x0108>,
+                               <0 0 1 &trch_nvic 0 WDT_RTPS0_ST2_IRQ 4>;
         };
         rtps_wdt1: wdt@0x1000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x1000 0x1000 /* prio = */ 0x0>;
-            interrupts = <WDT_RTPS1_ST1_IRQ WDT_RTPS1_ST2_IRQ>;
+            interrupts = <0 1>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map =    <0 0 0 &rtps_gic GIC_PPI WDT_PPI_IRQ 0x0108>,
+                               <0 0 1 &trch_nvic 0 WDT_RTPS1_ST2_IRQ 4>;
         };
     };
 
@@ -1258,42 +1255,66 @@
         hpps_wdt0: wdt@0x0 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x0 0x1000 /* prio = */ 0x0>;
-            interrupts = <WDT_HPPS0_ST1_IRQ WDT_HPPS0_ST2_IRQ>;
+            interrupts = <0 1>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x0108>,
+                               <0 0 1 &trch_nvic 0 WDT_HPPS0_ST2_IRQ 4>;
         };
         hpps_wdt1: wdt@0x10000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x10000 0x10000 /* prio = */ 0x0>;
-            interrupts = <WDT_HPPS1_ST1_IRQ WDT_HPPS1_ST2_IRQ>;
+            interrupts = <0 1>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x0208>,
+                               <0 0 1 &trch_nvic 0 WDT_HPPS1_ST2_IRQ 4>;
         };
         hpps_wdt2: wdt@0x20000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x20000 0x10000 /* prio = */ 0x0>;
-            interrupts = <WDT_HPPS2_ST1_IRQ WDT_HPPS2_ST2_IRQ>;
+            interrupts = <0 1>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x0408>,
+                               <0 0 1 &trch_nvic 0 WDT_HPPS2_ST2_IRQ 4>;
         };
         hpps_wdt3: wdt@0x30000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x30000 0x10000 /* prio = */ 0x0>;
-            interrupts = <WDT_HPPS3_ST1_IRQ WDT_HPPS3_ST2_IRQ>;
+            interrupts = <0 1>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x0808>,
+                               <0 0 1 &trch_nvic 0 WDT_HPPS3_ST2_IRQ 4>;
         };
         hpps_wdt4: wdt@0x40000  {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x40000 0x10000 /* prio = */ 0x0>;
-            interrupts = <WDT_HPPS4_ST1_IRQ WDT_HPPS4_ST2_IRQ>;
+            interrupts = <0 1>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x1008>,
+                               <0 0 1 &trch_nvic 0 WDT_HPPS4_ST2_IRQ 4>;
         };
         hpps_wdt5: wdt@0x50000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x50000 0x10000 /* prio = */ 0x0>;
-            interrupts = <WDT_HPPS5_ST1_IRQ WDT_HPPS5_ST2_IRQ>;
+            interrupts = <0 1>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x2008>,
+                               <0 0 1 &trch_nvic 0 WDT_HPPS5_ST2_IRQ 4>;
         };
         hpps_wdt6: wdt@0x60000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x60000 0x10000 /* prio = */ 0x0>;
-            interrupts = <WDT_HPPS6_ST1_IRQ WDT_HPPS6_ST2_IRQ>;
+            interrupts = <0 1>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x4008>,
+                               <0 0 1 &trch_nvic 0 WDT_HPPS6_ST2_IRQ 4>;
         };
         hpps_wdt7: wdt@0x70000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x70000 0x10000 /* prio = */ 0x0>;
-            interrupts = <WDT_HPPS7_ST1_IRQ WDT_HPPS7_ST2_IRQ>;
+            interrupts = <0 1>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x8008>,
+                               <0 0 1 &trch_nvic 0 WDT_HPPS7_ST2_IRQ 4>;
         };
     };
 
