@@ -21,8 +21,8 @@
 
 /* TODO: renumber IRQs */
 
-#define NAND_IRQ_0			 14
-#define NAND_IRQ_1			 15
+#define HPPS_SMC_IRQ			 14
+#define TRCH_SMC_IRQ			 15
 
 #define WDT_TRCH_ST1_IRQ                 17
 #define WDT_TRCH_ST2_IRQ                 18  /* TODO: should be a physical GPIO signal */
@@ -134,6 +134,8 @@
         <0 0 WDT_TRCH_ST1_IRQ        &trch_nvic 0 WDT_TRCH_ST1_IRQ        4>,
         <0 0 WDT_TRCH_ST2_IRQ        &trch_nvic 0 WDT_TRCH_ST2_IRQ        4>,
 
+        <0 0 TRCH_SMC_IRQ            &trch_nvic 0 TRCH_SMC_IRQ            4>,
+
         /* LSIO mailbox */
         <0 0 72 &trch_nvic 0 72 4>, <0 0 73 &trch_nvic 0 73 4>,
         <0 0 74 &trch_nvic 0 74 4>, <0 0 75 &trch_nvic 0 75 4>,
@@ -217,7 +219,7 @@
         /* needed by ATF PSCI code */
         <0 0 APU_IPI0_IRQ_0          &hpps_gic  0 APU_IPI0_IRQ_0          4>,
 
-        <0 0 NAND_IRQ_0 	     &hpps_gic  0 NAND_IRQ_0		  4>,
+        <0 0 HPPS_SMC_IRQ 	     &hpps_gic  0 HPPS_SMC_IRQ 	  4>,
 
         /* HPPS-TRCH mailbox */
         <0 0 136 &hpps_gic 0 136 4>, <0 0 137 &hpps_gic 0 137 4>,
@@ -1508,7 +1510,7 @@
             clocks = <&misc_clk>, <&misc_clk>;
             compatible = "arm,pl35x";
             reg = <0x30009000 0x1000 /* prio = */ 0x0>;
-            /* interrupts = <NAND_IRQ_0>; */
+            interrupts = <TRCH_SMC_IRQ>;
             x = <3>;
             ranges ;
 	    trch_offchip_sram0: trch_offchip_sram0@0x28000000 {
@@ -1615,7 +1617,7 @@
             clocks = <&misc_clk>, <&misc_clk>;
             compatible = "arm,pl35x";
             reg = <0xf92d0000 0x1000 /* prio = */ 0x0>;
-            interrupts = <NAND_IRQ_0>;
+            interrupts = <HPPS_SMC_IRQ>;
             x = <3>;
             ranges ;
 	    hpps_sram0: hpps_sram0@0x680000000 {
