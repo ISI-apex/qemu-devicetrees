@@ -24,11 +24,11 @@
 #define NAND_IRQ_0			 14
 #define NAND_IRQ_1			 15
 
-#define WDT_TRCH_ST1_IRQ                 15
-#define WDT_TRCH_ST2_IRQ                 16  /* TODO: should be a physical GPIO signal */
+#define WDT_TRCH_ST1_IRQ                 17
+#define WDT_TRCH_ST2_IRQ                 18  /* TODO: should be a physical GPIO signal */
 
-#define WDT_RTPS0_ST2_IRQ                17
-#define WDT_RTPS1_ST2_IRQ                18
+#define WDT_RTPS0_ST2_IRQ                19
+#define WDT_RTPS1_ST2_IRQ                20
 
 #define LSIO_UART0_IRQ_0		 21
 #define LSIO_UART1_IRQ_0		 22
