@@ -25,7 +25,7 @@
 #define TRCH_SMC_IRQ			 15
 
 #define WDT_TRCH_ST1_IRQ                 17
-#define WDT_TRCH_ST2_IRQ                 18  /* TODO: should be a physical GPIO signal */
+#define WDT_TRCH_ST2_IRQ                 18
 
 #define WDT_RTPS0_ST2_IRQ                19
 #define WDT_RTPS1_ST2_IRQ                20
@@ -132,7 +132,7 @@
 #endif
 
         <0 0 WDT_TRCH_ST1_IRQ        &trch_nvic 0 WDT_TRCH_ST1_IRQ        4>,
-        <0 0 WDT_TRCH_ST2_IRQ        &trch_nvic 0 WDT_TRCH_ST2_IRQ        4>,
+        /* WDT_TRCH_ST2_IRQ not wired to NVIC, b/c LAST_TIMEOUT GPIO wired to HW reset */
 
         <0 0 TRCH_SMC_IRQ            &trch_nvic 0 TRCH_SMC_IRQ            4>,
 
@@ -300,6 +300,17 @@
                 memory = <&trch>;
                 memattr_ns = <&trch_memattr_cpu>;
                 /* TODO: memattr_s, mr-secure : ? */
+
+                /* TODO: add a reset controller between RESET and LAST_TIMEOUT,
+                         because LAST_TIMEOUT should reset all blocks within
+                         TRCH IP, not only the M4 core. */
+                gpios = /* input signals */
+                        </* RESET    */ &trch_wdt 0 /* LAST_TIMEOUT */
+                         /* NCPUHALT */ /* disconnected */
+                         /* VINITHI  */ /* disconnected */>;
+                gpio-names = "reset",
+                             "ncpuhalt",
+                             "vinithi";
             };
         };
 
@@ -1364,6 +1375,9 @@
             compatible = "hpsc,hpsc-wdt";
             reg = <0x21002000 0x1000 /* prio = */ 0x0>;
             interrupts = <WDT_TRCH_ST1_IRQ WDT_TRCH_ST2_IRQ>;
+            gpio-controller;
+            #gpio-cells = <1>;
+            /* GPIO outputs: LAST_TIMEOUT */
         };
 
         to_rtps_wdt {
