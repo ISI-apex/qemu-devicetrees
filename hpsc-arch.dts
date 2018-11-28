@@ -1389,7 +1389,7 @@
         to_hpps_wdt {
             compatible = "qemu:memory-region";
             alias = <&hpps_wdts>;
-            reg = <0x21005000 0x80000 /* prio = 0 */ 0x0>;
+            reg = <0x21010000 0x80000 /* prio = 0 */ 0x0>;
         };
 
         to_nic2 {
