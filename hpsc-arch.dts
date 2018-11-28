@@ -1268,7 +1268,7 @@
         ranges ;
         hpps_wdt0: wdt@0x0 {
             compatible = "hpsc,hpsc-wdt";
-            reg = <0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0x10000 /* prio = */ 0x0>;
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x0108>,
