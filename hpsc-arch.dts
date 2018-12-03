@@ -65,7 +65,7 @@
 
 /******** RTPS interrupt controller inputs **************/
 
-#define LSIO_UART1_IRQ_0		 22 /* TODO: wire to RTPS intc */
+#define LSIO_UART1_IRQ_0		 22
 
 /* #define LSIO_MAILBOX_IRQs  	        72-87 */
 
@@ -1406,7 +1406,7 @@
             current-speed = <115200>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &trch_nvic LSIO_UART1_IRQ_0>;
+            interrupt-map = <0 0 0 &rtps_gic GIC_SPI LSIO_UART1_IRQ_0 GIC_LVL_HI>;
             port-number = <0>;
             xlnx,has-modem = <0x0>;
             xlnx,uart-clk-freq-hz = <50000000>;
