@@ -133,17 +133,6 @@
 
         <0 0 WDT_TRCH_ST1_IRQ        &trch_nvic 0 WDT_TRCH_ST1_IRQ        4>,
         /* WDT_TRCH_ST2_IRQ not wired to NVIC, b/c LAST_TIMEOUT GPIO wired to HW reset */
-        <0 0 WDT_RTPS0_ST2_IRQ       &trch_nvic 0 WDT_RTPS0_ST2_IRQ        4>,
-        <0 0 WDT_RTPS1_ST2_IRQ       &trch_nvic 0 WDT_RTPS1_ST2_IRQ        4>,
-
-        <0 0 WDT_HPPS0_ST2_IRQ       &trch_nvic 0 WDT_HPPS0_ST2_IRQ        4>,
-        <0 0 WDT_HPPS1_ST2_IRQ       &trch_nvic 0 WDT_HPPS1_ST2_IRQ        4>,
-        <0 0 WDT_HPPS2_ST2_IRQ       &trch_nvic 0 WDT_HPPS2_ST2_IRQ        4>,
-        <0 0 WDT_HPPS3_ST2_IRQ       &trch_nvic 0 WDT_HPPS3_ST2_IRQ        4>,
-        <0 0 WDT_HPPS4_ST2_IRQ       &trch_nvic 0 WDT_HPPS4_ST2_IRQ        4>,
-        <0 0 WDT_HPPS5_ST2_IRQ       &trch_nvic 0 WDT_HPPS5_ST2_IRQ        4>,
-        <0 0 WDT_HPPS6_ST2_IRQ       &trch_nvic 0 WDT_HPPS6_ST2_IRQ        4>,
-        <0 0 WDT_HPPS7_ST2_IRQ       &trch_nvic 0 WDT_HPPS7_ST2_IRQ        4>,
 
         <0 0 TRCH_SMC_IRQ            &trch_nvic 0 TRCH_SMC_IRQ            4>,
 
