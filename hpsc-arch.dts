@@ -131,9 +131,6 @@
         <0 0 TRCH_IPI0_IRQ_0         &trch_nvic 0 TRCH_IPI0_IRQ_0         4>,
 #endif
 
-        <0 0 WDT_TRCH_ST1_IRQ        &trch_nvic 0 WDT_TRCH_ST1_IRQ        4>,
-        /* WDT_TRCH_ST2_IRQ not wired to NVIC, b/c LAST_TIMEOUT GPIO wired to HW reset */
-
         <0 0 TRCH_SMC_IRQ            &trch_nvic 0 TRCH_SMC_IRQ            4>,
 
         /* LSIO mailbox */
@@ -1360,10 +1357,14 @@
         trch_wdt: wdt@0x21002000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x21002000 0x1000 /* prio = */ 0x0>;
-            interrupts = <WDT_TRCH_ST1_IRQ WDT_TRCH_ST2_IRQ>;
             gpio-controller;
             #gpio-cells = <1>;
             /* GPIO outputs: LAST_TIMEOUT */
+
+            interrupts = <0 1>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map =    <0 0 0 &trch_nvic 0 WDT_TRCH_ST1_IRQ 4>
+                               /* stage two not wired to NVIC, since LAST_TIMEOUT is wired */;
         };
 
         to_rtps_wdt {
