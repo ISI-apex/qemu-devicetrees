@@ -1,3 +1,17 @@
+/* GICv3 IRQ types and configurations */
+
+#define GIC_SPI 0
+#define GIC_PPI 1
+
+#define GIC_EDGE_RISE 1
+#define GIC_EDGE_FALL 2
+#define GIC_EDGE_BOTH 3
+#define GIC_LVL_HI    4
+#define GIC_LVL_LO    8
+
+
+/* Bus master IDs */
+
 #define MASTER_ID_TRCH_CPU  0x2d
 
 #define MASTER_ID_RTPS_CPU0 0x2e
@@ -19,20 +33,12 @@
 #define MASTER_ID_SRIO0_DMA 0x878
 #define MASTER_ID_SRIO1_DMA 0x879
 
-/* TODO: renumber IRQs */
 
-#define HPPS_SMC_IRQ			 14
-#define TRCH_SMC_IRQ			 15
+/******** TRCH interrupt controller inputs **************/
 
 #define WDT_TRCH_ST1_IRQ                 17
-#define WDT_TRCH_ST2_IRQ                 18
-
 #define WDT_RTPS0_ST2_IRQ                19
 #define WDT_RTPS1_ST2_IRQ                20
-
-#define LSIO_UART0_IRQ_0		 21
-#define LSIO_UART1_IRQ_0		 22
-#define HPPS_UART0_IRQ_0		 23
 
 #define WDT_HPPS0_ST2_IRQ                24
 #define WDT_HPPS1_ST2_IRQ                25
@@ -43,13 +49,43 @@
 #define WDT_HPPS6_ST2_IRQ                30
 #define WDT_HPPS7_ST2_IRQ                31
 
-#define XGMAC_IRQ_0			 57
-#define XGMAC_IRQ_1_WAKE		 58
+#define LSIO_UART0_IRQ_0		 21
+
+/* #define LSIO_MAILBOX_IRQs  	        72-87 */
+/* #define HPPS_TRCH_MAILBOX_IRQs  	136-151 */
 
 #define TRCH_DMA_ABORT_IRQ		59
 #define TRCH_DMA_EV0_IRQ		60
+
+/* #define RT_SMMU_GLOB_IRQ             169 */
+/* #define RT_SMMU_CB_IRQ               170-185 */
+
+#define TRCH_SMC_IRQ			 15
+
+
+/******** RTPS interrupt controller inputs **************/
+
+#define LSIO_UART1_IRQ_0		 22 /* TODO: wire to RTPS intc */
+
+/* #define LSIO_MAILBOX_IRQs  	        72-87 */
+
 #define RTPS_DMA_ABORT_IRQ		61
 #define RTPS_DMA_EV0_IRQ		62
+
+/* #define RTPS_SMMU_GLOB_IRQ           186 */
+/* #define RTPS_SMMU_CB_IRQ             187-202 */
+
+
+
+/******** HPPS interrupt controller inputs **************/
+#define HPPS_UART0_IRQ_0		 23
+
+/* #define HPPS_TRCH_MAILBOX_IRQs  	136-151 */
+/* #define HPPS_RTPS_MAILBOX_IRQs  	203-218 */
+
+/* #define HPPS_SMMU_GLOB_IRQ           152 */
+/* #define HPPS_SMMU_CB_IRQ             153-168 */
+
 #define HPPS_DMA_ABORT_IRQ		63
 #define HPPS_DMA_EV0_IRQ		64
 #define SRIO0_DMA_ABORT_IRQ		65
@@ -57,21 +93,15 @@
 #define SRIO1_DMA_ABORT_IRQ		67
 #define SRIO1_DMA_EV0_IRQ		68
 
-#define RTPS_SMMU_IRQ			69
-#define HPPS_SMMU0_IRQ			70
-#define HPPS_SMMU1_IRQ			71
+#define XGMAC_IRQ_0			 57
+#define XGMAC_IRQ_1_WAKE		 58
 
-/* #define TRCH_MAILBOX_IRQs  	        72-87 */
-/* #define HPPS_TRCH_MAILBOX_IRQs  	136-151 */
-/* #define HPPS_SMMU_GLOB_IRQ           152 */
-/* #define HPPS_SMMU_CB_IRQ             153-168 */
-/* #define RT_SMMU_GLOB_IRQ             169 */
-/* #define RT_SMMU_CB_IRQ               170-185 */
-/* #define RTPS_SMMU_GLOB_IRQ           186 */
-/* #define RTPS_SMMU_CB_IRQ             187-202 */
-/* #define HPPS_RTPS_MAILBOX_IRQs  	203-218 */
+#define HPPS_SMC_IRQ			 14
 
-#define APU_IPI0_IRQ_0				35
+#define APU_IPI0_IRQ_0			35
+
+
+/*** HPPS and RTPS: GIC PPI IRQs ***/
 
 /* See Table 2-2 in ARM GIC Spec for recommended assignment,
    and note that PPI ID = INTID - GIC_NR_SGIS = INTID-16 */
@@ -83,21 +113,13 @@
 #define GIC_MAINT_PPI_IRQ                9
 #define WDT_PPI_IRQ                      8
 
+
 /* TODO: The secondary CPU entry point is normally set by PSCI
    code at time of reset request (also, the PSCI code uses the symbol instead
    of a raw address). However, the setting of rvbar CPU property is currently
    broken; so, for now, we define the entry point here. */
 #define HPPS_RESET_ADDR_PRIMARY_CPU   0x80000000 /* ATF bl31_entrypoint */
 #define HPPS_RESET_ADDR_SECONDARY_CPU 0x80000110 /* ATF bl31_warm_entrypoint */
-
-#define GIC_SPI 0
-#define GIC_PPI 1
-
-#define GIC_EDGE_RISE 1
-#define GIC_EDGE_FALL 2
-#define GIC_EDGE_BOTH 3
-#define GIC_LVL_HI    4
-#define GIC_LVL_LO    8
 
 /dts-v1/;
 
