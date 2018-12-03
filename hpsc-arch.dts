@@ -36,69 +36,69 @@
 
 /******** TRCH interrupt controller inputs **************/
 
-#define WDT_TRCH_ST1_IRQ                 17
-#define WDT_RTPS0_ST2_IRQ                19
-#define WDT_RTPS1_ST2_IRQ                20
+#define TRCH_IRQ__WDT_TRCH_ST1                  17
+#define TRCH_IRQ__WDT_RTPS0_ST2                 19
+#define TRCH_IRQ__WDT_RTPS1_ST2                 20
 
-#define WDT_HPPS0_ST2_IRQ                24
-#define WDT_HPPS1_ST2_IRQ                25
-#define WDT_HPPS2_ST2_IRQ                26
-#define WDT_HPPS3_ST2_IRQ                27
-#define WDT_HPPS4_ST2_IRQ                28
-#define WDT_HPPS5_ST2_IRQ                29
-#define WDT_HPPS6_ST2_IRQ                30
-#define WDT_HPPS7_ST2_IRQ                31
+#define TRCH_IRQ__WDT_HPPS0_ST2                 24
+#define TRCH_IRQ__WDT_HPPS1_ST2                 25
+#define TRCH_IRQ__WDT_HPPS2_ST2                 26
+#define TRCH_IRQ__WDT_HPPS3_ST2                 27
+#define TRCH_IRQ__WDT_HPPS4_ST2                 28
+#define TRCH_IRQ__WDT_HPPS5_ST2                 29
+#define TRCH_IRQ__WDT_HPPS6_ST2                 30
+#define TRCH_IRQ__WDT_HPPS7_ST2                 31
 
-#define LSIO_UART0_IRQ_0		 21
+#define TRCH_IRQ__LSIO_UART0		        21
 
-/* #define LSIO_MAILBOX_IRQs  	        72-87 */
-/* #define HPPS_TRCH_MAILBOX_IRQs  	136-151 */
+/* #define TRCH_IRQ__LSIO_MAILBOX               72-87 */
+/* #define TRCH_IRQ__HPPS_TRCH_MAILBOX         136-151 */
 
-#define TRCH_DMA_ABORT_IRQ		59
-#define TRCH_DMA_EV0_IRQ		60
+#define TRCH_IRQ__TRCH_DMA_ABORT		59
+#define TRCH_IRQ__TRCH_DMA_EV0		        60
 
-/* #define RT_SMMU_GLOB_IRQ             169 */
-/* #define RT_SMMU_CB_IRQ               170-185 */
+/* #define TRCH_IRQ__RT_SMMU_GLOB              169 */
+/* #define TRCH_IRQ__RT_SMMU_CB_IRQ            170-185 */
 
-#define TRCH_SMC_IRQ			 15
+#define TRCH_IRQ__TRCH_SMC                      15
 
 
 /******** RTPS interrupt controller inputs **************/
 
-#define LSIO_UART1_IRQ_0		 22
+#define RTPS_IRQ__LSIO_UART1		        22
 
-/* #define LSIO_MAILBOX_IRQs  	        72-87 */
+/* #define RTPS_IRQ__LSIO_MAILBOX  	        72-87 */
 
-#define RTPS_DMA_ABORT_IRQ		61
-#define RTPS_DMA_EV0_IRQ		62
+#define RTPS_IRQ__RTPS_DMA_ABORT		61
+#define RTPS_IRQ__RTPS_DMA_EV0		        62
 
-/* #define RTPS_SMMU_GLOB_IRQ           186 */
-/* #define RTPS_SMMU_CB_IRQ             187-202 */
-
+/* #define RTPS_IRQ__RTPS_SMMU_GLOB_IRQ        186 */
+/* #define RTPS_IRQ__RTPS_SMMU_CB_IRQ          187-202 */
 
 
 /******** HPPS interrupt controller inputs **************/
-#define HPPS_UART0_IRQ_0		 23
 
-/* #define HPPS_TRCH_MAILBOX_IRQs  	136-151 */
-/* #define HPPS_RTPS_MAILBOX_IRQs  	203-218 */
+#define HPPS_IRQ__HPPS_UART0		        23
 
-/* #define HPPS_SMMU_GLOB_IRQ           152 */
-/* #define HPPS_SMMU_CB_IRQ             153-168 */
+/* #define HPPS_IRQ__HPPS_TRCH_MAILBOX         136-151 */
+/* #define HPPS_IRQ__HPPS_RTPS_MAILBOX         203-218 */
 
-#define HPPS_DMA_ABORT_IRQ		63
-#define HPPS_DMA_EV0_IRQ		64
-#define SRIO0_DMA_ABORT_IRQ		65
-#define SRIO0_DMA_EV0_IRQ		66
-#define SRIO1_DMA_ABORT_IRQ		67
-#define SRIO1_DMA_EV0_IRQ		68
+/* #define HPPS_IRQ__HPPS_SMMU_GLOB            152 */
+/* #define HPPS_IRQ__HPPS_SMMU_CB              153-168 */
 
-#define XGMAC_IRQ_0			 57
-#define XGMAC_IRQ_1_WAKE		 58
+#define HPPS_IRQ__HPPS_DMA_ABORT		63
+#define HPPS_IRQ__HPPS_DMA_EV0		        64
+#define HPPS_IRQ__SRIO0_DMA_ABORT		65
+#define HPPS_IRQ__SRIO0_DMA_EV0		        66
+#define HPPS_IRQ__SRIO1_DMA_ABORT		67
+#define HPPS_IRQ__SRIO1_DMA_EV0		        68
 
-#define HPPS_SMC_IRQ			 14
+#define HPPS_IRQ__XGMAC			        57
+#define HPPS_IRQ__XGMAC_WAKE		        58
 
-#define APU_IPI0_IRQ_0			35
+#define HPPS_IRQ__HPPS_SMC                      14
+
+#define HPPS_IRQ__IPI0			        35
 
 
 /*** HPPS and RTPS: GIC PPI IRQs ***/
@@ -1048,7 +1048,7 @@
             reg = <0x0 0xff300000 0x0 0x1000 /* prio = */ 0x1>;
             #gpio-cells = <2>;
             interrupts = <0>;
-            interrupt-map = <0 0 0 &hpps_gic  GIC_SPI APU_IPI0_IRQ_0 GIC_LVL_HI>;
+            interrupt-map = <0 0 0 &hpps_gic  GIC_SPI HPPS_IRQ__IPI0 GIC_LVL_HI>;
             interrupt-map-mask = <0 0 0xffff>;
             num-gpios = <64>;
             interrupt-gpios = <&apu_ipi 0 0>;
@@ -1104,7 +1104,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &rtps_gic GIC_PPI WDT_PPI_IRQ 0x0108>,
-                               <0 0 1 &trch_nvic WDT_RTPS0_ST2_IRQ>;
+                               <0 0 1 &trch_nvic TRCH_IRQ__WDT_RTPS0_ST2>;
         };
         rtps_wdt1: wdt@0x1000 {
             compatible = "hpsc,hpsc-wdt";
@@ -1112,7 +1112,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &rtps_gic GIC_PPI WDT_PPI_IRQ 0x0208>,
-                               <0 0 1 &trch_nvic WDT_RTPS1_ST2_IRQ>;
+                               <0 0 1 &trch_nvic TRCH_IRQ__WDT_RTPS1_ST2>;
         };
     };
 
@@ -1125,7 +1125,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x0108>,
-                               <0 0 1 &trch_nvic WDT_HPPS0_ST2_IRQ>;
+                               <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS0_ST2>;
         };
         hpps_wdt1: wdt@0x10000 {
             compatible = "hpsc,hpsc-wdt";
@@ -1133,7 +1133,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x0208>,
-                               <0 0 1 &trch_nvic WDT_HPPS1_ST2_IRQ>;
+                               <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS1_ST2>;
         };
         hpps_wdt2: wdt@0x20000 {
             compatible = "hpsc,hpsc-wdt";
@@ -1141,7 +1141,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x0408>,
-                               <0 0 1 &trch_nvic WDT_HPPS2_ST2_IRQ>;
+                               <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS2_ST2>;
         };
         hpps_wdt3: wdt@0x30000 {
             compatible = "hpsc,hpsc-wdt";
@@ -1149,7 +1149,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x0808>,
-                               <0 0 1 &trch_nvic WDT_HPPS3_ST2_IRQ>;
+                               <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS3_ST2>;
         };
         hpps_wdt4: wdt@0x40000  {
             compatible = "hpsc,hpsc-wdt";
@@ -1157,7 +1157,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x1008>,
-                               <0 0 1 &trch_nvic WDT_HPPS4_ST2_IRQ>;
+                               <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS4_ST2>;
         };
         hpps_wdt5: wdt@0x50000 {
             compatible = "hpsc,hpsc-wdt";
@@ -1165,7 +1165,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x2008>,
-                               <0 0 1 &trch_nvic WDT_HPPS5_ST2_IRQ>;
+                               <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS5_ST2>;
         };
         hpps_wdt6: wdt@0x60000 {
             compatible = "hpsc,hpsc-wdt";
@@ -1173,7 +1173,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x4008>,
-                               <0 0 1 &trch_nvic WDT_HPPS6_ST2_IRQ>;
+                               <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS6_ST2>;
         };
         hpps_wdt7: wdt@0x70000 {
             compatible = "hpsc,hpsc-wdt";
@@ -1181,7 +1181,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x8008>,
-                               <0 0 1 &trch_nvic WDT_HPPS7_ST2_IRQ>;
+                               <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS7_ST2>;
         };
     };
 
@@ -1208,8 +1208,8 @@
             reg = <0x21000000 0x1000 /* prio= */ 0x0>;
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &trch_nvic TRCH_DMA_ABORT_IRQ>,
-                            <0 0 1 &trch_nvic TRCH_DMA_EV0_IRQ>; /* count must match num_events */
+            interrupt-map = <0 0 0 &trch_nvic TRCH_IRQ__TRCH_DMA_ABORT>,
+                            <0 0 1 &trch_nvic TRCH_IRQ__TRCH_DMA_EV0>; /* count must match num_events */
             #dma-cells = <1>;
             dma = <&nic1>;
             memattr = <&trch_dma_memattr>;
@@ -1235,7 +1235,7 @@
 
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =    <0 0 0 &trch_nvic WDT_TRCH_ST1_IRQ>
+            interrupt-map =    <0 0 0 &trch_nvic TRCH_IRQ__WDT_TRCH_ST1>
                                /* stage two not wired to NVIC, since LAST_TIMEOUT is wired */;
         };
 
@@ -1338,8 +1338,8 @@
             reg = <0x30a08000 0x1000 /* prio= */ 0x0>;
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &rtps_gic GIC_SPI RTPS_DMA_ABORT_IRQ GIC_LVL_HI>,
-                            <0 0 1 &rtps_gic GIC_SPI RTPS_DMA_EV0_IRQ   GIC_LVL_HI>;
+            interrupt-map = <0 0 0 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_DMA_ABORT GIC_LVL_HI>,
+                            <0 0 1 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_DMA_EV0   GIC_LVL_HI>;
             #dma-cells = <1>;
             dma = <&rtps_smmu_tbu0>;
             memattr = <&rtps_dma_memattr>;
@@ -1391,7 +1391,7 @@
             current-speed = <115200>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &trch_nvic LSIO_UART0_IRQ_0>;
+            interrupt-map = <0 0 0 &trch_nvic TRCH_IRQ__LSIO_UART0>;
             port-number = <0>;
             xlnx,has-modem = <0x0>;
             xlnx,uart-clk-freq-hz = <50000000>;
@@ -1406,7 +1406,7 @@
             current-speed = <115200>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &rtps_gic GIC_SPI LSIO_UART1_IRQ_0 GIC_LVL_HI>;
+            interrupt-map = <0 0 0 &rtps_gic GIC_SPI RTPS_IRQ__LSIO_UART1 GIC_LVL_HI>;
             port-number = <0>;
             xlnx,has-modem = <0x0>;
             xlnx,uart-clk-freq-hz = <50000000>;
@@ -1423,7 +1423,7 @@
             reg = <0x30009000 0x1000 /* prio = */ 0x0>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =  <0 0 0 &trch_nvic TRCH_SMC_IRQ>;
+            interrupt-map =  <0 0 0 &trch_nvic TRCH_IRQ__TRCH_SMC>;
             x = <3>;
             ranges ;
 	    trch_offchip_sram0: trch_offchip_sram0@0x28000000 {
@@ -1565,7 +1565,7 @@
             current-speed = <115200>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_UART0_IRQ_0 GIC_LVL_HI>;
+            interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_UART0 GIC_LVL_HI>;
             port-number = <1>;
             xlnx,has-modem = <0x0>;
             xlnx,uart-clk-freq-hz = <50000000>;
@@ -1582,7 +1582,7 @@
             reg = <0xf92d0000 0x1000 /* prio = */ 0x0>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_SMC_IRQ GIC_LVL_HI>;
+            interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMC GIC_LVL_HI>;
             x = <3>;
             ranges ;
 	    hpps_sram0: hpps_sram0@0x680000000 {
@@ -1680,8 +1680,8 @@
             reg = <0xf92e0000 0x1000 /* prio = */ 0x0>;
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_DMA_ABORT_IRQ GIC_LVL_HI>,
-                            <0 0 1 &hpps_gic GIC_SPI HPPS_DMA_EV0_IRQ   GIC_LVL_HI>;
+            interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_DMA_ABORT GIC_LVL_HI>,
+                            <0 0 1 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_DMA_EV0   GIC_LVL_HI>;
             #dma-cells = <1>;
             dma = <&hpps_smmu_tbu0>;
             memattr = <&hpps_dma_memattr>;
@@ -1705,8 +1705,8 @@
             reg = <0xe5310000 0x1000 /* prio = */ 0x0>;
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &hpps_gic GIC_SPI SRIO0_DMA_ABORT_IRQ GIC_LVL_HI>,
-                            <0 0 1 &hpps_gic GIC_SPI SRIO0_DMA_EV0_IRQ   GIC_LVL_HI>;
+            interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_IRQ__SRIO0_DMA_ABORT GIC_LVL_HI>,
+                            <0 0 1 &hpps_gic GIC_SPI HPPS_IRQ__SRIO0_DMA_EV0   GIC_LVL_HI>;
             #dma-cells = <1>;
             dma = <&hpps_smmu_tbu4>;
             memattr = <&srio0_dma_memattr>;
@@ -1730,8 +1730,8 @@
             reg = <0xe5330000 0x1000 /* prio = */ 0x0>;
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &hpps_gic GIC_SPI SRIO1_DMA_ABORT_IRQ GIC_LVL_HI>,
-                            <0 0 1 &hpps_gic GIC_SPI SRIO1_DMA_EV0_IRQ   GIC_LVL_HI>;
+            interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_IRQ__SRIO1_DMA_ABORT GIC_LVL_HI>,
+                            <0 0 1 &hpps_gic GIC_SPI HPPS_IRQ__SRIO1_DMA_EV0   GIC_LVL_HI>;
             #dma-cells = <1>;
             dma = <&hpps_smmu_tbu5>;
             memattr = <&srio1_dma_memattr>;
@@ -1759,8 +1759,8 @@
             compatible = "xlnx,ps7-ethernet-1.00.a", "cdns,gem";  /* TODO: change to Synopsys DWC_ether */
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &hpps_gic GIC_SPI XGMAC_IRQ_0      GIC_LVL_HI>,
-                            <0 0 1 &hpps_gic GIC_SPI XGMAC_IRQ_1_WAKE GIC_LVL_HI>;
+            interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_IRQ__XGMAC      GIC_LVL_HI>,
+                            <0 0 1 &hpps_gic GIC_SPI HPPS_IRQ__XGMAC_WAKE GIC_LVL_HI>;
             dma = <&hpps_smmu_tbu2>;
             memattr = <&xgmac_memattr>;
             local-mac-address = [00 0a 35 00 02 90];
