@@ -127,45 +127,45 @@
         /*                       TRCH                                          */
         /* 3-cell int specifier      int ctrl  ? input #              int type  */ 
 #if 0 /* check how these are used before adding */
-        <0 0 CRL_int_IRQ_0           &trch_nvic 0 CRL_int_IRQ_0           4>,
-        <0 0 TRCH_IPI0_IRQ_0         &trch_nvic 0 TRCH_IPI0_IRQ_0         4>,
+        <0 0 CRL_int_IRQ_0           &trch_nvic CRL_int_IRQ_0>,
+        <0 0 TRCH_IPI0_IRQ_0         &trch_nvic TRCH_IPI0_IRQ_0>,
 #endif
 
-        <0 0 TRCH_SMC_IRQ            &trch_nvic 0 TRCH_SMC_IRQ            4>,
+        <0 0 TRCH_SMC_IRQ            &trch_nvic TRCH_SMC_IRQ>,
 
         /* LSIO mailbox */
-        <0 0 72 &trch_nvic 0 72 4>, <0 0 73 &trch_nvic 0 73 4>,
-        <0 0 74 &trch_nvic 0 74 4>, <0 0 75 &trch_nvic 0 75 4>,
-        <0 0 76 &trch_nvic 0 76 4>, <0 0 77 &trch_nvic 0 77 4>,
-        <0 0 78 &trch_nvic 0 78 4>, <0 0 79 &trch_nvic 0 79 4>,
-        <0 0 80 &trch_nvic 0 80 4>, <0 0 81 &trch_nvic 0 81 4>,
-        <0 0 82 &trch_nvic 0 82 4>, <0 0 83 &trch_nvic 0 83 4>,
-        <0 0 84 &trch_nvic 0 84 4>, <0 0 85 &trch_nvic 0 85 4>,
-        <0 0 86 &trch_nvic 0 86 4>, <0 0 87 &trch_nvic 0 87 4>,
+        <0 0 72 &trch_nvic 0 72 4>, <0 0 73 &trch_nvic 73>,
+        <0 0 74 &trch_nvic 0 74 4>, <0 0 75 &trch_nvic 75>,
+        <0 0 76 &trch_nvic 0 76 4>, <0 0 77 &trch_nvic 77>,
+        <0 0 78 &trch_nvic 0 78 4>, <0 0 79 &trch_nvic 79>,
+        <0 0 80 &trch_nvic 0 80 4>, <0 0 81 &trch_nvic 81>,
+        <0 0 82 &trch_nvic 0 82 4>, <0 0 83 &trch_nvic 83>,
+        <0 0 84 &trch_nvic 0 84 4>, <0 0 85 &trch_nvic 85>,
+        <0 0 86 &trch_nvic 0 86 4>, <0 0 87 &trch_nvic 87>,
 
         /* HPPS-TRCH mailbox */
-        <0 0 136 &trch_nvic 0 136 4>, <0 0 137 &trch_nvic 0 137 4>,
-        <0 0 138 &trch_nvic 0 138 4>, <0 0 139 &trch_nvic 0 139 4>,
-        <0 0 140 &trch_nvic 0 140 4>, <0 0 141 &trch_nvic 0 141 4>,
-        <0 0 142 &trch_nvic 0 142 4>, <0 0 143 &trch_nvic 0 143 4>,
-        <0 0 144 &trch_nvic 0 144 4>, <0 0 145 &trch_nvic 0 145 4>,
-        <0 0 146 &trch_nvic 0 146 4>, <0 0 147 &trch_nvic 0 147 4>,
-        <0 0 148 &trch_nvic 0 148 4>, <0 0 149 &trch_nvic 0 149 4>,
-        <0 0 150 &trch_nvic 0 150 4>, <0 0 151 &trch_nvic 0 151 4>,
+        <0 0 136 &trch_nvic 0 136 4>, <0 0 137 &trch_nvic 137>,
+        <0 0 138 &trch_nvic 0 138 4>, <0 0 139 &trch_nvic 139>,
+        <0 0 140 &trch_nvic 0 140 4>, <0 0 141 &trch_nvic 141>,
+        <0 0 142 &trch_nvic 0 142 4>, <0 0 143 &trch_nvic 143>,
+        <0 0 144 &trch_nvic 0 144 4>, <0 0 145 &trch_nvic 145>,
+        <0 0 146 &trch_nvic 0 146 4>, <0 0 147 &trch_nvic 147>,
+        <0 0 148 &trch_nvic 0 148 4>, <0 0 149 &trch_nvic 149>,
+        <0 0 150 &trch_nvic 0 150 4>, <0 0 151 &trch_nvic 151>,
 
         /* RTPS/TRCH->HPPS (RT) SMMU */
         <0 0 169 &trch_nvic 0 169 4>,
-        <0 0 170 &trch_nvic 0 170 4>, <0 0 171 &trch_nvic 0 171 4>,
-        <0 0 172 &trch_nvic 0 172 4>, <0 0 173 &trch_nvic 0 173 4>,
-        <0 0 174 &trch_nvic 0 174 4>, <0 0 175 &trch_nvic 0 175 4>,
-        <0 0 176 &trch_nvic 0 176 4>, <0 0 177 &trch_nvic 0 177 4>,
-        <0 0 178 &trch_nvic 0 178 4>, <0 0 179 &trch_nvic 0 179 4>,
-        <0 0 180 &trch_nvic 0 180 4>, <0 0 181 &trch_nvic 0 181 4>,
-        <0 0 182 &trch_nvic 0 182 4>, <0 0 183 &trch_nvic 0 183 4>,
-        <0 0 184 &trch_nvic 0 184 4>, <0 0 185 &trch_nvic 0 185 4>,
+        <0 0 170 &trch_nvic 0 170 4>, <0 0 171 &trch_nvic 171>,
+        <0 0 172 &trch_nvic 0 172 4>, <0 0 173 &trch_nvic 173>,
+        <0 0 174 &trch_nvic 0 174 4>, <0 0 175 &trch_nvic 175>,
+        <0 0 176 &trch_nvic 0 176 4>, <0 0 177 &trch_nvic 177>,
+        <0 0 178 &trch_nvic 0 178 4>, <0 0 179 &trch_nvic 179>,
+        <0 0 180 &trch_nvic 0 180 4>, <0 0 181 &trch_nvic 181>,
+        <0 0 182 &trch_nvic 0 182 4>, <0 0 183 &trch_nvic 183>,
+        <0 0 184 &trch_nvic 0 184 4>, <0 0 185 &trch_nvic 185>,
 
-        <0 0 TRCH_DMA_ABORT_IRQ      &trch_nvic 0 TRCH_DMA_ABORT_IRQ        4>,
-        <0 0 TRCH_DMA_EV0_IRQ        &trch_nvic 0 TRCH_DMA_EV0_IRQ          4>,
+        <0 0 TRCH_DMA_ABORT_IRQ      &trch_nvic TRCH_DMA_ABORT_IRQ>,
+        <0 0 TRCH_DMA_EV0_IRQ        &trch_nvic TRCH_DMA_EV0_IRQ>,
 
         /*                       RTPS                                          */
         /* 3-cell int specifier      int ctrl   ? input #              int type  */ 
@@ -818,7 +818,7 @@
         trch_nvic: interrupt-controller@0xe000e000  {
             compatible = "arm,armv7m_nvic";
             interrupt-controller;
-            #interrupt-cells = <3>;
+            #interrupt-cells = <1>;
             reg = <0xe000e000 0x420 /* prio = */ 0x0>;
             num-irq = <256>;
             cpu-id = <0>; /* TODO: could this be a ref to the cpu node? */
@@ -1234,7 +1234,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &rtps_gic GIC_PPI WDT_PPI_IRQ 0x0108>,
-                               <0 0 1 &trch_nvic 0 WDT_RTPS0_ST2_IRQ 4>;
+                               <0 0 1 &trch_nvic WDT_RTPS0_ST2_IRQ>;
         };
         rtps_wdt1: wdt@0x1000 {
             compatible = "hpsc,hpsc-wdt";
@@ -1242,7 +1242,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &rtps_gic GIC_PPI WDT_PPI_IRQ 0x0208>,
-                               <0 0 1 &trch_nvic 0 WDT_RTPS1_ST2_IRQ 4>;
+                               <0 0 1 &trch_nvic WDT_RTPS1_ST2_IRQ>;
         };
     };
 
@@ -1255,7 +1255,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x0108>,
-                               <0 0 1 &trch_nvic 0 WDT_HPPS0_ST2_IRQ 4>;
+                               <0 0 1 &trch_nvic WDT_HPPS0_ST2_IRQ>;
         };
         hpps_wdt1: wdt@0x10000 {
             compatible = "hpsc,hpsc-wdt";
@@ -1263,7 +1263,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x0208>,
-                               <0 0 1 &trch_nvic 0 WDT_HPPS1_ST2_IRQ 4>;
+                               <0 0 1 &trch_nvic WDT_HPPS1_ST2_IRQ>;
         };
         hpps_wdt2: wdt@0x20000 {
             compatible = "hpsc,hpsc-wdt";
@@ -1271,7 +1271,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x0408>,
-                               <0 0 1 &trch_nvic 0 WDT_HPPS2_ST2_IRQ 4>;
+                               <0 0 1 &trch_nvic WDT_HPPS2_ST2_IRQ>;
         };
         hpps_wdt3: wdt@0x30000 {
             compatible = "hpsc,hpsc-wdt";
@@ -1279,7 +1279,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x0808>,
-                               <0 0 1 &trch_nvic 0 WDT_HPPS3_ST2_IRQ 4>;
+                               <0 0 1 &trch_nvic WDT_HPPS3_ST2_IRQ>;
         };
         hpps_wdt4: wdt@0x40000  {
             compatible = "hpsc,hpsc-wdt";
@@ -1287,7 +1287,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x1008>,
-                               <0 0 1 &trch_nvic 0 WDT_HPPS4_ST2_IRQ 4>;
+                               <0 0 1 &trch_nvic WDT_HPPS4_ST2_IRQ>;
         };
         hpps_wdt5: wdt@0x50000 {
             compatible = "hpsc,hpsc-wdt";
@@ -1295,7 +1295,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x2008>,
-                               <0 0 1 &trch_nvic 0 WDT_HPPS5_ST2_IRQ 4>;
+                               <0 0 1 &trch_nvic WDT_HPPS5_ST2_IRQ>;
         };
         hpps_wdt6: wdt@0x60000 {
             compatible = "hpsc,hpsc-wdt";
@@ -1303,7 +1303,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x4008>,
-                               <0 0 1 &trch_nvic 0 WDT_HPPS6_ST2_IRQ 4>;
+                               <0 0 1 &trch_nvic WDT_HPPS6_ST2_IRQ>;
         };
         hpps_wdt7: wdt@0x70000 {
             compatible = "hpsc,hpsc-wdt";
@@ -1311,7 +1311,7 @@
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x8008>,
-                               <0 0 1 &trch_nvic 0 WDT_HPPS7_ST2_IRQ 4>;
+                               <0 0 1 &trch_nvic WDT_HPPS7_ST2_IRQ>;
         };
     };
 
@@ -1363,7 +1363,7 @@
 
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =    <0 0 0 &trch_nvic 0 WDT_TRCH_ST1_IRQ 4>
+            interrupt-map =    <0 0 0 &trch_nvic WDT_TRCH_ST1_IRQ>
                                /* stage two not wired to NVIC, since LAST_TIMEOUT is wired */;
         };
 
