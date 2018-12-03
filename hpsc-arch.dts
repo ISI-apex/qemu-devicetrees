@@ -93,8 +93,8 @@
    code at time of reset request (also, the PSCI code uses the symbol instead
    of a raw address). However, the setting of rvbar CPU property is currently
    broken; so, for now, we define the entry point here. */
-#define HPPS_RESET_ADDR_PRIMARY_CPU   0xfffda000 /* ATF bl31_entrypoint */
-#define HPPS_RESET_ADDR_SECONDARY_CPU 0xfffda110 /* ATF bl31_warm_entrypoint */
+#define HPPS_RESET_ADDR_PRIMARY_CPU   0x80000000 /* ATF bl31_entrypoint */
+#define HPPS_RESET_ADDR_SECONDARY_CPU 0x80000110 /* ATF bl31_warm_entrypoint */
 
 #define GIC_SPI 0
 #define GIC_PPI 1
@@ -1197,20 +1197,6 @@
             num-gpios = <64>;
             interrupt-gpios = <&apu_ipi 0 0>;
             gpios = <&apu_ipi 32 0>;
-        };
-
-        /* TODO: this will go away: no OCM on Chiplet */
-        hpps_rom: hpps_rom@0x00000000 {
-            compatible = "qemu:memory-region";
-            qemu,ram = <1>;
-            reg = <0x0 0x00000000 0x0 0x40000 /* prio = */ 0x1>;
-        };
-
-        /* TODO: this will go away: no OCM on Chiplet */
-        hpps_sram: hpps_sram@0xfffc0000 {
-            compatible = "qemu:memory-region";
-            qemu,ram = <1>;
-            reg = <0x0 0xfffc0000 0x0 0x40000 /* prio = */ 0x1>;
         };
 
         to_hpps_wdt { /* A wormhole in HW, there's no path to nic1 */
