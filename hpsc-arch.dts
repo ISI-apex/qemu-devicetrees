@@ -1258,7 +1258,7 @@
             reg = <0x1000 0x1000 /* prio = */ 0x0>;
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =    <0 0 0 &rtps_gic GIC_PPI WDT_PPI_IRQ 0x0108>,
+            interrupt-map =    <0 0 0 &rtps_gic GIC_PPI WDT_PPI_IRQ 0x0208>,
                                <0 0 1 &trch_nvic 0 WDT_RTPS1_ST2_IRQ 4>;
         };
     };
