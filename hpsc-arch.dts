@@ -1371,16 +1371,17 @@
                             <0 0  2 &trch_nvic 74>, <0 0  2 &rtps_gic GIC_SPI 74 GIC_LVL_HI>,
                             <0 0  3 &trch_nvic 75>, <0 0  3 &rtps_gic GIC_SPI 75 GIC_LVL_HI>,
                             <0 0  4 &trch_nvic 76>, <0 0  4 &rtps_gic GIC_SPI 76 GIC_LVL_HI>,
-                            <0 0  6 &trch_nvic 77>, <0 0  6 &rtps_gic GIC_SPI 77 GIC_LVL_HI>,
-                            <0 0  7 &trch_nvic 76>, <0 0  7 &rtps_gic GIC_SPI 76 GIC_LVL_HI>,
-                            <0 0  8 &trch_nvic 77>, <0 0  8 &rtps_gic GIC_SPI 77 GIC_LVL_HI>,
-                            <0 0  9 &trch_nvic 78>, <0 0  9 &rtps_gic GIC_SPI 78 GIC_LVL_HI>,
-                            <0 0 10 &trch_nvic 79>, <0 0 10 &rtps_gic GIC_SPI 79 GIC_LVL_HI>,
-                            <0 0 11 &trch_nvic 80>, <0 0 11 &rtps_gic GIC_SPI 80 GIC_LVL_HI>,
-                            <0 0 12 &trch_nvic 81>, <0 0 12 &rtps_gic GIC_SPI 81 GIC_LVL_HI>,
-                            <0 0 13 &trch_nvic 82>, <0 0 13 &rtps_gic GIC_SPI 82 GIC_LVL_HI>,
-                            <0 0 14 &trch_nvic 83>, <0 0 14 &rtps_gic GIC_SPI 83 GIC_LVL_HI>,
-                            <0 0 15 &trch_nvic 84>, <0 0 15 &rtps_gic GIC_SPI 84 GIC_LVL_HI>;
+                            <0 0  5 &trch_nvic 77>, <0 0  5 &rtps_gic GIC_SPI 77 GIC_LVL_HI>,
+                            <0 0  6 &trch_nvic 78>, <0 0  6 &rtps_gic GIC_SPI 78 GIC_LVL_HI>,
+                            <0 0  7 &trch_nvic 79>, <0 0  7 &rtps_gic GIC_SPI 79 GIC_LVL_HI>,
+                            <0 0  8 &trch_nvic 80>, <0 0  8 &rtps_gic GIC_SPI 80 GIC_LVL_HI>,
+                            <0 0  9 &trch_nvic 81>, <0 0  9 &rtps_gic GIC_SPI 81 GIC_LVL_HI>,
+                            <0 0 10 &trch_nvic 82>, <0 0 10 &rtps_gic GIC_SPI 82 GIC_LVL_HI>,
+                            <0 0 11 &trch_nvic 83>, <0 0 11 &rtps_gic GIC_SPI 83 GIC_LVL_HI>,
+                            <0 0 12 &trch_nvic 84>, <0 0 12 &rtps_gic GIC_SPI 84 GIC_LVL_HI>,
+                            <0 0 13 &trch_nvic 85>, <0 0 13 &rtps_gic GIC_SPI 85 GIC_LVL_HI>,
+                            <0 0 14 &trch_nvic 86>, <0 0 14 &rtps_gic GIC_SPI 86 GIC_LVL_HI>,
+                            <0 0 15 &trch_nvic 87>, <0 0 15 &rtps_gic GIC_SPI 87 GIC_LVL_HI>;
 
             reg = <0x3000a000 0x1000 /* prio = */ 0x0>;
         };
@@ -1522,16 +1523,17 @@
                             <0 0  2 &hpps_gic GIC_SPI 138 GIC_LVL_HI>, <0 0  2 &trch_nvic 138>,
                             <0 0  3 &hpps_gic GIC_SPI 139 GIC_LVL_HI>, <0 0  3 &trch_nvic 139>,
                             <0 0  4 &hpps_gic GIC_SPI 140 GIC_LVL_HI>, <0 0  4 &trch_nvic 140>,
-                            <0 0  6 &hpps_gic GIC_SPI 141 GIC_LVL_HI>, <0 0  6 &trch_nvic 141>,
-                            <0 0  7 &hpps_gic GIC_SPI 142 GIC_LVL_HI>, <0 0  7 &trch_nvic 142>,
-                            <0 0  8 &hpps_gic GIC_SPI 143 GIC_LVL_HI>, <0 0  8 &trch_nvic 143>,
-                            <0 0  9 &hpps_gic GIC_SPI 144 GIC_LVL_HI>, <0 0  9 &trch_nvic 144>,
-                            <0 0 10 &hpps_gic GIC_SPI 145 GIC_LVL_HI>, <0 0 10 &trch_nvic 145>,
-                            <0 0 11 &hpps_gic GIC_SPI 146 GIC_LVL_HI>, <0 0 11 &trch_nvic 146>,
-                            <0 0 12 &hpps_gic GIC_SPI 147 GIC_LVL_HI>, <0 0 12 &trch_nvic 147>,
-                            <0 0 13 &hpps_gic GIC_SPI 148 GIC_LVL_HI>, <0 0 13 &trch_nvic 148>,
-                            <0 0 14 &hpps_gic GIC_SPI 149 GIC_LVL_HI>, <0 0 14 &trch_nvic 149>,
-                            <0 0 15 &hpps_gic GIC_SPI 150 GIC_LVL_HI>, <0 0 15 &trch_nvic 150>;
+                            <0 0  5 &hpps_gic GIC_SPI 141 GIC_LVL_HI>, <0 0  5 &trch_nvic 141>,
+                            <0 0  6 &hpps_gic GIC_SPI 142 GIC_LVL_HI>, <0 0  6 &trch_nvic 142>,
+                            <0 0  7 &hpps_gic GIC_SPI 143 GIC_LVL_HI>, <0 0  7 &trch_nvic 143>,
+                            <0 0  8 &hpps_gic GIC_SPI 144 GIC_LVL_HI>, <0 0  8 &trch_nvic 144>,
+                            <0 0  9 &hpps_gic GIC_SPI 145 GIC_LVL_HI>, <0 0  9 &trch_nvic 145>,
+                            <0 0 10 &hpps_gic GIC_SPI 146 GIC_LVL_HI>, <0 0 10 &trch_nvic 146>,
+                            <0 0 11 &hpps_gic GIC_SPI 147 GIC_LVL_HI>, <0 0 11 &trch_nvic 147>,
+                            <0 0 12 &hpps_gic GIC_SPI 148 GIC_LVL_HI>, <0 0 12 &trch_nvic 148>,
+                            <0 0 13 &hpps_gic GIC_SPI 149 GIC_LVL_HI>, <0 0 13 &trch_nvic 149>,
+                            <0 0 14 &hpps_gic GIC_SPI 150 GIC_LVL_HI>, <0 0 14 &trch_nvic 150>,
+                            <0 0 15 &hpps_gic GIC_SPI 151 GIC_LVL_HI>, <0 0 15 &trch_nvic 151>;
 
             reg = <0xfff50000 0x1000 /* prio = */ 0x0>;
         };
@@ -1545,16 +1547,17 @@
                             <0 0  2 &hpps_gic GIC_SPI 205 GIC_LVL_HI>, <0 0  2 &rtps_gic GIC_SPI 205 GIC_LVL_HI>,
                             <0 0  3 &hpps_gic GIC_SPI 206 GIC_LVL_HI>, <0 0  3 &rtps_gic GIC_SPI 206 GIC_LVL_HI>,
                             <0 0  4 &hpps_gic GIC_SPI 207 GIC_LVL_HI>, <0 0  4 &rtps_gic GIC_SPI 207 GIC_LVL_HI>,
-                            <0 0  6 &hpps_gic GIC_SPI 208 GIC_LVL_HI>, <0 0  6 &rtps_gic GIC_SPI 208 GIC_LVL_HI>,
-                            <0 0  7 &hpps_gic GIC_SPI 209 GIC_LVL_HI>, <0 0  7 &rtps_gic GIC_SPI 209 GIC_LVL_HI>,
-                            <0 0  8 &hpps_gic GIC_SPI 210 GIC_LVL_HI>, <0 0  8 &rtps_gic GIC_SPI 210 GIC_LVL_HI>,
-                            <0 0  9 &hpps_gic GIC_SPI 211 GIC_LVL_HI>, <0 0  9 &rtps_gic GIC_SPI 211 GIC_LVL_HI>,
-                            <0 0 10 &hpps_gic GIC_SPI 212 GIC_LVL_HI>, <0 0 10 &rtps_gic GIC_SPI 212 GIC_LVL_HI>,
-                            <0 0 11 &hpps_gic GIC_SPI 213 GIC_LVL_HI>, <0 0 11 &rtps_gic GIC_SPI 213 GIC_LVL_HI>,
-                            <0 0 12 &hpps_gic GIC_SPI 214 GIC_LVL_HI>, <0 0 12 &rtps_gic GIC_SPI 214 GIC_LVL_HI>,
-                            <0 0 13 &hpps_gic GIC_SPI 215 GIC_LVL_HI>, <0 0 13 &rtps_gic GIC_SPI 215 GIC_LVL_HI>,
-                            <0 0 14 &hpps_gic GIC_SPI 216 GIC_LVL_HI>, <0 0 14 &rtps_gic GIC_SPI 216 GIC_LVL_HI>,
-                            <0 0 15 &hpps_gic GIC_SPI 217 GIC_LVL_HI>, <0 0 15 &rtps_gic GIC_SPI 217 GIC_LVL_HI>;
+                            <0 0  5 &hpps_gic GIC_SPI 208 GIC_LVL_HI>, <0 0  5 &rtps_gic GIC_SPI 208 GIC_LVL_HI>,
+                            <0 0  6 &hpps_gic GIC_SPI 209 GIC_LVL_HI>, <0 0  6 &rtps_gic GIC_SPI 209 GIC_LVL_HI>,
+                            <0 0  7 &hpps_gic GIC_SPI 210 GIC_LVL_HI>, <0 0  7 &rtps_gic GIC_SPI 210 GIC_LVL_HI>,
+                            <0 0  8 &hpps_gic GIC_SPI 211 GIC_LVL_HI>, <0 0  8 &rtps_gic GIC_SPI 211 GIC_LVL_HI>,
+                            <0 0  9 &hpps_gic GIC_SPI 212 GIC_LVL_HI>, <0 0  9 &rtps_gic GIC_SPI 212 GIC_LVL_HI>,
+                            <0 0 10 &hpps_gic GIC_SPI 213 GIC_LVL_HI>, <0 0 10 &rtps_gic GIC_SPI 213 GIC_LVL_HI>,
+                            <0 0 11 &hpps_gic GIC_SPI 214 GIC_LVL_HI>, <0 0 11 &rtps_gic GIC_SPI 214 GIC_LVL_HI>,
+                            <0 0 12 &hpps_gic GIC_SPI 215 GIC_LVL_HI>, <0 0 12 &rtps_gic GIC_SPI 215 GIC_LVL_HI>,
+                            <0 0 13 &hpps_gic GIC_SPI 216 GIC_LVL_HI>, <0 0 13 &rtps_gic GIC_SPI 216 GIC_LVL_HI>,
+                            <0 0 14 &hpps_gic GIC_SPI 217 GIC_LVL_HI>, <0 0 14 &rtps_gic GIC_SPI 217 GIC_LVL_HI>,
+                            <0 0 15 &hpps_gic GIC_SPI 218 GIC_LVL_HI>, <0 0 15 &rtps_gic GIC_SPI 218 GIC_LVL_HI>;
 
             reg = <0xfff60000 0x1000 /* prio = */ 0x0>;
         };
