@@ -1,3 +1,6 @@
+#include "hpsc-irqs.dtsh"
+#include "hpsc-busids.dtsh"
+
 /* GICv3 IRQ types and configurations */
 
 #define GIC_SPI 0
@@ -8,110 +11,6 @@
 #define GIC_EDGE_BOTH 3
 #define GIC_LVL_HI    4
 #define GIC_LVL_LO    8
-
-
-/* Bus master IDs */
-
-#define MASTER_ID_TRCH_CPU  0x2d
-
-#define MASTER_ID_RTPS_CPU0 0x2e
-#define MASTER_ID_RTPS_CPU1 0x2f
-
-#define MASTER_ID_HPPS_CPU0 0x80
-#define MASTER_ID_HPPS_CPU1 0x8d
-#define MASTER_ID_HPPS_CPU2 0x8e
-#define MASTER_ID_HPPS_CPU3 0x8f
-#define MASTER_ID_HPPS_CPU4 0x90
-#define MASTER_ID_HPPS_CPU5 0x9d
-#define MASTER_ID_HPPS_CPU6 0x9e
-#define MASTER_ID_HPPS_CPU7 0x9f
-
-#define MASTER_ID_XGMAC     0x874
-#define MASTER_ID_TRCH_DMA  0x875
-#define MASTER_ID_RTPS_DMA  0x876
-#define MASTER_ID_HPPS_DMA  0x877
-#define MASTER_ID_SRIO0_DMA 0x878
-#define MASTER_ID_SRIO1_DMA 0x879
-
-
-/******** TRCH interrupt controller inputs **************/
-
-#define TRCH_IRQ__WDT_TRCH_ST1                  17
-#define TRCH_IRQ__WDT_RTPS0_ST2                 19
-#define TRCH_IRQ__WDT_RTPS1_ST2                 20
-
-#define TRCH_IRQ__WDT_HPPS0_ST2                 24
-#define TRCH_IRQ__WDT_HPPS1_ST2                 25
-#define TRCH_IRQ__WDT_HPPS2_ST2                 26
-#define TRCH_IRQ__WDT_HPPS3_ST2                 27
-#define TRCH_IRQ__WDT_HPPS4_ST2                 28
-#define TRCH_IRQ__WDT_HPPS5_ST2                 29
-#define TRCH_IRQ__WDT_HPPS6_ST2                 30
-#define TRCH_IRQ__WDT_HPPS7_ST2                 31
-
-#define TRCH_IRQ__LSIO_UART0		        21
-
-/* #define TRCH_IRQ__LSIO_MAILBOX               72-87 */
-/* #define TRCH_IRQ__HPPS_TRCH_MAILBOX         136-151 */
-
-#define TRCH_IRQ__TRCH_DMA_ABORT		59
-#define TRCH_IRQ__TRCH_DMA_EV0		        60
-
-/* #define TRCH_IRQ__RT_SMMU_GLOB              169 */
-/* #define TRCH_IRQ__RT_SMMU_CB_IRQ            170-185 */
-
-#define TRCH_IRQ__TRCH_SMC                      15
-
-
-/******** RTPS interrupt controller inputs **************/
-
-#define RTPS_IRQ__LSIO_UART1		        22
-
-/* #define RTPS_IRQ__LSIO_MAILBOX  	        72-87 */
-
-#define RTPS_IRQ__RTPS_DMA_ABORT		61
-#define RTPS_IRQ__RTPS_DMA_EV0		        62
-
-/* #define RTPS_IRQ__RTPS_SMMU_GLOB_IRQ        186 */
-/* #define RTPS_IRQ__RTPS_SMMU_CB_IRQ          187-202 */
-
-
-/******** HPPS interrupt controller inputs **************/
-
-#define HPPS_IRQ__HPPS_UART0		        23
-
-/* #define HPPS_IRQ__HPPS_TRCH_MAILBOX         136-151 */
-/* #define HPPS_IRQ__HPPS_RTPS_MAILBOX         203-218 */
-
-/* #define HPPS_IRQ__HPPS_SMMU_GLOB            152 */
-/* #define HPPS_IRQ__HPPS_SMMU_CB              153-168 */
-
-#define HPPS_IRQ__HPPS_DMA_ABORT		63
-#define HPPS_IRQ__HPPS_DMA_EV0		        64
-#define HPPS_IRQ__SRIO0_DMA_ABORT		65
-#define HPPS_IRQ__SRIO0_DMA_EV0		        66
-#define HPPS_IRQ__SRIO1_DMA_ABORT		67
-#define HPPS_IRQ__SRIO1_DMA_EV0		        68
-
-#define HPPS_IRQ__XGMAC			        57
-#define HPPS_IRQ__XGMAC_WAKE		        58
-
-#define HPPS_IRQ__HPPS_SMC                      14
-
-#define HPPS_IRQ__IPI0			        35
-
-
-/*** HPPS and RTPS: GIC PPI IRQs ***/
-
-/* See Table 2-2 in ARM GIC Spec for recommended assignment,
-   and note that PPI ID = INTID - GIC_NR_SGIS = INTID-16 */
-#define TIMER_PHYS_PPI_IRQ              14
-#define TIMER_SEC_PPI_IRQ               13
-#define TIMER_VIRT_PPI_IRQ              11
-#define TIMER_HYP_PPI_IRQ               10
-
-#define GIC_MAINT_PPI_IRQ                9
-#define WDT_PPI_IRQ                      8
 
 
 /* TODO: The secondary CPU entry point is normally set by PSCI
@@ -238,9 +137,9 @@
                              /* ARMv8 Generic Timer output signals */
                              /* intc    type       idx      [31:8]=cpus bitmask
                                                             [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
-                             <&rtps_gic GIC_PPI TIMER_PHYS_PPI_IRQ 0x0108>, /* Physical Timer event            (ID 29 <= 16 + idx) */
-                             <&rtps_gic GIC_PPI TIMER_VIRT_PPI_IRQ 0x0108>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
-                             <&rtps_gic GIC_PPI TIMER_HYP_PPI_IRQ  0x0108>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
+                             <&rtps_gic GIC_PPI PPI_IRQ__TIMER_PHYS 0x0108>, /* Physical Timer event            (ID 29 <= 16 + idx) */
+                             <&rtps_gic GIC_PPI PPI_IRQ__TIMER_VIRT 0x0108>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
+                             <&rtps_gic GIC_PPI PPI_IRQ__TIMER_HYP  0x0108>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
                              /* TODO: wfi, gicv3-maintenance-interrupt, pmu-interrupt */
                 interrupt-names =
                              "timer_phys",
@@ -277,9 +176,9 @@
                              /* ARMv8 Generic Timer output signals */
                              /* intc    type       idx      [31:8]=cpus bitmask
                                                             [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
-                             <&rtps_gic GIC_PPI TIMER_PHYS_PPI_IRQ 0x0208>, /* Physical Timer event            (ID 29 <= 16 + idx) */
-                             <&rtps_gic GIC_PPI TIMER_VIRT_PPI_IRQ 0x0208>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
-                             <&rtps_gic GIC_PPI TIMER_HYP_PPI_IRQ  0x0208>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
+                             <&rtps_gic GIC_PPI PPI_IRQ__TIMER_PHYS 0x0208>, /* Physical Timer event            (ID 29 <= 16 + idx) */
+                             <&rtps_gic GIC_PPI PPI_IRQ__TIMER_VIRT 0x0208>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
+                             <&rtps_gic GIC_PPI PPI_IRQ__TIMER_HYP  0x0208>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
                              /* TODO: wfi, gicv3-maintenance-interrupt, pmu-interrupt */
                 interrupt-names =
                              "timer_phys",
@@ -773,8 +672,8 @@
                                set of input irq# = { num-irq - 16 + idx + 32*cpuidx | foreach cpuidx set in bitmask }
 
                          intc      type    idx                  bit[31:8]=bitmask of cpu set, bit[7:0]=cfg (8=level) */
-                        <&rtps_gic GIC_PPI GIC_MAINT_PPI_IRQ    0x0108>,
-                        <&rtps_gic GIC_PPI GIC_MAINT_PPI_IRQ    0x0208>;
+                        <&rtps_gic GIC_PPI PPI_IRQ__GIC_MAINT    0x0108>,
+                        <&rtps_gic GIC_PPI PPI_IRQ__GIC_MAINT    0x0208>;
         };
 
         /* TODO: dummy node enabled in SPLIT mode only, revise this when implementing lock/split modes */
@@ -1103,7 +1002,7 @@
             reg = <0x0 0x1000 /* prio = */ 0x0>;
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =    <0 0 0 &rtps_gic GIC_PPI WDT_PPI_IRQ 0x0108>,
+            interrupt-map =    <0 0 0 &rtps_gic GIC_PPI PPI_IRQ__WDT 0x0108>,
                                <0 0 1 &trch_nvic TRCH_IRQ__WDT_RTPS0_ST2>;
         };
         rtps_wdt1: wdt@0x1000 {
@@ -1111,7 +1010,7 @@
             reg = <0x1000 0x1000 /* prio = */ 0x0>;
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =    <0 0 0 &rtps_gic GIC_PPI WDT_PPI_IRQ 0x0208>,
+            interrupt-map =    <0 0 0 &rtps_gic GIC_PPI PPI_IRQ__WDT 0x0208>,
                                <0 0 1 &trch_nvic TRCH_IRQ__WDT_RTPS1_ST2>;
         };
     };
@@ -1124,7 +1023,7 @@
             reg = <0x0 0x10000 /* prio = */ 0x0>;
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x0108>,
+            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__WDT 0x0108>,
                                <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS0_ST2>;
         };
         hpps_wdt1: wdt@0x10000 {
@@ -1132,7 +1031,7 @@
             reg = <0x10000 0x10000 /* prio = */ 0x0>;
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x0208>,
+            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__WDT 0x0208>,
                                <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS1_ST2>;
         };
         hpps_wdt2: wdt@0x20000 {
@@ -1140,7 +1039,7 @@
             reg = <0x20000 0x10000 /* prio = */ 0x0>;
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x0408>,
+            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__WDT 0x0408>,
                                <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS2_ST2>;
         };
         hpps_wdt3: wdt@0x30000 {
@@ -1148,7 +1047,7 @@
             reg = <0x30000 0x10000 /* prio = */ 0x0>;
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x0808>,
+            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__WDT 0x0808>,
                                <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS3_ST2>;
         };
         hpps_wdt4: wdt@0x40000  {
@@ -1156,7 +1055,7 @@
             reg = <0x40000 0x10000 /* prio = */ 0x0>;
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x1008>,
+            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__WDT 0x1008>,
                                <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS4_ST2>;
         };
         hpps_wdt5: wdt@0x50000 {
@@ -1164,7 +1063,7 @@
             reg = <0x50000 0x10000 /* prio = */ 0x0>;
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x2008>,
+            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__WDT 0x2008>,
                                <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS5_ST2>;
         };
         hpps_wdt6: wdt@0x60000 {
@@ -1172,7 +1071,7 @@
             reg = <0x60000 0x10000 /* prio = */ 0x0>;
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x4008>,
+            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__WDT 0x4008>,
                                <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS6_ST2>;
         };
         hpps_wdt7: wdt@0x70000 {
@@ -1180,7 +1079,7 @@
             reg = <0x70000 0x10000 /* prio = */ 0x0>;
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI WDT_PPI_IRQ 0x8008>,
+            interrupt-map =    <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__WDT 0x8008>,
                                <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS7_ST2>;
         };
     };
@@ -1301,23 +1200,23 @@
             interrupts = <0 /* global irq */
                           1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16>; /* context irqs (16 contexts hardcoded in model */
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0  0 &rtps_gic GIC_SPI 186 GIC_LVL_HI>,
-                            <0 0  1 &rtps_gic GIC_SPI 187 GIC_LVL_HI>,
-                            <0 0  2 &rtps_gic GIC_SPI 188 GIC_LVL_HI>,
-                            <0 0  3 &rtps_gic GIC_SPI 155 GIC_LVL_HI>,
-                            <0 0  4 &rtps_gic GIC_SPI 189 GIC_LVL_HI>,
-                            <0 0  5 &rtps_gic GIC_SPI 157 GIC_LVL_HI>,
-                            <0 0  6 &rtps_gic GIC_SPI 191 GIC_LVL_HI>,
-                            <0 0  7 &rtps_gic GIC_SPI 192 GIC_LVL_HI>,
-                            <0 0  8 &rtps_gic GIC_SPI 193 GIC_LVL_HI>,
-                            <0 0  9 &rtps_gic GIC_SPI 194 GIC_LVL_HI>,
-                            <0 0 10 &rtps_gic GIC_SPI 195 GIC_LVL_HI>,
-                            <0 0 11 &rtps_gic GIC_SPI 196 GIC_LVL_HI>,
-                            <0 0 12 &rtps_gic GIC_SPI 197 GIC_LVL_HI>,
-                            <0 0 13 &rtps_gic GIC_SPI 198 GIC_LVL_HI>,
-                            <0 0 14 &rtps_gic GIC_SPI 199 GIC_LVL_HI>,
-                            <0 0 15 &rtps_gic GIC_SPI 200 GIC_LVL_HI>,
-                            <0 0 16 &rtps_gic GIC_SPI 202 GIC_LVL_HI>;
+            interrupt-map = <0 0  0 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_GLOB  GIC_LVL_HI>,
+                            <0 0  1 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_0  GIC_LVL_HI>,
+                            <0 0  2 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_1  GIC_LVL_HI>,
+                            <0 0  3 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_2  GIC_LVL_HI>,
+                            <0 0  4 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_3  GIC_LVL_HI>,
+                            <0 0  5 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_4  GIC_LVL_HI>,
+                            <0 0  6 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_5  GIC_LVL_HI>,
+                            <0 0  7 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_6  GIC_LVL_HI>,
+                            <0 0  8 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_7  GIC_LVL_HI>,
+                            <0 0  9 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_8  GIC_LVL_HI>,
+                            <0 0 10 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_9  GIC_LVL_HI>,
+                            <0 0 11 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_10 GIC_LVL_HI>,
+                            <0 0 12 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_11 GIC_LVL_HI>,
+                            <0 0 13 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_12 GIC_LVL_HI>,
+                            <0 0 14 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_13 GIC_LVL_HI>,
+                            <0 0 15 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_14 GIC_LVL_HI>,
+                            <0 0 16 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_15 GIC_LVL_HI>;
 
             /* dma:  points to the MR used for PTWs.  */
             dma = <&nic3>;
@@ -1366,22 +1265,22 @@
             compatible = "hpsc,hpsc-mbox";
             interrupts = <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0  0 &trch_nvic 72>, <0 0  0 &rtps_gic GIC_SPI 72 GIC_LVL_HI>,
-                            <0 0  1 &trch_nvic 73>, <0 0  1 &rtps_gic GIC_SPI 73 GIC_LVL_HI>,
-                            <0 0  2 &trch_nvic 74>, <0 0  2 &rtps_gic GIC_SPI 74 GIC_LVL_HI>,
-                            <0 0  3 &trch_nvic 75>, <0 0  3 &rtps_gic GIC_SPI 75 GIC_LVL_HI>,
-                            <0 0  4 &trch_nvic 76>, <0 0  4 &rtps_gic GIC_SPI 76 GIC_LVL_HI>,
-                            <0 0  5 &trch_nvic 77>, <0 0  5 &rtps_gic GIC_SPI 77 GIC_LVL_HI>,
-                            <0 0  6 &trch_nvic 78>, <0 0  6 &rtps_gic GIC_SPI 78 GIC_LVL_HI>,
-                            <0 0  7 &trch_nvic 79>, <0 0  7 &rtps_gic GIC_SPI 79 GIC_LVL_HI>,
-                            <0 0  8 &trch_nvic 80>, <0 0  8 &rtps_gic GIC_SPI 80 GIC_LVL_HI>,
-                            <0 0  9 &trch_nvic 81>, <0 0  9 &rtps_gic GIC_SPI 81 GIC_LVL_HI>,
-                            <0 0 10 &trch_nvic 82>, <0 0 10 &rtps_gic GIC_SPI 82 GIC_LVL_HI>,
-                            <0 0 11 &trch_nvic 83>, <0 0 11 &rtps_gic GIC_SPI 83 GIC_LVL_HI>,
-                            <0 0 12 &trch_nvic 84>, <0 0 12 &rtps_gic GIC_SPI 84 GIC_LVL_HI>,
-                            <0 0 13 &trch_nvic 85>, <0 0 13 &rtps_gic GIC_SPI 85 GIC_LVL_HI>,
-                            <0 0 14 &trch_nvic 86>, <0 0 14 &rtps_gic GIC_SPI 86 GIC_LVL_HI>,
-                            <0 0 15 &trch_nvic 87>, <0 0 15 &rtps_gic GIC_SPI 87 GIC_LVL_HI>;
+            interrupt-map = <0 0  0 &trch_nvic TRCH_IRQ__TR_MBOX_0>,  <0 0  0 &rtps_gic GIC_SPI RTPS_IRQ__TR_MBOX_0  GIC_LVL_HI>,
+                            <0 0  1 &trch_nvic TRCH_IRQ__TR_MBOX_1>,  <0 0  1 &rtps_gic GIC_SPI RTPS_IRQ__TR_MBOX_1  GIC_LVL_HI>,
+                            <0 0  2 &trch_nvic TRCH_IRQ__TR_MBOX_2>,  <0 0  2 &rtps_gic GIC_SPI RTPS_IRQ__TR_MBOX_2  GIC_LVL_HI>,
+                            <0 0  3 &trch_nvic TRCH_IRQ__TR_MBOX_3>,  <0 0  3 &rtps_gic GIC_SPI RTPS_IRQ__TR_MBOX_3  GIC_LVL_HI>,
+                            <0 0  4 &trch_nvic TRCH_IRQ__TR_MBOX_4>,  <0 0  4 &rtps_gic GIC_SPI RTPS_IRQ__TR_MBOX_4  GIC_LVL_HI>,
+                            <0 0  5 &trch_nvic TRCH_IRQ__TR_MBOX_5>,  <0 0  5 &rtps_gic GIC_SPI RTPS_IRQ__TR_MBOX_5  GIC_LVL_HI>,
+                            <0 0  6 &trch_nvic TRCH_IRQ__TR_MBOX_6>,  <0 0  6 &rtps_gic GIC_SPI RTPS_IRQ__TR_MBOX_6  GIC_LVL_HI>,
+                            <0 0  7 &trch_nvic TRCH_IRQ__TR_MBOX_7>,  <0 0  7 &rtps_gic GIC_SPI RTPS_IRQ__TR_MBOX_7  GIC_LVL_HI>,
+                            <0 0  8 &trch_nvic TRCH_IRQ__TR_MBOX_8>,  <0 0  8 &rtps_gic GIC_SPI RTPS_IRQ__TR_MBOX_8  GIC_LVL_HI>,
+                            <0 0  9 &trch_nvic TRCH_IRQ__TR_MBOX_9>,  <0 0  9 &rtps_gic GIC_SPI RTPS_IRQ__TR_MBOX_9  GIC_LVL_HI>,
+                            <0 0 10 &trch_nvic TRCH_IRQ__TR_MBOX_10>, <0 0 10 &rtps_gic GIC_SPI RTPS_IRQ__TR_MBOX_10 GIC_LVL_HI>,
+                            <0 0 11 &trch_nvic TRCH_IRQ__TR_MBOX_11>, <0 0 11 &rtps_gic GIC_SPI RTPS_IRQ__TR_MBOX_11 GIC_LVL_HI>,
+                            <0 0 12 &trch_nvic TRCH_IRQ__TR_MBOX_12>, <0 0 12 &rtps_gic GIC_SPI RTPS_IRQ__TR_MBOX_12 GIC_LVL_HI>,
+                            <0 0 13 &trch_nvic TRCH_IRQ__TR_MBOX_13>, <0 0 13 &rtps_gic GIC_SPI RTPS_IRQ__TR_MBOX_13 GIC_LVL_HI>,
+                            <0 0 14 &trch_nvic TRCH_IRQ__TR_MBOX_14>, <0 0 14 &rtps_gic GIC_SPI RTPS_IRQ__TR_MBOX_14 GIC_LVL_HI>,
+                            <0 0 15 &trch_nvic TRCH_IRQ__TR_MBOX_15>, <0 0 15 &rtps_gic GIC_SPI RTPS_IRQ__TR_MBOX_15 GIC_LVL_HI>;
 
             reg = <0x3000a000 0x1000 /* prio = */ 0x0>;
         };
@@ -1392,7 +1291,7 @@
             current-speed = <115200>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &trch_nvic TRCH_IRQ__LSIO_UART0>;
+            interrupt-map = <0 0 0 &trch_nvic TRCH_IRQ__LSIO_UART0_0>;
             port-number = <0>;
             xlnx,has-modem = <0x0>;
             xlnx,uart-clk-freq-hz = <50000000>;
@@ -1407,7 +1306,7 @@
             current-speed = <115200>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &rtps_gic GIC_SPI RTPS_IRQ__LSIO_UART1 GIC_LVL_HI>;
+            interrupt-map = <0 0 0 &rtps_gic GIC_SPI RTPS_IRQ__LSIO_UART1_0 GIC_LVL_HI>;
             port-number = <0>;
             xlnx,has-modem = <0x0>;
             xlnx,uart-clk-freq-hz = <50000000>;
@@ -1458,23 +1357,23 @@
             interrupts = <0 /* global irq */
                           1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16>; /* context irqs (16 contexts hardcoded in model) */
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0  0 &trch_nvic 169>,
-                            <0 0  1 &trch_nvic 170>,
-                            <0 0  2 &trch_nvic 171>,
-                            <0 0  3 &trch_nvic 172>,
-                            <0 0  4 &trch_nvic 173>,
-                            <0 0  5 &trch_nvic 174>,
-                            <0 0  6 &trch_nvic 175>,
-                            <0 0  7 &trch_nvic 176>,
-                            <0 0  8 &trch_nvic 177>,
-                            <0 0  9 &trch_nvic 178>,
-                            <0 0 10 &trch_nvic 179>,
-                            <0 0 11 &trch_nvic 180>,
-                            <0 0 12 &trch_nvic 181>,
-                            <0 0 13 &trch_nvic 182>,
-                            <0 0 14 &trch_nvic 183>,
-                            <0 0 15 &trch_nvic 184>,
-                            <0 0 16 &trch_nvic 185>;
+            interrupt-map = <0 0  0 &trch_nvic TRCH_IRQ__RT_SMMU_GLOB>,
+                            <0 0  1 &trch_nvic TRCH_IRQ__RT_SMMU_CB_0>,
+                            <0 0  2 &trch_nvic TRCH_IRQ__RT_SMMU_CB_1>,
+                            <0 0  3 &trch_nvic TRCH_IRQ__RT_SMMU_CB_2>,
+                            <0 0  4 &trch_nvic TRCH_IRQ__RT_SMMU_CB_3>,
+                            <0 0  5 &trch_nvic TRCH_IRQ__RT_SMMU_CB_4>,
+                            <0 0  6 &trch_nvic TRCH_IRQ__RT_SMMU_CB_5>,
+                            <0 0  7 &trch_nvic TRCH_IRQ__RT_SMMU_CB_6>,
+                            <0 0  8 &trch_nvic TRCH_IRQ__RT_SMMU_CB_7>,
+                            <0 0  9 &trch_nvic TRCH_IRQ__RT_SMMU_CB_8>,
+                            <0 0 10 &trch_nvic TRCH_IRQ__RT_SMMU_CB_9>,
+                            <0 0 11 &trch_nvic TRCH_IRQ__RT_SMMU_CB_10>,
+                            <0 0 12 &trch_nvic TRCH_IRQ__RT_SMMU_CB_11>,
+                            <0 0 13 &trch_nvic TRCH_IRQ__RT_SMMU_CB_12>,
+                            <0 0 14 &trch_nvic TRCH_IRQ__RT_SMMU_CB_13>,
+                            <0 0 15 &trch_nvic TRCH_IRQ__RT_SMMU_CB_14>,
+                            <0 0 16 &trch_nvic TRCH_IRQ__RT_SMMU_CB_15>;
 
             /* dma:  points to the MR used for PTWs.  */
             /* mr-x: points to the per TBU down-stream MR.  */
@@ -1518,22 +1417,22 @@
             compatible = "hpsc,hpsc-mbox";
             interrupts = <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0  0 &hpps_gic GIC_SPI 136 GIC_LVL_HI>, <0 0  0 &trch_nvic 136>,
-                            <0 0  1 &hpps_gic GIC_SPI 137 GIC_LVL_HI>, <0 0  1 &trch_nvic 137>,
-                            <0 0  2 &hpps_gic GIC_SPI 138 GIC_LVL_HI>, <0 0  2 &trch_nvic 138>,
-                            <0 0  3 &hpps_gic GIC_SPI 139 GIC_LVL_HI>, <0 0  3 &trch_nvic 139>,
-                            <0 0  4 &hpps_gic GIC_SPI 140 GIC_LVL_HI>, <0 0  4 &trch_nvic 140>,
-                            <0 0  5 &hpps_gic GIC_SPI 141 GIC_LVL_HI>, <0 0  5 &trch_nvic 141>,
-                            <0 0  6 &hpps_gic GIC_SPI 142 GIC_LVL_HI>, <0 0  6 &trch_nvic 142>,
-                            <0 0  7 &hpps_gic GIC_SPI 143 GIC_LVL_HI>, <0 0  7 &trch_nvic 143>,
-                            <0 0  8 &hpps_gic GIC_SPI 144 GIC_LVL_HI>, <0 0  8 &trch_nvic 144>,
-                            <0 0  9 &hpps_gic GIC_SPI 145 GIC_LVL_HI>, <0 0  9 &trch_nvic 145>,
-                            <0 0 10 &hpps_gic GIC_SPI 146 GIC_LVL_HI>, <0 0 10 &trch_nvic 146>,
-                            <0 0 11 &hpps_gic GIC_SPI 147 GIC_LVL_HI>, <0 0 11 &trch_nvic 147>,
-                            <0 0 12 &hpps_gic GIC_SPI 148 GIC_LVL_HI>, <0 0 12 &trch_nvic 148>,
-                            <0 0 13 &hpps_gic GIC_SPI 149 GIC_LVL_HI>, <0 0 13 &trch_nvic 149>,
-                            <0 0 14 &hpps_gic GIC_SPI 150 GIC_LVL_HI>, <0 0 14 &trch_nvic 150>,
-                            <0 0 15 &hpps_gic GIC_SPI 151 GIC_LVL_HI>, <0 0 15 &trch_nvic 151>;
+            interrupt-map = <0 0  0 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_0  GIC_LVL_HI>, <0 0  0 &trch_nvic TRCH_IRQ__HT_MBOX_0 >,
+                            <0 0  1 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_1  GIC_LVL_HI>, <0 0  1 &trch_nvic TRCH_IRQ__HT_MBOX_1 >,
+                            <0 0  2 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_2  GIC_LVL_HI>, <0 0  2 &trch_nvic TRCH_IRQ__HT_MBOX_2 >,
+                            <0 0  3 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_3  GIC_LVL_HI>, <0 0  3 &trch_nvic TRCH_IRQ__HT_MBOX_3 >,
+                            <0 0  4 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_4  GIC_LVL_HI>, <0 0  4 &trch_nvic TRCH_IRQ__HT_MBOX_4 >,
+                            <0 0  5 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_5  GIC_LVL_HI>, <0 0  5 &trch_nvic TRCH_IRQ__HT_MBOX_5 >,
+                            <0 0  6 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_6  GIC_LVL_HI>, <0 0  6 &trch_nvic TRCH_IRQ__HT_MBOX_6 >,
+                            <0 0  7 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_7  GIC_LVL_HI>, <0 0  7 &trch_nvic TRCH_IRQ__HT_MBOX_7 >,
+                            <0 0  8 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_8  GIC_LVL_HI>, <0 0  8 &trch_nvic TRCH_IRQ__HT_MBOX_8 >,
+                            <0 0  9 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_9  GIC_LVL_HI>, <0 0  9 &trch_nvic TRCH_IRQ__HT_MBOX_9 >,
+                            <0 0 10 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_10 GIC_LVL_HI>, <0 0 10 &trch_nvic TRCH_IRQ__HT_MBOX_10>,
+                            <0 0 11 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_11 GIC_LVL_HI>, <0 0 11 &trch_nvic TRCH_IRQ__HT_MBOX_11>,
+                            <0 0 12 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_12 GIC_LVL_HI>, <0 0 12 &trch_nvic TRCH_IRQ__HT_MBOX_12>,
+                            <0 0 13 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_13 GIC_LVL_HI>, <0 0 13 &trch_nvic TRCH_IRQ__HT_MBOX_13>,
+                            <0 0 14 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_14 GIC_LVL_HI>, <0 0 14 &trch_nvic TRCH_IRQ__HT_MBOX_14>,
+                            <0 0 15 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_15 GIC_LVL_HI>, <0 0 15 &trch_nvic TRCH_IRQ__HT_MBOX_15>;
 
             reg = <0xfff50000 0x1000 /* prio = */ 0x0>;
         };
@@ -1542,22 +1441,22 @@
             compatible = "hpsc,hpsc-mbox";
             interrupts = <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0  0 &hpps_gic GIC_SPI 203 GIC_LVL_HI>, <0 0  0 &rtps_gic GIC_SPI 203 GIC_LVL_HI>,
-                            <0 0  1 &hpps_gic GIC_SPI 204 GIC_LVL_HI>, <0 0  1 &rtps_gic GIC_SPI 204 GIC_LVL_HI>,
-                            <0 0  2 &hpps_gic GIC_SPI 205 GIC_LVL_HI>, <0 0  2 &rtps_gic GIC_SPI 205 GIC_LVL_HI>,
-                            <0 0  3 &hpps_gic GIC_SPI 206 GIC_LVL_HI>, <0 0  3 &rtps_gic GIC_SPI 206 GIC_LVL_HI>,
-                            <0 0  4 &hpps_gic GIC_SPI 207 GIC_LVL_HI>, <0 0  4 &rtps_gic GIC_SPI 207 GIC_LVL_HI>,
-                            <0 0  5 &hpps_gic GIC_SPI 208 GIC_LVL_HI>, <0 0  5 &rtps_gic GIC_SPI 208 GIC_LVL_HI>,
-                            <0 0  6 &hpps_gic GIC_SPI 209 GIC_LVL_HI>, <0 0  6 &rtps_gic GIC_SPI 209 GIC_LVL_HI>,
-                            <0 0  7 &hpps_gic GIC_SPI 210 GIC_LVL_HI>, <0 0  7 &rtps_gic GIC_SPI 210 GIC_LVL_HI>,
-                            <0 0  8 &hpps_gic GIC_SPI 211 GIC_LVL_HI>, <0 0  8 &rtps_gic GIC_SPI 211 GIC_LVL_HI>,
-                            <0 0  9 &hpps_gic GIC_SPI 212 GIC_LVL_HI>, <0 0  9 &rtps_gic GIC_SPI 212 GIC_LVL_HI>,
-                            <0 0 10 &hpps_gic GIC_SPI 213 GIC_LVL_HI>, <0 0 10 &rtps_gic GIC_SPI 213 GIC_LVL_HI>,
-                            <0 0 11 &hpps_gic GIC_SPI 214 GIC_LVL_HI>, <0 0 11 &rtps_gic GIC_SPI 214 GIC_LVL_HI>,
-                            <0 0 12 &hpps_gic GIC_SPI 215 GIC_LVL_HI>, <0 0 12 &rtps_gic GIC_SPI 215 GIC_LVL_HI>,
-                            <0 0 13 &hpps_gic GIC_SPI 216 GIC_LVL_HI>, <0 0 13 &rtps_gic GIC_SPI 216 GIC_LVL_HI>,
-                            <0 0 14 &hpps_gic GIC_SPI 217 GIC_LVL_HI>, <0 0 14 &rtps_gic GIC_SPI 217 GIC_LVL_HI>,
-                            <0 0 15 &hpps_gic GIC_SPI 218 GIC_LVL_HI>, <0 0 15 &rtps_gic GIC_SPI 218 GIC_LVL_HI>;
+            interrupt-map = <0 0  0 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_0  GIC_LVL_HI>, <0 0  0 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_0  GIC_LVL_HI>,
+                            <0 0  1 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_1  GIC_LVL_HI>, <0 0  1 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_1  GIC_LVL_HI>,
+                            <0 0  2 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_2  GIC_LVL_HI>, <0 0  2 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_2  GIC_LVL_HI>,
+                            <0 0  3 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_3  GIC_LVL_HI>, <0 0  3 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_3  GIC_LVL_HI>,
+                            <0 0  4 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_4  GIC_LVL_HI>, <0 0  4 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_4  GIC_LVL_HI>,
+                            <0 0  5 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_5  GIC_LVL_HI>, <0 0  5 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_5  GIC_LVL_HI>,
+                            <0 0  6 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_6  GIC_LVL_HI>, <0 0  6 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_6  GIC_LVL_HI>,
+                            <0 0  7 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_7  GIC_LVL_HI>, <0 0  7 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_7  GIC_LVL_HI>,
+                            <0 0  8 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_8  GIC_LVL_HI>, <0 0  8 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_8  GIC_LVL_HI>,
+                            <0 0  9 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_9  GIC_LVL_HI>, <0 0  9 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_9  GIC_LVL_HI>,
+                            <0 0 10 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_10 GIC_LVL_HI>, <0 0 10 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_10 GIC_LVL_HI>,
+                            <0 0 11 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_11 GIC_LVL_HI>, <0 0 11 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_11 GIC_LVL_HI>,
+                            <0 0 12 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_12 GIC_LVL_HI>, <0 0 12 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_12 GIC_LVL_HI>,
+                            <0 0 13 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_13 GIC_LVL_HI>, <0 0 13 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_13 GIC_LVL_HI>,
+                            <0 0 14 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_14 GIC_LVL_HI>, <0 0 14 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_14 GIC_LVL_HI>,
+                            <0 0 15 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_15 GIC_LVL_HI>, <0 0 15 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_15 GIC_LVL_HI>;
 
             reg = <0xfff60000 0x1000 /* prio = */ 0x0>;
         };
@@ -1568,7 +1467,7 @@
             current-speed = <115200>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_UART0 GIC_LVL_HI>;
+            interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_UART0_0 GIC_LVL_HI>;
             port-number = <1>;
             xlnx,has-modem = <0x0>;
             xlnx,uart-clk-freq-hz = <50000000>;
@@ -1639,23 +1538,23 @@
             interrupts = <0 /* global irq */
                           1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16>; /* context irqs (16 contexts hardcoded in model) */
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0  0 &hpps_gic GIC_SPI 152 GIC_LVL_HI>,
-                            <0 0  1 &hpps_gic GIC_SPI 153 GIC_LVL_HI>,
-                            <0 0  2 &hpps_gic GIC_SPI 154 GIC_LVL_HI>,
-                            <0 0  3 &hpps_gic GIC_SPI 155 GIC_LVL_HI>,
-                            <0 0  4 &hpps_gic GIC_SPI 156 GIC_LVL_HI>,
-                            <0 0  5 &hpps_gic GIC_SPI 157 GIC_LVL_HI>,
-                            <0 0  6 &hpps_gic GIC_SPI 158 GIC_LVL_HI>,
-                            <0 0  7 &hpps_gic GIC_SPI 159 GIC_LVL_HI>,
-                            <0 0  8 &hpps_gic GIC_SPI 160 GIC_LVL_HI>,
-                            <0 0  9 &hpps_gic GIC_SPI 161 GIC_LVL_HI>,
-                            <0 0 10 &hpps_gic GIC_SPI 162 GIC_LVL_HI>,
-                            <0 0 11 &hpps_gic GIC_SPI 163 GIC_LVL_HI>,
-                            <0 0 12 &hpps_gic GIC_SPI 164 GIC_LVL_HI>,
-                            <0 0 13 &hpps_gic GIC_SPI 165 GIC_LVL_HI>,
-                            <0 0 14 &hpps_gic GIC_SPI 166 GIC_LVL_HI>,
-                            <0 0 15 &hpps_gic GIC_SPI 167 GIC_LVL_HI>,
-                            <0 0 16 &hpps_gic GIC_SPI 168 GIC_LVL_HI>;
+            interrupt-map = <0 0  0 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_GLOB  GIC_LVL_HI>,
+                            <0 0  1 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_0  GIC_LVL_HI>,
+                            <0 0  2 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_1  GIC_LVL_HI>,
+                            <0 0  3 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_2  GIC_LVL_HI>,
+                            <0 0  4 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_3  GIC_LVL_HI>,
+                            <0 0  5 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_4  GIC_LVL_HI>,
+                            <0 0  6 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_5  GIC_LVL_HI>,
+                            <0 0  7 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_6  GIC_LVL_HI>,
+                            <0 0  8 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_7  GIC_LVL_HI>,
+                            <0 0  9 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_8  GIC_LVL_HI>,
+                            <0 0 10 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_9  GIC_LVL_HI>,
+                            <0 0 11 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_10 GIC_LVL_HI>,
+                            <0 0 12 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_11 GIC_LVL_HI>,
+                            <0 0 13 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_12 GIC_LVL_HI>,
+                            <0 0 14 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_13 GIC_LVL_HI>,
+                            <0 0 15 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_14 GIC_LVL_HI>,
+                            <0 0 16 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_15 GIC_LVL_HI>;
 
                 /* dma:  points to the MR used for PTWs.  */
                 dma = <&nic7>;
