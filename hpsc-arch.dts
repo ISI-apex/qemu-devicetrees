@@ -1254,13 +1254,13 @@
         to_nic2 {
             compatible = "qemu:memory-region";
             alias = <&nic2>;
-            reg = <0x38000000 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xffffffff /* prio = -1 */ 0xffffffff>;
         };
 
         to_nic5 {
             compatible = "qemu:memory-region";
             alias = <&nic5>;
-            reg = <0x0 0xffffffff /* prio */ 0xffffffff /* -1 */>;
+            reg = <0x0 0xffffffff /* prio */ 0xfffffffe /* -2 */>;
         };
     };
 
