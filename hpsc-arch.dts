@@ -127,11 +127,9 @@
 
                 gpios = /* input signals */
                         </* RST_R5[0] */    &crl 0
-                         /* R5_0_HALT */    &rpu_ctrl 0
-                         /* R5_0_VINITHI */ &rpu_ctrl 5 >;
+                         /* R5_0_HALT */    &rpu_ctrl 0>;
                 gpio-names = "reset",
-                             "ncpuhalt",
-                             "vinithi";
+                             "ncpuhalt";
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
@@ -166,11 +164,9 @@
 
                 gpios = /* input signals */
                         </* RST_R5[1] */    &crl 1
-                         /* R5_1_HALT */    &rpu_ctrl 1
-                         /* R5_1_VINITHI */ &rpu_ctrl 6 >;
+                         /* R5_1_HALT */    &rpu_ctrl 1>;
                 gpio-names = "reset",
-                             "ncpuhalt",
-                             "vinithi";
+                             "ncpuhalt";
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
