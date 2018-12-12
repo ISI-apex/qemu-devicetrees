@@ -665,6 +665,10 @@
                          intc      type    idx                  bit[31:8]=bitmask of cpu set, bit[7:0]=cfg (8=level) */
                         <&rtps_gic GIC_PPI PPI_IRQ__GIC_MAINT    0x0108>,
                         <&rtps_gic GIC_PPI PPI_IRQ__GIC_MAINT    0x0208>;
+
+                gpios = /* input signals */
+                        </* resetn */ &crl 4 /* RST_GIC */>;
+                gpio-names = "resetn";
         };
 
         /* TODO: dummy node enabled in SPLIT mode only, revise this when implementing lock/split modes */
@@ -916,6 +920,9 @@
                         <&hpps_gic 0x1              0x9    0x4000>,
                         <&hpps_gic 0x1              0x9    0x8000>;
 
+                gpios = /* input signals */
+                        </* resetn */ &crf 8 /* RST_GIC */>;
+                gpio-names = "resetn";
         };
 
         csu_core@0xffca0000 { /* TODO: present in Chiplet? Probably, not. ATF wants this. */
