@@ -632,21 +632,16 @@
         ranges ;
 
         rtps_gic: interrupt-controller@0x30e00000 {
-                #address-cells = <0>;
-                #size-cells = <0>;
-                #interrupt-cells = <3>;
-                #priority-cells = <0>;
-                #gpio-cells = <0>;
-                #redistributor-regions = <1>;
-
                 compatible = "arm,arm-gicv3";
                 revision = <3>;
+
+                interrupt-controller;
+                #interrupt-cells = <3>;
 
                 /* NOTE: if you change this address, also change arm,cfgperiphbase in cpu node */
                 /* Addr Bits = 18 + log2(#cores) = 19 (see GIC-500 TRM Section 3.2) */
                 reg = <0x30e00000  0x10000    /* prio = */ 0x1   /* GICD */
                        0x30e40000  0x40000    /* prio = */ 0x1>; /* GICR */
-                interrupt-controller ;
 
                 num-irq = <320>;
                 cpu-start-id = <1>;
@@ -878,21 +873,20 @@
         ranges ;
 
         hpps_gic: interrupt-controller@0xf9000000 {
-                #address-cells = <0>;
-                #size-cells = <0>;
-                #priority-cells = <0>;
-                #interrupt-cells = <3>;
-                #gpio-cells = <0>;
-                #redistributor-regions = <1>;
-
                 compatible = "arm,arm-gicv3";
                 revision = <3>;
+
+                interrupt-controller;
+                #interrupt-cells = <3>;
 
                 /* Addr Bits = 18 + log2(#cores) = 21 (see GIC-500 TRM Section 3.2) */
                 reg = <0x0 0xf9000000  0x0 0x10000  /* prio = */ 0x0   /* GICD */
                        0x0 0xf9100000  0x0 0x100000 /* prio = */ 0x0>; /* GICR */
-                interrupt-controller ;
+
                 num-irq = <320>;
+                num-cpu = <8>;
+                cpu-start-id = <3>;
+
                 interrupts-extended = /* signals output by the interrupt controller */
                         /* IRQ * #cpus; each wired to input signal 0=IRQ on each CPU */
                         <&hpps_cpu0 0>, <&hpps_cpu1 0>, <&hpps_cpu2 0>, <&hpps_cpu3 0>,
@@ -922,8 +916,6 @@
                         <&hpps_gic 0x1              0x9    0x4000>,
                         <&hpps_gic 0x1              0x9    0x8000>;
 
-                cpu-start-id = <3>;
-                num-cpu = <8>;
         };
 
         csu_core@0xffca0000 { /* TODO: present in Chiplet? Probably, not. ATF wants this. */
