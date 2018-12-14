@@ -98,8 +98,6 @@
                 arm,ccsidr1 = <0xf01fe019>;            \
                 arm,id_pfr0 = <0x131>;                 \
                 arm,reset_sctlr = <0x30c50838>;        \
-                arm,rvbar = <0x60000000>;              \
-                arm,vbar = <0x60000000>;               \
                 arm,cfgperiphbase = <0x28000000>;      \
                 arm,buildoptr= <0x00f00000>;           \
                 arm,pinoptr= <0x00000000>;             \
@@ -115,6 +113,8 @@
             };
             rtps_cpu0: rtps_cpu@0 {
                 RTPS_CPU_PROPS
+                arm,rvbar = <0x60000000>;
+                arm,vbar = <0x60000000>;
                 reg = <0>;
                 gdb-id = "RTPS Cortex-R52 #0";
                 arm,mp-affinity = <0x0>;
@@ -152,6 +152,8 @@
             };
             rtps_cpu1: rtps_cpu@1 {
                 RTPS_CPU_PROPS
+                arm,rvbar = <0x68000000>;
+                arm,vbar = <0x68000000>;
                 reg = <1>;
                 gdb-id = "RTPS Cortex-R52 #1";
                 arm,mp-affinity = <0x1>;
