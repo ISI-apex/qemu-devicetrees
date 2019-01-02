@@ -650,6 +650,11 @@
                 num-irq = <320>;
                 cpu-start-id = <1>;
                 num-cpu = <2>;
+                /* gicd-tyer: Cortex-R52 TRM (Table 9-7)                         */
+                /*            no support of (Affinity level 3, DVIS, LPIS, MBIS) */
+                /*            IDBits 0b01001 (INTID is 10 bits)                  */
+                gicd-typer = <0x02480000>;	
+
 
                 interrupts-extended = /* signals output by the interrupt controller */
                         /* IRQ * #cpus; each wired to input signal 0=IRQ on each CPU */
@@ -894,6 +899,11 @@
                 num-irq = <320>;
                 num-cpu = <8>;
                 cpu-start-id = <3>;
+                /* gicd-tyer: based on the code (arm_gicv3_dist.c) */
+                /*            support of (Affinity level 3)        */
+                /*            no support of (DVIS, LPIS, MBIS)     */
+                /*            IDBits 0b01111 (INTID is 16 bits)    */
+                gicd-typer = <0x03780000>;	
 
                 interrupts-extended = /* signals output by the interrupt controller */
                         /* IRQ * #cpus; each wired to input signal 0=IRQ on each CPU */
