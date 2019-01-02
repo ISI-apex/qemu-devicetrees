@@ -99,7 +99,7 @@
                 arm,id_pfr0 = <0x131>;                 \
                 arm,reset_sctlr = <0x30c50838>;        \
                 arm,cfgperiphbase = <0x28000000>;      \
-                arm,buildoptr= <0x00f00000>;           \
+                arm,buildoptr= <0x68f00101>;           \
                 arm,pinoptr= <0x00000000>;             \
                 arm,atcmregionr = <0x00000014>;        \
                 arm,btcmregionr = <0x00004014>;        \
