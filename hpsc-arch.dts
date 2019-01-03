@@ -185,6 +185,70 @@
                              "timer_virt",
                              "timer_hyp";
             };
+#define RTPS_A53_PROPS                                    \
+                #interrupt-cells = <1>;                   \
+                compatible = "cortex-a53-arm-cpu";        \
+                device_type = "cpu";                      \
+                d-cache-line-size = <0x20>;               \
+                d-cache-size = <0x8000>;                  \
+                i-cache-line-size = <0x20>;               \
+                i-cache-size = <0x8000>;                  \
+                arm,midr = <0x410fd032>;                  \
+                arm,ctr = <0x83338003>;                   \
+                arm,clidr = <0x09200003>;                 \
+                arm,id_pfr0 = <0x1231>;                   \
+                arm,ccsidr0 = <0x701fe019>;               \
+                arm,ccsidr1 = <0x201fe019>;               \
+                enable-method = "psci";                   \
+                arm,reset-hivecs = <1>;                   \
+                arm,reset-cbar = <0xfd3fe000>;            \
+                start-powered-off = <1>;                  \
+                mr = <&rtpsA53>;                          \
+                memory = <&rtpsA53>;                      \
+                memory_ns = <&rtpsA53>;                   \
+
+
+            rtpsA53_memattr_cpu0_s: rtpsA53_memattr_cpu_s@0 {
+                compatible = "qemu:memory-transaction-attr";
+                secure = <1>;
+                master-id = <MASTER_ID_RTPS_A53>;
+            };
+            rtpsA53_memattr_cpu0_ns: rtpsA53_memattr_cpu_ns@0 {
+                compatible = "qemu:memory-transaction-attr";
+                secure = <0>;
+                master-id = <MASTER_ID_RTPS_A53>;
+            };
+            rtpsA53_cpu0: rtpsA53_cpu@0 {
+                RTPS_A53_PROPS
+                gdb-id = "RTPS Cortex-A53 #0";
+
+                reg = <0>;
+                arm,mp-affinity = <0>;
+                arm,rvbar = <0x70000000>;	/* temporary */
+
+                gpios = /* input signals */
+                        </* RST_A53 */ &crl 2
+                         /* A53_HALT */ &rpu_ctrl 7>;
+                gpio-names = "reset",
+                             "ncpuhalt";
+
+                interrupts-extended = /* output signals */
+                             /* ARMv8 Generic Timer output signals */
+                             /* intc    type       idx  [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
+                             <&rtpsA53_gic GIC_PPI    13 	0x0108>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
+                             <&rtpsA53_gic GIC_PPI    14 	0x0108>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
+                             <&rtpsA53_gic GIC_PPI    11 	0x0108>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
+                             <&rtpsA53_gic GIC_PPI    10 	0x0108>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
+                             /* TODO: wfi, gicv3-maintenance-interrupt, pmu-interrupt */
+                interrupt-names =
+                             "timer_sec",
+                             "timer_phys",
+                             "timer_virt",
+                             "timer_hyp";
+
+                memattr_s = <&rtpsA53_memattr_cpu0_s>;
+                memattr_ns = <&rtpsA53_memattr_cpu0_ns>;
+            };
         };
 
         hpps_cpus {
@@ -680,6 +744,56 @@
                 gpio-names = "resetn";
         };
 
+        rtpsA53_gic: interrupt-controller@0x30c00000 {
+                compatible = "arm,arm-gicv3";
+                revision = <3>;
+
+                interrupt-controller;
+                #interrupt-cells = <3>;
+
+                /* Addr Bits = 18 + log2(#cores) = 21 (see GIC-500 TRM Section 3.2) */
+                reg = <0x30c00000  0x10000  /* prio = */ 0x0   /* GICD */
+                       0x30c40000  0x40000 /* prio = */ 0x0>; /* GICR */
+
+                num-irq = <320>;
+                num-cpu = <1>;
+                cpu-start-id = <3>;
+                /* gicd-tyer: based on the code (arm_gicv3_dist.c) */
+                /*            support of (Affinity level 3)        */
+                /*            no support of (DVIS, LPIS, MBIS)     */
+                /*            IDBits 0b01111 (INTID is 16 bits)    */
+                gicd-typer = <0x03780000>;	
+
+                interrupts-extended = /* signals output by the interrupt controller */
+                        /* IRQ * #cpus; each wired to input signal 0=IRQ on each CPU */
+                        <&rtpsA53_cpu0 0>, 
+                        /* FIQ * #cpus, each wired to input signal 1=FIQ on each CPU */
+                        <&rtpsA53_cpu0 1>, 
+                        /* vIRQ * #cpus, each wired to input signal 2=vIRQ on each CPU */
+                        <&rtpsA53_cpu0 2>, 
+                        /* vFIQ * #cpus, each wired to input signal 3=vFIQ on each CPU */
+                        <&rtpsA53_cpu0 3>, 
+                        /* maintanance * #cpus: each wired to a set of inputs on this interrupt controller */
+                            /* inputs into this interrupt controller:
+                                       [0 .. num-irq-1]: SPI
+                                       [num-irq * cpuidx .. num-irq * cpuidx + 32]: PPI for CPU# cpuidx ( * #cpus )
+                               set of input irq# = { num-irq - 16 + idx + 32*cpuidx | foreach cpuidx set in bitmask }
+
+                                   0(SPI)|1(PPI)    idx    bit[31:8]=bitmask of cpu set (i.e. of inputs in PPI range for each CPU) */
+                        <&rtpsA53_gic 0x1              0x9    0x0100>,
+                        <&rtpsA53_gic 0x1              0x9    0x0200>,
+                        <&rtpsA53_gic 0x1              0x9    0x0400>,
+                        <&rtpsA53_gic 0x1              0x9    0x0800>,
+                        <&rtpsA53_gic 0x1              0x9    0x1000>,
+                        <&rtpsA53_gic 0x1              0x9    0x2000>,
+                        <&rtpsA53_gic 0x1              0x9    0x4000>,
+                        <&rtpsA53_gic 0x1              0x9    0x8000>;
+
+                gpios = /* input signals */
+                        </* resetn */ &crl 5 /* RST_GIC */>;
+                gpio-names = "resetn";
+        };
+
         /* TODO: dummy node enabled in SPLIT mode only, revise this when implementing lock/split modes */
         ddr_memory_2_for_rpu: ddr_memory_2_for_rpu@0x60000 {
                 compatible = "qemu:memory-region";
@@ -784,6 +898,17 @@
             reg = <0x0 0xffffffff /* prio */ 0xffffffff /* -1 */>;
         };
     };
+
+    rtpsA53: rtps@2 { /* view of address space from RTPS A53 */
+        compatible = "simple-bus";
+        ranges ;
+        to_rtps {
+            compatible = "qemu:memory-region";
+            alias = <&rtps>;
+            reg = <0x0 0xffffffff /* prio */ 0xffffffff /* -1 */>;
+        };
+    };
+
 
     crf_bus: crf_bus {
         compatible = "simple-bus";
@@ -898,7 +1023,7 @@
 
                 num-irq = <320>;
                 num-cpu = <8>;
-                cpu-start-id = <3>;
+                cpu-start-id = <4>;
                 /* gicd-tyer: based on the code (arm_gicv3_dist.c) */
                 /*            support of (Affinity level 3)        */
                 /*            no support of (DVIS, LPIS, MBIS)     */
