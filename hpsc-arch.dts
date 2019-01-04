@@ -779,15 +779,9 @@
                                        [num-irq * cpuidx .. num-irq * cpuidx + 32]: PPI for CPU# cpuidx ( * #cpus )
                                set of input irq# = { num-irq - 16 + idx + 32*cpuidx | foreach cpuidx set in bitmask }
 
-                                   0(SPI)|1(PPI)    idx    bit[31:8]=bitmask of cpu set (i.e. of inputs in PPI range for each CPU) */
-                        <&rtpsA53_gic 0x1              0x9    0x0100>,
-                        <&rtpsA53_gic 0x1              0x9    0x0200>,
-                        <&rtpsA53_gic 0x1              0x9    0x0400>,
-                        <&rtpsA53_gic 0x1              0x9    0x0800>,
-                        <&rtpsA53_gic 0x1              0x9    0x1000>,
-                        <&rtpsA53_gic 0x1              0x9    0x2000>,
-                        <&rtpsA53_gic 0x1              0x9    0x4000>,
-                        <&rtpsA53_gic 0x1              0x9    0x8000>;
+                                      type    idx                bit[31:8]=bitmask of cpu set (i.e. of inputs in PPI range for each CPU)
+                                                                 bit[8:0]=type (8=level) */
+                        <&rtpsA53_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0108>;
 
                 gpios = /* input signals */
                         </* resetn */ &crl 5 /* RST_GIC */>;
@@ -1048,15 +1042,16 @@
                                        [num-irq * cpuidx .. num-irq * cpuidx + 32]: PPI for CPU# cpuidx ( * #cpus )
                                set of input irq# = { num-irq - 16 + idx + 32*cpuidx | foreach cpuidx set in bitmask }
 
-                                   0(SPI)|1(PPI)    idx    bit[31:8]=bitmask of cpu set (i.e. of inputs in PPI range for each CPU) */
-                        <&hpps_gic 0x1              0x9    0x0100>,
-                        <&hpps_gic 0x1              0x9    0x0200>,
-                        <&hpps_gic 0x1              0x9    0x0400>,
-                        <&hpps_gic 0x1              0x9    0x0800>,
-                        <&hpps_gic 0x1              0x9    0x1000>,
-                        <&hpps_gic 0x1              0x9    0x2000>,
-                        <&hpps_gic 0x1              0x9    0x4000>,
-                        <&hpps_gic 0x1              0x9    0x8000>;
+                                   type    idx                bit[31:8]=bitmask of cpu set (i.e. of inputs in PPI range for each CPU)
+                                                              bit[8:0]=type (8=level) */
+                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0108>,
+                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0208>,
+                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0408>,
+                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0808>,
+                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x1008>,
+                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x2008>,
+                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x4008>,
+                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x8008>;
 
                 gpios = /* input signals */
                         </* resetn */ &crf 8 /* RST_GIC */>;
