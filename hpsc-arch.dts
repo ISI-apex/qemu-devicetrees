@@ -1460,10 +1460,12 @@
             interrupt-map =  <0 0 0 &trch_nvic TRCH_IRQ__TRCH_SMC>;
             x = <3>;
             ranges ;
+
+            #address-cells = <2>;
+            #size-cells = <2>;
+
 	    trch_offchip_sram0: trch_offchip_sram0@0x28000000 {
 		compatible = "offchip-sram";
-	  	#address-cells = <2>;
-		#size-cells = <2>;
 		reg   = <0x0 0x28000000 0x0 0x4000000>;
 		drive = "";
                 status = "disabled";
@@ -1621,10 +1623,12 @@
             interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMC GIC_LVL_HI>;
             x = <3>;
             ranges ;
+
+            #address-cells = <2>;
+            #size-cells = <2>;
+
 	    hpps_sram0: hpps_sram0@0x680000000 {
 		compatible = "offchip-sram";
-	  	#address-cells = <2>;
-		#size-cells = <2>;
 		reg   = <0x6 0x80000000 0x0 0x40000000>;
 		drive = "";
                 status = "disabled";
@@ -1652,8 +1656,6 @@
 		start_addr_low= <0x00000000>;
 		region_size = <0x80000000>;
 		pflash_index = <3>;
-                #address-cells = <0x2>;
-                #size-cells = <0x2>;
             };
         };
 
