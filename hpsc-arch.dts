@@ -234,11 +234,11 @@
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
-                             /* intc    type       idx  [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
-                             <&rtpsA53_gic GIC_PPI    13 	0x0108>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
-                             <&rtpsA53_gic GIC_PPI    14 	0x0108>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
-                             <&rtpsA53_gic GIC_PPI    11 	0x0108>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
-                             <&rtpsA53_gic GIC_PPI    10 	0x0108>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
+                             /* intc       type    idx        [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
+                             <&rtpsA53_gic GIC_PPI PPI_IRQ__TIMER_SEC  0x0108>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
+                             <&rtpsA53_gic GIC_PPI PPI_IRQ__TIMER_PHYS 0x0108>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
+                             <&rtpsA53_gic GIC_PPI PPI_IRQ__TIMER_VIRT 0x0108>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
+                             <&rtpsA53_gic GIC_PPI PPI_IRQ__TIMER_HYP  0x0108>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
                              /* TODO: wfi, gicv3-maintenance-interrupt, pmu-interrupt */
                 interrupt-names =
                              "timer_sec",
@@ -304,11 +304,11 @@
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
-                             /* intc    type       idx  [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
-                             <&hpps_gic GIC_PPI    13 	0x0108>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    14 	0x0108>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    11 	0x0108>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    10 	0x0108>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
+                             /* intc    type    idx        [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_SEC  0x0108>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_PHYS 0x0108>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_VIRT 0x0108>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_HYP  0x0108>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
                              /* TODO: wfi, gicv3-maintenance-interrupt, pmu-interrupt */
                 interrupt-names =
                              "timer_sec",
@@ -348,11 +348,11 @@
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
-                             /* intc    type       idx  [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
-                             <&hpps_gic GIC_PPI    13 	0x0208>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    14 	0x0208>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    11 	0x0208>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    10 	0x0208>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
+                             /* intc    type    idx        [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_SEC  0x0208>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_PHYS 0x0208>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_VIRT 0x0208>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_HYP  0x0208>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
                              /* TODO: wfi, gicv3-maintenance-interrupt, pmu-interrupt */
                 interrupt-names =
                              "timer_sec",
@@ -392,11 +392,11 @@
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
-                             /* intc    type       idx  [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
-                             <&hpps_gic GIC_PPI    13 	0x0408>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    14 	0x0408>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    11 	0x0408>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    10 	0x0408>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
+                             /* intc    type    idx        [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_SEC  0x0408>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_PHYS 0x0408>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_VIRT 0x0408>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_HYP  0x0408>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
                              /* TODO: wfi, gicv3-maintenance-interrupt, pmu-interrupt */
                 interrupt-names =
                              "timer_sec",
@@ -436,11 +436,11 @@
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
-                             /* intc    type       idx  [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
-                             <&hpps_gic GIC_PPI    13 	0x0808>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    14 	0x0808>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    11 	0x0808>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    10 	0x0808>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
+                             /* intc    type    idx        [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_SEC  0x0808>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_PHYS 0x0808>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_VIRT 0x0808>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_HYP  0x0808>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
                              /* TODO: wfi, gicv3-maintenance-interrupt, pmu-interrupt */
                 interrupt-names =
                              "timer_sec",
@@ -480,11 +480,11 @@
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
-                             /* intc    type       idx  [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
-                             <&hpps_gic GIC_PPI    13 	0x1008>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    14 	0x1008>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    11 	0x1008>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    10 	0x1008>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
+                             /* intc    type    idx        [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_SEC  0x1008>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_PHYS 0x1008>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_VIRT 0x1008>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_HYP  0x1008>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
                              /* TODO: wfi, gicv3-maintenance-interrupt, pmu-interrupt */
                 interrupt-names =
                              "timer_sec",
@@ -524,11 +524,11 @@
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
-                             /* intc    type       idx  [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
-                             <&hpps_gic GIC_PPI    13 	0x2008>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    14 	0x2008>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    11 	0x2008>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    10 	0x2008>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
+                             /* intc    type    idx        [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_SEC  0x2008>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_PHYS 0x2008>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_VIRT 0x2008>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_HYP  0x2008>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
                              /* TODO: wfi, gicv3-maintenance-interrupt, pmu-interrupt */
                 interrupt-names =
                              "timer_sec",
@@ -567,11 +567,11 @@
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
-                             /* intc    type       idx  [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
-                             <&hpps_gic GIC_PPI    13 	0x4008>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    14 	0x4008>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    11 	0x4008>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    10 	0x4008>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
+                             /* intc    type    idx        [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_SEC  0x4008>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_PHYS 0x4008>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_VIRT 0x4008>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_HYP  0x4008>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
                              /* TODO: wfi, gicv3-maintenance-interrupt, pmu-interrupt */
                 interrupt-names =
                              "timer_sec",
@@ -610,11 +610,11 @@
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
-                             /* intc    type       idx  [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
-                             <&hpps_gic GIC_PPI    13 	0x8008>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    14 	0x8008>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    11 	0x8008>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
-                             <&hpps_gic GIC_PPI    10 	0x8008>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
+                             /* intc    type    idx        [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_SEC  0x8008>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_PHYS 0x8008>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_VIRT 0x8008>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
+                             <&hpps_gic GIC_PPI PPI_IRQ__TIMER_HYP  0x8008>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
                              /* TODO: wfi, gicv3-maintenance-interrupt, pmu-interrupt */
                 interrupt-names =
                              "timer_sec",
