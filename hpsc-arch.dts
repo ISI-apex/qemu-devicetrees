@@ -1786,8 +1786,6 @@
         };
         xgmac: ethernet@0xe5300000 {
             #stream-id-cells = <0x1>;
-            #address-cells = <1>;
-            #size-cells = <0>;
             #priority-cells = <0>;
             reg = <0xe5300000 0x1000 /* prio = */ 0x0>;
             clock-names = "hclk", "pclk";
