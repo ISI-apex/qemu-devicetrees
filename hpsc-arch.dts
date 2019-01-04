@@ -1846,8 +1846,7 @@
         to_nic6 {
             compatible = "qemu:memory-region";
             alias = <&nic6>;
-            /* reg = <0xF9220000 0x000C0000 * prio = -1 * 0xffffffff>; */ /* TODO: why does this not work? */
-            reg = <0x0 0x0 0x6 0xffffffff /* prio = -1 */ 0xffffffff>;
+            reg = <0x0 0x0 /* size */ 0xffffffff 0xffffffff /* prio = -1 */ 0xffffffff>;
         };
     };
 
