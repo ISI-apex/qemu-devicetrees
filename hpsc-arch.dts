@@ -960,6 +960,7 @@
                     dcache-for-rpu1 = <&dcache_rpu1>;
                     ddr-mem-for-rpu = <&ddr_memory_2_for_rpu>;
                     gic-for-rpu = <&rtps_gic>;
+                    gic-for-A53 = <&rtpsA53_gic>;
                 };
             };
         };
