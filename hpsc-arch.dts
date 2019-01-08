@@ -1123,12 +1123,17 @@
         };
     };
 
+#define WDT_PROPS \
+        clk-freq-hz = <125000000>; \
+        max-divider = <32>; \
+
     rtps_wdts: rtps_wdts { /* accessible from TRCH nic1 and from RTPS */
         compatible = "simple-bus";
         ranges ;
         rtps_wdt0: wdt@0x0 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x0  0x0 0x1000 /* prio = */ 0x0>;
+            WDT_PROPS
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &rtps_gic GIC_PPI PPI_IRQ__WDT 0x0108>,
@@ -1137,6 +1142,7 @@
         rtps_wdt1: wdt@0x1000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x1000  0x0 0x1000 /* prio = */ 0x0>;
+            WDT_PROPS
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &rtps_gic GIC_PPI PPI_IRQ__WDT 0x0208>,
@@ -1150,6 +1156,7 @@
         hpps_wdt0: wdt@0x0 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x0  0x0 0x10000 /* prio = */ 0x0>;
+            WDT_PROPS
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__WDT 0x0108>,
@@ -1158,6 +1165,7 @@
         hpps_wdt1: wdt@0x10000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x10000  0x0 0x10000 /* prio = */ 0x0>;
+            WDT_PROPS
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__WDT 0x0208>,
@@ -1166,6 +1174,7 @@
         hpps_wdt2: wdt@0x20000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x20000  0x0 0x10000 /* prio = */ 0x0>;
+            WDT_PROPS
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__WDT 0x0408>,
@@ -1174,6 +1183,7 @@
         hpps_wdt3: wdt@0x30000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x30000  0x0 0x10000 /* prio = */ 0x0>;
+            WDT_PROPS
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__WDT 0x0808>,
@@ -1182,6 +1192,7 @@
         hpps_wdt4: wdt@0x40000  {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x40000  0x0 0x10000 /* prio = */ 0x0>;
+            WDT_PROPS
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__WDT 0x1008>,
@@ -1190,6 +1201,7 @@
         hpps_wdt5: wdt@0x50000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x50000  0x0 0x10000 /* prio = */ 0x0>;
+            WDT_PROPS
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__WDT 0x2008>,
@@ -1198,6 +1210,7 @@
         hpps_wdt6: wdt@0x60000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x60000  0x0 0x10000 /* prio = */ 0x0>;
+            WDT_PROPS
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__WDT 0x4008>,
@@ -1206,6 +1219,7 @@
         hpps_wdt7: wdt@0x70000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x70000  0x0 0x10000 /* prio = */ 0x0>;
+            WDT_PROPS
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__WDT 0x8008>,
@@ -1257,6 +1271,8 @@
         trch_wdt: wdt@0x21002000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x21002000  0x0 0x1000 /* prio = */ 0x0>;
+            WDT_PROPS
+
             gpio-controller;
             #gpio-cells = <1>;
             /* GPIO outputs: LAST_TIMEOUT */
