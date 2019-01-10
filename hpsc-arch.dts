@@ -1305,6 +1305,17 @@
                                /* stage two not wired to NVIC, since LAST_TIMEOUT is wired */;
         };
 
+        trch_rti_timer: rti-timer@0x21007000 {
+            compatible = "hpsc,hpsc-rti-timer";
+            reg = <0x21007000  0x0 0x1000 /* prio = */ 0x0>;
+
+            master-timer = <&elapsed_timer>;
+
+            interrupts = <0>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map = <0 0 0 &trch_nvic TRCH_IRQ__RTI_TIMER>;
+        };
+
         to_rtps_wdt {
             compatible = "qemu:memory-region";
             alias = <&rtps_wdts>;
