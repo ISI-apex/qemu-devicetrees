@@ -1154,7 +1154,7 @@
             WDT_PROPS
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =  <0 0 0 &rtpsA53_gic GIC_PPI PPI_IRQ__WDT 0x0208>,
+            interrupt-map =  <0 0 0 &rtpsA53_gic GIC_PPI PPI_IRQ__WDT 0x0108>,
                              <0 0 1 &trch_nvic TRCH_IRQ__WDT_RTPS_A53_ST2>;
         };
     };
