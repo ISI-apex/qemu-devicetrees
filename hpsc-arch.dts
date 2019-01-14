@@ -799,7 +799,12 @@
         to_rtps_wdt {
             compatible = "qemu:memory-region";
             alias = <&rtps_wdts>;
-            reg = <0x30a0a000 0x0 0x3000 /* prio = 0 */ 0x0>;
+            reg = <0x30a09000 0x0 0x3000 /* prio = 0 */ 0x0>;
+        };
+        to_rtps_rti_timers {
+            compatible = "qemu:memory-region";
+            alias = <&rtps_rti_timers>;
+            reg = <0x30a04000 0x0 0x3000 /* prio = 0 */ 0x0>;
         };
 
         to_nic2 {
@@ -1130,32 +1135,67 @@
     rtps_wdts: rtps_wdts { /* accessible from TRCH nic1 and from RTPS R52 */
         compatible = "simple-bus";
         ranges ;
-        rtps_r52_wdt0: wdt@0x0 {
+        rtps_a53_wdt: wdt@0x0000 {
             compatible = "hpsc,hpsc-wdt";
-            reg = <0x0  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0000  0x0 0x1000 /* prio = */ 0x0>;
+            WDT_PROPS
+            interrupts = <0 1>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map =  <0 0 0 &rtpsA53_gic GIC_PPI PPI_IRQ__WDT 0x0108>,
+                             <0 0 1 &trch_nvic TRCH_IRQ__WDT_RTPS_A53_ST2>;
+        };
+        rtps_r52_wdt0: wdt@0x1000 {
+            compatible = "hpsc,hpsc-wdt";
+            reg = <0x1000  0x0 0x1000 /* prio = */ 0x0>;
             WDT_PROPS
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &rtps_gic GIC_PPI PPI_IRQ__WDT 0x0108>,
                                <0 0 1 &trch_nvic TRCH_IRQ__WDT_RTPS_R52_0_ST2>;
         };
-        rtps_r52_wdt1: wdt@0x1000 {
+        rtps_r52_wdt1: wdt@0x2000 {
             compatible = "hpsc,hpsc-wdt";
-            reg = <0x1000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x2000  0x0 0x1000 /* prio = */ 0x0>;
             WDT_PROPS
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &rtps_gic GIC_PPI PPI_IRQ__WDT 0x0208>,
                                <0 0 1 &trch_nvic TRCH_IRQ__WDT_RTPS_R52_1_ST2>;
         };
-        rtps_a53_wdt: wdt@0x2000 {
-            compatible = "hpsc,hpsc-wdt";
-            reg = <0x2000  0x0 0x1000 /* prio = */ 0x0>;
-            WDT_PROPS
-            interrupts = <0 1>;
+    };
+
+    rtps_rti_timers: rtps_rti_timers { /* accessible from TRCH nic1 and from RTPS R52 */
+        compatible = "simple-bus";
+        ranges ;
+        rtps_a53_rti_timer: rti-timer@0x0000 {
+            compatible = "hpsc,hpsc-rti-timer";
+            reg = <0x0000  0x0 0x1000 /* prio = */ 0x0>;
+
+            master-timer = <&elapsed_timer>;
+
+            interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =  <0 0 0 &rtpsA53_gic GIC_PPI PPI_IRQ__WDT 0x0108>,
-                             <0 0 1 &trch_nvic TRCH_IRQ__WDT_RTPS_A53_ST2>;
+            interrupt-map = <0 0 0 &rtpsA53_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0108>;
+        };
+        rtps_r52_rti_timer0: rti-timer@0x1000 {
+            compatible = "hpsc,hpsc-rti-timer";
+            reg = <0x1000  0x0 0x1000 /* prio = */ 0x0>;
+
+            master-timer = <&elapsed_timer>;
+
+            interrupts = <0>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map = <0 0 0 &rtps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0108>;
+        };
+        rtps_r52_rti_timer1: rti-timer@0x2000 {
+            compatible = "hpsc,hpsc-rti-timer";
+            reg = <0x2000  0x0 0x1000 /* prio = */ 0x0>;
+
+            master-timer = <&elapsed_timer>;
+
+            interrupts = <0>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map = <0 0 0 &rtps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0208>;
         };
     };
 
@@ -1276,9 +1316,9 @@
             reg = <0x21001000  0x0 0x1000 /* prio = */ 0x0>;
         };
 
-        elapsed_timer: elapsed-timer@0x21006000 {
+        elapsed_timer: elapsed-timer@0x2100a000 {
             compatible = "hpsc,hpsc-elapsed-timer";
-            reg = <0x21006000  0x0 0x48 /* prio = */ 0x0>;
+            reg = <0x2100a000  0x0 0x48 /* prio = */ 0x0>;
 
             nominal-freq-hz = <1000000000>; /* determines units of count reg regardless of clk */
             clk-freq-hz = <125000000>;
@@ -1305,9 +1345,9 @@
                                /* stage two not wired to NVIC, since LAST_TIMEOUT is wired */;
         };
 
-        trch_rti_timer: rti-timer@0x21007000 {
+        trch_rti_timer: rti-timer@0x21009000 {
             compatible = "hpsc,hpsc-rti-timer";
-            reg = <0x21007000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x21009000  0x0 0x1000 /* prio = */ 0x0>;
 
             master-timer = <&elapsed_timer>;
 
@@ -1320,6 +1360,12 @@
             compatible = "qemu:memory-region";
             alias = <&rtps_wdts>;
             reg = <0x21003000  0x0 0x3000 /* prio = 0 */ 0x0>;
+        };
+
+        to_rtps_rti_timers {
+            compatible = "qemu:memory-region";
+            alias = <&rtps_rti_timers>;
+            reg = <0x21006000  0x0 0x3000 /* prio = 0 */ 0x0>;
         };
 
         to_hpps_wdt {
