@@ -28,6 +28,29 @@
     #priority-cells = <1>;
     #interrupt-cells = <1>; /* within the scope of each interrupt-map */
 
+    system_counter_bus: system_counter_bus { /* must be initialized before cpus */
+        compatible = "simple-bus";
+        ranges ;
+        elapsed_timer: elapsed-timer@0x0000 {
+            compatible = "hpsc,hpsc-elapsed-timer";
+            reg = <0x0 0x0 0x1000 /* prio = */ 0x0>;
+
+            nominal-freq-hz = <1000000000>; /* determines units of count reg regardless of clk */
+            clk-freq-hz = <125000000>;
+            max-divider = <32>; /* s.t. f min = 3,906,250 Hz as spec'ed */
+
+            interrupts = <0>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map =    <0 0 0 &trch_nvic TRCH_IRQ__ELAPSED_TIMER>;
+        };
+        arm_generic_counter: arm-generic-timer-system-counter@0x1000 {  /* TODO: replace with HPSC Elapsed Timer */
+            /* The System Counter: the backend for ARM Generic Timers in each CPU */
+            compatible = "arm.generic-timer";
+            reg = <0x1000  0x0 0x1000 /* prio = */ 0x0>;
+            freq-hz = <125000000>;
+        };
+    };
+
     cpus {
         #size-cells = <0>;
         #priority-cells = <0>;
@@ -105,6 +128,7 @@
                 arm,btcmregionr = <0x00004014>;        \
                 arm,ctcmregionr = <0x00008014>;        \
                 start-powered-off = <1>;               \
+                arm-system-counter = <&arm_generic_counter>; \
 
             rtps_memattr_cpu0: rtps_memattr_cpu@0 {
                     compatible = "qemu:memory-transaction-attr";
@@ -206,6 +230,7 @@
                 mr = <&rtpsA53>;                          \
                 memory = <&rtpsA53>;                      \
                 memory_ns = <&rtpsA53>;                   \
+                arm-system-counter = <&arm_generic_counter>; \
 
 
             rtpsA53_memattr_cpu0_s: rtpsA53_memattr_cpu_s@0 {
@@ -274,6 +299,7 @@
                 mr = <&hpps>;                             \
                 memory = <&hpps>;                         \
                 memory_ns = <&hpps>;                      \
+                arm-system-counter = <&arm_generic_counter>;    \
 
 
             hpps_memattr_cpu0_s: hpps_memattr_cpu_s@0 {
@@ -1401,25 +1427,6 @@
             mgr_ns_at_rst = <0>; /* boot into secure mode */
         };
 
-        arm-generic-timer-system-counter@0x21001000 { /* TODO: replace with HPSC Elapsed Timer */
-            /* The System Counter: the memory-mapped part of the ARM Generic Timers */
-            compatible = "arm.generic-timer";
-            reg = <0x21001000  0x0 0x1000 /* prio = */ 0x0>;
-        };
-
-        elapsed_timer: elapsed-timer@0x2100a000 {
-            compatible = "hpsc,hpsc-elapsed-timer";
-            reg = <0x2100a000  0x0 0x1000 /* prio = */ 0x0>;
-
-            nominal-freq-hz = <1000000000>; /* determines units of count reg regardless of clk */
-            clk-freq-hz = <125000000>;
-            max-divider = <32>; /* s.t. f min = 3,906,250 Hz as spec'ed */
-
-            interrupts = <0>;
-            interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =    <0 0 0 &trch_nvic TRCH_IRQ__ELAPSED_TIMER>;
-        };
-
         /* TODO: update addresses once defined in HW mem map */
         trch_wdt: wdt@0x21002000 {
             compatible = "hpsc,hpsc-wdt";
@@ -1445,6 +1452,12 @@
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &trch_nvic TRCH_IRQ__RTI_TIMER>;
+        };
+
+        to_system_counter {
+            compatible = "qemu:memory-region";
+            alias = <&system_counter_bus>;
+            reg = <0x2100a000  0x0 0x1000 /* prio = 0 */ 0x0>;
         };
 
         to_rtps_wdt {
