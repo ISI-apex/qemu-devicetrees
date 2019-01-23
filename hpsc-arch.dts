@@ -1177,7 +1177,7 @@
             compatible = "hpsc,hpsc-rti-timer";
             reg = <0x0000  0x0 0x1000 /* prio = */ 0x0>;
 
-            master-timer = <&elapsed_timer>;
+            arm-system-counter = <&elapsed_timer>;
 
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1187,7 +1187,7 @@
             compatible = "hpsc,hpsc-rti-timer";
             reg = <0x1000  0x0 0x1000 /* prio = */ 0x0>;
 
-            master-timer = <&elapsed_timer>;
+            arm-system-counter = <&elapsed_timer>;
 
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1197,7 +1197,7 @@
             compatible = "hpsc,hpsc-rti-timer";
             reg = <0x2000  0x0 0x1000 /* prio = */ 0x0>;
 
-            master-timer = <&elapsed_timer>;
+            arm-system-counter = <&elapsed_timer>;
 
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1289,7 +1289,7 @@
             compatible = "hpsc,hpsc-rti-timer";
             reg = <0x00000  0x0 0x10000 /* prio = */ 0x0>;
 
-            master-timer = <&elapsed_timer>;
+            arm-system-counter = <&elapsed_timer>;
 
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1299,7 +1299,7 @@
             compatible = "hpsc,hpsc-rti-timer";
             reg = <0x10000  0x0 0x10000 /* prio = */ 0x0>;
 
-            master-timer = <&elapsed_timer>;
+            arm-system-counter = <&elapsed_timer>;
 
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1309,7 +1309,7 @@
             compatible = "hpsc,hpsc-rti-timer";
             reg = <0x20000  0x0 0x10000 /* prio = */ 0x0>;
 
-            master-timer = <&elapsed_timer>;
+            arm-system-counter = <&elapsed_timer>;
 
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1319,7 +1319,7 @@
             compatible = "hpsc,hpsc-rti-timer";
             reg = <0x30000  0x0 0x10000 /* prio = */ 0x0>;
 
-            master-timer = <&elapsed_timer>;
+            arm-system-counter = <&elapsed_timer>;
 
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1329,7 +1329,7 @@
             compatible = "hpsc,hpsc-rti-timer";
             reg = <0x40000  0x0 0x10000 /* prio = */ 0x0>;
 
-            master-timer = <&elapsed_timer>;
+            arm-system-counter = <&elapsed_timer>;
 
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1339,7 +1339,7 @@
             compatible = "hpsc,hpsc-rti-timer";
             reg = <0x50000  0x0 0x10000 /* prio = */ 0x0>;
 
-            master-timer = <&elapsed_timer>;
+            arm-system-counter = <&elapsed_timer>;
 
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1349,7 +1349,7 @@
             compatible = "hpsc,hpsc-rti-timer";
             reg = <0x60000  0x0 0x10000 /* prio = */ 0x0>;
 
-            master-timer = <&elapsed_timer>;
+            arm-system-counter = <&elapsed_timer>;
 
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1359,7 +1359,7 @@
             compatible = "hpsc,hpsc-rti-timer";
             reg = <0x70000  0x0 0x10000 /* prio = */ 0x0>;
 
-            master-timer = <&elapsed_timer>;
+            arm-system-counter = <&elapsed_timer>;
 
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1440,7 +1440,7 @@
             compatible = "hpsc,hpsc-rti-timer";
             reg = <0x21009000  0x0 0x1000 /* prio = */ 0x0>;
 
-            master-timer = <&elapsed_timer>;
+            arm-system-counter = <&elapsed_timer>;
 
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
