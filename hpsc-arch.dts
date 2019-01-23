@@ -35,7 +35,6 @@
             compatible = "hpsc,hpsc-elapsed-timer";
             reg = <0x0 0x0 0x1000 /* prio = */ 0x0>;
 
-            nominal-freq-hz = <1000000000>; /* determines units of count reg regardless of clk */
             clk-freq-hz = <125000000>;
             max-divider = <32>; /* s.t. f min = 3,906,250 Hz as spec'ed */
 
