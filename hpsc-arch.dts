@@ -1613,29 +1613,25 @@
         };
 
         lsio_uart_0: serial@0x30000000 {
-            compatible = "xlnx,ps7-uart-1.00.a", "xlnx,xuartps";
+            compatible = "sysbus-serial"; /* 16550A */
             reg = <0x30000000  0x0 0x1000 /* prio = */ 0x0>;
-            current-speed = <115200>;
+            baudrate = <115200>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &trch_nvic TRCH_IRQ__LSIO_UART0_0>;
-            port-number = <0>;
             clock-names = "uart_clk", "pclk";
             clocks = <&uart_clk &uart_clk>;
-            ttrig-polarity = <1>;
         };
 
         lsio_uart_1: serial@0x30001000 {
-            compatible = "xlnx,ps7-uart-1.00.a", "xlnx,xuartps";
+            compatible = "sysbus-serial";
             reg = <0x30001000  0x0 0x1000 /* prio = */ 0x0>;
             current-speed = <115200>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &rtps_gic GIC_SPI RTPS_IRQ__LSIO_UART1_0 GIC_LVL_HI>;
-            port-number = <0>;
             clock-names = "uart_clk", "pclk";
             clocks = <&uart_clk &uart_clk>;
-            ttrig-polarity = <1>;
         };
 
         trch_smc353: trch_smc353@0x30009000{
