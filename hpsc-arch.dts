@@ -927,7 +927,6 @@
         };
     };
 
-
     crf_bus: crf_bus {
         compatible = "simple-bus";
         ranges ;
@@ -951,12 +950,7 @@
             #gpio-cells = <1>;
             compatible = "xlnx,zynqmp-crl";
             reg = <0xff5e0000  0x0 0x1000 /* prio = */ 0x0>;
-            num-gpios = <16>; // is it controller(3) or client(1)?
-            // pmu_global_client_gpios[] in xilinx_zynqmp_pmu_global.c
-            //        : out: "error_2_out"
-            // crl: controller_gpios : 0[RST_R5(0)], 1(RST_R5(1)], 2(SRST_B)
-            // Then: if "error_2_out", RST_R5(0)?
-            gpios = <&pmu_global 26>;
+            num-gpios = <16>;
         };
     };
 
@@ -1088,25 +1082,6 @@
             reg = <0x0 0xffca0000 0x0 0x100 /* prio = */ 0x1>;
         };
 
-        /* TODO: both of these IPI nodes will go away once PSCI-via-TRCH is implemented */
-        ipibuf_ram: ipibuf@ff990000 {
-                compatible = "qemu:memory-region";
-                qemu,ram = <1>;
-                reg = <0x0 0xff990000 0x0 0x1000 /* prio = */ 0x1>;
-        };
-        apu_ipi: apu_ipi@0xff300000 {
-            compatible = "xlnx,zynqmp_ipi";
-            gpio-controller;
-            reg = <0x0 0xff300000 0x0 0x1000 /* prio = */ 0x1>;
-            #gpio-cells = <2>;
-            interrupts = <0>;
-            interrupt-map = <0 0 0 &hpps_gic  GIC_SPI HPPS_IRQ__IPI0 GIC_LVL_HI>;
-            interrupt-map-mask = <0 0 0xffff>;
-            num-gpios = <64>;
-            interrupt-gpios = <&apu_ipi 0 0>;
-            gpios = <&apu_ipi 32 0>;
-        };
-
         to_hpps_wdt { /* A wormhole in HW, there's no path to nic1 */
             compatible = "qemu:memory-region";
             alias = <&hpps_wdts>;
@@ -1134,16 +1109,6 @@
             compatible = "qemu:memory-region";
             alias = <&apu_bus>;
             reg = <0x0 0x0 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
-        };
-
-
-        pmu_global: pmu_global@0xffd80000 {
-            compatible = "xlnx,pmu_global";
-            reg = <0x0 0xffd80000 0x0 0x40000 /* prio= */ 0x0>;
-            gpio-controller;
-            #gpio-cells = <1>;
-            num-gpios = <30>; /* pmu_global_client_gpios(30), pmu_global_controller_gpios(3 or 4) in xilinx_zynqmp_pmu_global.c */
-            ignore-pwr-req = <1>;
         };
 
         to_ccn {
