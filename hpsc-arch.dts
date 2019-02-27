@@ -1580,7 +1580,7 @@
         lsio_uart_0: serial@0x30000000 {
             compatible = "sysbus-serial"; /* 16550A */
             reg = <0x30000000  0x0 0x1000 /* prio = */ 0x0>;
-            baudrate = <115200>;
+            baudrate = <500000>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &trch_nvic TRCH_IRQ__LSIO_UART0_0>;
@@ -1591,7 +1591,7 @@
         lsio_uart_1: serial@0x30001000 {
             compatible = "sysbus-serial";
             reg = <0x30001000  0x0 0x1000 /* prio = */ 0x0>;
-            current-speed = <115200>;
+            current-speed = <500000>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &rtps_gic GIC_SPI RTPS_IRQ__LSIO_UART1_0 GIC_LVL_HI>;
@@ -1750,7 +1750,7 @@
         hpps_uart_0: serial@0xf92c0000 {
             compatible = "sysbus-serial"; /* 16550A */
             reg = <0xf92c0000  0x0 0x1000 /* prio = */ 0x0>;
-            baudrate = <115200>;
+            baudrate = <500000>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_UART0_0 GIC_LVL_HI>;
