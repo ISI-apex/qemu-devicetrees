@@ -735,10 +735,10 @@
                 num-cpu = <2>;
                 has-security-extensions = <0>;
 
-                /* gicd-tyer: Cortex-R52 TRM (Table 9-7)                         */
+                /* gicd-tyer: Cortex-R52 TRM r1p1 (Table 9-7)                         */
                 /*            no support of (Affinity level 3, DVIS, LPIS, MBIS) */
                 /*            IDBits 0b01001 (INTID is 10 bits)                  */
-                gicd-typer = <0x02480000>;	
+                gicd-typer = <0x0248001e>;	
 
 
                 interrupts-extended = /* signals output by the interrupt controller */
@@ -784,7 +784,8 @@
                 /*            support of (Affinity level 3)        */
                 /*            no support of (DVIS, LPIS, MBIS)     */
                 /*            IDBits 0b01111 (INTID is 16 bits)    */
-                gicd-typer = <0x03780000>;	
+                /*            Security Extn (1 << 10) */
+                gicd-typer = <0x0378041e>;	
 
                 interrupts-extended = /* signals output by the interrupt controller */
                         /* IRQ * #cpus; each wired to input signal 0=IRQ on each CPU */
@@ -1047,10 +1048,12 @@
                 cpu-start-id = <4>;
                 has-security-extensions = <1>;
                 /* gicd-tyer: based on the code (arm_gicv3_dist.c) */
-                /*            support of (Affinity level 3)        */
+                /*            support of nonzero value of (Affinity level 3)    (1 << 24)    */
                 /*            no support of (DVIS, LPIS, MBIS)     */
-                /*            IDBits 0b01111 (INTID is 16 bits)    */
-                gicd-typer = <0x03780000>;	
+                /*            IDBits 0b01111 (INTID is 16 bits) ( 0b01111 << 19)   */
+                /*            Security Extn (1 << 10) */
+		/* 	      				*/
+                gicd-typer = <0x0378041e>;	
 
                 interrupts-extended = /* signals output by the interrupt controller */
                         /* IRQ * #cpus; each wired to input signal 0=IRQ on each CPU */
