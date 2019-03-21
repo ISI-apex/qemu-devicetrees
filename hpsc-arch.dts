@@ -1670,6 +1670,46 @@
             /* TODO: GPIO */
             /* TODO: I2C */
             /* TODO: SPI */
+        trch_i2c: i2c@0x30004000{
+            #address-cells = <1>;
+            #size-cells = <0>;
+            compatible = "xlnx,ps7-i2c-1.00.a", "cdns,i2c-r1p10";
+            reg = <0x30004000 0x1000>;
+            interrupts = <0>;
+            interrupt-map =  <0 0 0 &trch_nvic TRCH_IRQ__LSIO_I2C>;
+            clocks = <&misc_clk>;
+            i2cswitch@74 {
+                #address-cells = <1>;
+                #size-cells = <0>;
+                compatible = "nxp,pca9548";
+                reg = <0x74>;
+                i2c@0 {
+                    #address-cells = <1>;
+                    #size-cells = <0>;
+                    reg = <0>;
+                    eeprom@44 {
+                        compatible = "at,24c08";
+                        reg = <0x44>;
+                        device-index = <0x0>;
+                    };
+                    eeprom@45 {
+                        compatible = "at,24c08";
+                        reg = <0x45>;
+                        device-index = <0x1>;
+                    };
+                    eeprom@46 {
+                        compatible = "at,24c08";
+                        reg = <0x46>;
+                        device-index = <0x2>;
+                    };
+                    eeprom@47 {
+                        compatible = "at,24c08";
+                        reg = <0x47>;
+                        device-index = <0x3>;
+                    };
+                };
+            };
+        };
     };
 
     nic5: nic5 {
