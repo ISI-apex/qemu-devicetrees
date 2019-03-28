@@ -87,6 +87,7 @@
 #define TRCH_IRQ__RTI_TIMER                     74
 
 #define TRCH_IRQ__LSIO_I2C			75
+#define TRCH_IRQ__LSIO_SPI			76
 
 // ******** RTPS interrupt controller inputs **************
 
