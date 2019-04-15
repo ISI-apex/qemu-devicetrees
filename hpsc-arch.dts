@@ -1031,6 +1031,7 @@
         #address-cells = <2>;
         compatible = "simple-bus";
         ranges ;
+	interrupt-parent = <&hpps_gic>;
 
         hpps_gic: interrupt-controller@0xf9000000 {
                 compatible = "arm,arm-gicv3";
@@ -1076,14 +1077,14 @@
 
                                    type    idx                bit[31:8]=bitmask of cpu set (i.e. of inputs in PPI range for each CPU)
                                                               bit[8:0]=type (8=level) */
-                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0108>,
-                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0208>,
-                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0408>,
-                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0808>,
-                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x1008>,
-                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x2008>,
-                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x4008>,
-                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x8008>;
+                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0104>,
+                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0204>,
+                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0404>,
+                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0804>,
+                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x1004>,
+                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x2004>,
+                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x4004>,
+                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x8004>;
 
                 gpios = /* input signals */
                         </* resetn */ &crf 8 /* RST_GIC */>;
@@ -2093,7 +2094,7 @@
             compatible = "qemu:memory-region";
             device_type = "memory";
             qemu,ram = <1>;
-            reg = <0x1 0x00000000 0x0 0x80000000 /* prio = */ 0x0>;
+            reg = <0x1 0x00000000 0x1 0x00000000 /* prio = */ 0x0>;
         };
 
         to_nic6 {
