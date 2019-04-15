@@ -1031,7 +1031,7 @@
         #address-cells = <2>;
         compatible = "simple-bus";
         ranges ;
-	interrupt-parent = <&hpps_gic>;
+/*	interrupt-parent = <&hpps_gic>; */
 
         hpps_gic: interrupt-controller@0xf9000000 {
                 compatible = "arm,arm-gicv3";
