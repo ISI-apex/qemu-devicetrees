@@ -1667,6 +1667,26 @@
 		region_size = <0x04000000>;
 		pflash_index = <0>;
 	    };
+            trch_nand: trch_nand@0x2c0000000 {
+                compatible = "nand";
+                arm,nand-cycle-t0 = <0x4>;
+                arm,nand-cycle-t1 = <0x4>;
+                arm,nand-cycle-t2 = <0x1>;
+                arm,nand-cycle-t3 = <0x2>;
+                arm,nand-cycle-t4 = <0x2>;
+                arm,nand-cycle-t5 = <0x2>;
+                arm,nand-cycle-t6 = <0x4>;
+                chip_id = <0xaa>;
+                manufacturer_id = <0x2c>;
+                drive = "";
+                label = "trch-nand";
+                status = "disabled";
+                reg = <0x2c000000 0x04000000 /* prio = 0 */ 0x0>;
+		start_addr_high = <0x0>;
+		start_addr_low= <0x2c000000>;
+		region_size = <0x04000000>;
+		pflash_index = <1>;
+            };
         };
             /* TODO: GPIO */
             /* TODO: I2C */
