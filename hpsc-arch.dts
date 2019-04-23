@@ -1123,7 +1123,7 @@
         to_hpps_rti_timers {
             compatible = "qemu:memory-region";
             alias = <&hpps_rti_timers>;
-            reg = <0x0 0xfeed0000  0x0 0x80000 /* prio = 0 */ 0x0>;
+            reg = <0x0 0xffed0000  0x0 0x80000 /* prio = 0 */ 0x0>;
         };
 
 
