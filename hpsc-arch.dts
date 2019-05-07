@@ -1792,6 +1792,7 @@
         compatible = "simple-bus";
         ranges ;
 
+#if 0
         hpps_trch_mailbox: mailbox@0xfff50000 {
             compatible = "hpsc,hpsc-mbox";
             reg = <0xfff50000  0x0 0x1000 /* prio = */ 0x0>;
@@ -1839,6 +1840,7 @@
                             <0 0 14 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_14 GIC_LVL_HI>, <0 0 14 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_14 GIC_LVL_HI>,
                             <0 0 15 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_15 GIC_LVL_HI>, <0 0 15 &rtps_gic GIC_SPI RTPS_IRQ__HR_MBOX_15 GIC_LVL_HI>;
         };
+#endif
 
         hpps_uart_0: serial@0xf92c0000 {
             compatible = "sysbus-serial"; /* 16550A */
@@ -1898,6 +1900,7 @@
             };
         };
 
+#if 0
         hpps_smmu: smmu@0xf9300000 {
                 compatible = "arm,mmu-500";
                 reg-extended = <&nic6 0xf9300000  0x0 0x20000     /* prio = */ 0x0
@@ -2043,6 +2046,7 @@
             revision = <0x40070106>;
             mdio = <&mdio0>;
         };
+#endif
 
         /* TODO: PCIe */
         /* TODO: Spacewire */
