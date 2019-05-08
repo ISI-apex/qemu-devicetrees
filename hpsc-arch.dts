@@ -1642,12 +1642,12 @@
             clocks = <&uart_clk &uart_clk>;
         };
 
-        trch_smc353: trch_smc353@0x30009000{
+        trch_smc353: trch_smc353@0x30006000{
             arm,addr25 = <0x0>;
             clock-names = "memclk", "aclk";
             clocks = <&misc_clk>, <&misc_clk>;
             compatible = "arm,pl35x";
-            reg = <0x30009000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x30006000  0x0 0x1000 /* prio = */ 0x0>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =  <0 0 0 &trch_nvic TRCH_IRQ__TRCH_SMC>;
