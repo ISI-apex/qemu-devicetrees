@@ -1,9 +1,6 @@
-Copyright (c) 2016, Xilinx Inc
-All rights reserved.
-
 This repo is used to build QEMU specific device trees for the HPSC Chiplet
 architecture. These device trees are used by the HPSC project's QEMU to
-internally generate machine models. This repo is originally forked from Xilinx.
+internally generate machine models.
 
 To build the device trees:
    1. You must have dtc on your PATH, or specify DTC= env to a dtc executable.
@@ -12,3 +9,7 @@ To build the device trees:
 This will give you a folder called LATEST which contains subdirectories for the
 different QEMU operating modes. Under these sub directories is the board
 specific device trees.
+
+This repo is originally forked from Xilinx.
+Copyright (c) 2016, Xilinx Inc
+All rights reserved.
