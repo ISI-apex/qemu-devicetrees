@@ -815,6 +815,7 @@
                 cpu1 = <&rtps_r52_cpu1>;
 
                 has-security-extensions = <0>;
+                redist-region-count = <2>;
 
                 /* gicd-tyer: Cortex-R52 TRM r1p1 (Table 9-7)                         */
                 /*            no support of (Affinity level 3, DVIS, LPIS, MBIS) */
@@ -969,6 +970,7 @@
                 cpu0 = <&rtps_a53_cpu0>;
 
                 has-security-extensions = <1>;
+                redist-region-count = <1>;
                 /* gicd-tyer: based on the code (arm_gicv3_dist.c) */
                 /*            support of (Affinity level 3)        */
                 /*            no support of (DVIS, LPIS, MBIS)     */
@@ -1191,6 +1193,8 @@
 #endif /* CONFIG_HPPS_A53_CL* */
 
                 has-security-extensions = <1>;
+                redist-region-count = <8>;
+
                 /* gicd-tyer: based on the code (arm_gicv3_dist.c) */
                 /*            support of nonzero value of (Affinity level 3)    (1 << 24)    */
                 /*            no support of (DVIS, LPIS, MBIS)     */
