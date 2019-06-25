@@ -803,6 +803,7 @@
                 cpu-start-id = <1>;
                 num-cpu = <2>;
                 has-security-extensions = <0>;
+                redist-region-count = <2>;
 
                 /* gicd-tyer: Cortex-R52 TRM r1p1 (Table 9-7)                         */
                 /*            no support of (Affinity level 3, DVIS, LPIS, MBIS) */
@@ -954,6 +955,7 @@
                 num-cpu = <1>;
                 cpu-start-id = <3>;
                 has-security-extensions = <1>;
+                redist-region-count = <1>;
                 /* gicd-tyer: based on the code (arm_gicv3_dist.c) */
                 /*            support of (Affinity level 3)        */
                 /*            no support of (DVIS, LPIS, MBIS)     */
@@ -1107,6 +1109,8 @@
                 num-cpu = <8>;
                 cpu-start-id = <4>;
                 has-security-extensions = <1>;
+                redist-region-count = <8>;
+
                 /* gicd-tyer: based on the code (arm_gicv3_dist.c) */
                 /*            support of nonzero value of (Affinity level 3)    (1 << 24)    */
                 /*            no support of (DVIS, LPIS, MBIS)     */
