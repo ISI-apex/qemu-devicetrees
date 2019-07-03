@@ -156,7 +156,6 @@
                              <&rtps_gic GIC_PPI PPI_IRQ__TIMER_PHYS 0x0108>, /* Physical Timer event            (ID 29 <= 16 + idx) */
                              <&rtps_gic GIC_PPI PPI_IRQ__TIMER_VIRT 0x0108>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
                              <&rtps_gic GIC_PPI PPI_IRQ__TIMER_HYP  0x0108>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
-                             /* TODO: wfi, gicv3-maintenance-interrupt, pmu-interrupt */
                 interrupt-names =
                              "timer_phys",
                              "timer_virt",
@@ -196,7 +195,6 @@
                              <&rtps_gic GIC_PPI PPI_IRQ__TIMER_PHYS 0x0208>, /* Physical Timer event            (ID 29 <= 16 + idx) */
                              <&rtps_gic GIC_PPI PPI_IRQ__TIMER_VIRT 0x0208>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
                              <&rtps_gic GIC_PPI PPI_IRQ__TIMER_HYP  0x0208>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
-                             /* TODO: wfi, gicv3-maintenance-interrupt, pmu-interrupt */
                 interrupt-names =
                              "timer_phys",
                              "timer_virt",
@@ -257,7 +255,6 @@
                              <&rtpsA53_gic GIC_PPI PPI_IRQ__TIMER_PHYS 0x0108>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
                              <&rtpsA53_gic GIC_PPI PPI_IRQ__TIMER_VIRT 0x0108>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
                              <&rtpsA53_gic GIC_PPI PPI_IRQ__TIMER_HYP  0x0108>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
-                             /* TODO: wfi, gicv3-maintenance-interrupt, pmu-interrupt */
                 interrupt-names =
                              "timer_sec",
                              "timer_phys",
@@ -328,7 +325,6 @@
                              <&hpps_gic GIC_PPI PPI_IRQ__TIMER_PHYS 0x0108>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
                              <&hpps_gic GIC_PPI PPI_IRQ__TIMER_VIRT 0x0108>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
                              <&hpps_gic GIC_PPI PPI_IRQ__TIMER_HYP  0x0108>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
-                             /* TODO: wfi, gicv3-maintenance-interrupt, pmu-interrupt */
                 interrupt-names =
                              "timer_sec",
                              "timer_phys",
@@ -749,20 +745,23 @@
                         /* vIRQ * #cpus, each wired to input signal 2=vIRQ on each CPU */
                         <&rtps_cpu0 2>, <&rtps_cpu1 2>,
                         /* vFIQ * #cpus, each wired to input signal 3=vFIQ on each CPU */
-                        <&rtps_cpu0 3>, <&rtps_cpu1 3>,
-                        /* maintanance * #cpus: each wired to a set of inputs on this interrupt controller */
-                            /* inputs into this interrupt controller:
-                                       [0 .. num-irq-1]: SPI
-                                       [num-irq * cpuidx .. num-irq * cpuidx + 32]: PPI for CPU# cpuidx ( * #cpus )
-                               set of input irq# = { num-irq - 16 + idx + 32*cpuidx | foreach cpuidx set in bitmask }
-
-                         intc      type    idx                  bit[31:8]=bitmask of cpu set, bit[7:0]=cfg (8=level) */
-                        <&rtps_gic GIC_PPI PPI_IRQ__GIC_MAINT    0x0108>,
-                        <&rtps_gic GIC_PPI PPI_IRQ__GIC_MAINT    0x0208>;
+                        <&rtps_cpu0 3>, <&rtps_cpu1 3>;
+                interrupt-names = "irq[0]", "irq[1]",
+                                  "fiq[0]", "fiq[1]",
+                                  "virq[0]", "virq[1]",
+                                  "vfiq[0]", "vfiq[1]";
 
                 gpios = /* input signals */
                         </* resetn */ &crl 4 /* RST_GIC */>;
                 gpio-names = "resetn";
+
+                /* Inputs into this interrupt controller (used interrupts prop of devices):
+                           [0 .. num-irq-1]: SPI
+                           [num-irq * cpuidx .. num-irq * cpuidx + 32]: PPI for CPU# cpuidx ( * #cpus )
+                   set of input irq# = { num-irq - 16 + idx + 32*cpuidx | foreach cpuidx set in bitmask }
+
+                       type idx  bit[31:8]=bitmask of cpu set, bit[7:0]=cfg (8=level)
+                */
         };
 
         rtpsA53_gic: interrupt-controller@0x30c00000 {
@@ -795,20 +794,20 @@
                         /* vIRQ * #cpus, each wired to input signal 2=vIRQ on each CPU */
                         <&rtpsA53_cpu0 2>, 
                         /* vFIQ * #cpus, each wired to input signal 3=vFIQ on each CPU */
-                        <&rtpsA53_cpu0 3>, 
-                        /* maintanance * #cpus: each wired to a set of inputs on this interrupt controller */
-                            /* inputs into this interrupt controller:
-                                       [0 .. num-irq-1]: SPI
-                                       [num-irq * cpuidx .. num-irq * cpuidx + 32]: PPI for CPU# cpuidx ( * #cpus )
-                               set of input irq# = { num-irq - 16 + idx + 32*cpuidx | foreach cpuidx set in bitmask }
-
-                                      type    idx                bit[31:8]=bitmask of cpu set (i.e. of inputs in PPI range for each CPU)
-                                                                 bit[8:0]=type (8=level) */
-                        <&rtpsA53_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0108>;
+                        <&rtpsA53_cpu0 3>;
 
                 gpios = /* input signals */
                         </* resetn */ &crl 5 /* RST_GIC */>;
                 gpio-names = "resetn";
+
+                /* Inputs into this interrupt controller (ref'ed from interrupts prop of devices):
+                           [0 .. num-irq-1]: SPI
+                           [num-irq * cpuidx .. num-irq * cpuidx + 32]: PPI for CPU# cpuidx ( * #cpus )
+                   set of input irq# = { num-irq - 16 + idx + 32*cpuidx | foreach cpuidx set in bitmask }
+
+                     type  idx  bit[31:8]=bitmask of cpu set (i.e. of inputs in PPI range for each CPU)
+                                bit[8:0]=type (8=level)
+                */
         };
 
         /* TODO: dummy node enabled in SPLIT mode only, revise this when implementing lock/split modes */
@@ -1068,27 +1067,20 @@
                         <&hpps_cpu4 2>, <&hpps_cpu5 2>, <&hpps_cpu6 2>, <&hpps_cpu7 2>,
                         /* vFIQ * #cpus, each wired to input signal 3=vFIQ on each CPU */
                         <&hpps_cpu0 3>, <&hpps_cpu1 3>, <&hpps_cpu2 3>, <&hpps_cpu3 3>,
-                        <&hpps_cpu4 3>, <&hpps_cpu5 3>, <&hpps_cpu6 3>, <&hpps_cpu7 3>,
-                        /* maintanance * #cpus: each wired to a set of inputs on this interrupt controller */
-                            /* inputs into this interrupt controller:
-                                       [0 .. num-irq-1]: SPI
-                                       [num-irq * cpuidx .. num-irq * cpuidx + 32]: PPI for CPU# cpuidx ( * #cpus )
-                               set of input irq# = { num-irq - 16 + idx + 32*cpuidx | foreach cpuidx set in bitmask }
-
-                                   type    idx                bit[31:8]=bitmask of cpu set (i.e. of inputs in PPI range for each CPU)
-                                                              bit[8:0]=type (8=level) */
-                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0104>,
-                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0204>,
-                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0404>,
-                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x0804>,
-                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x1004>,
-                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x2004>,
-                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x4004>,
-                        <&hpps_gic GIC_PPI PPI_IRQ__GIC_MAINT 0x8004>;
+                        <&hpps_cpu4 3>, <&hpps_cpu5 3>, <&hpps_cpu6 3>, <&hpps_cpu7 3>;
 
                 gpios = /* input signals */
                         </* resetn */ &crf 8 /* RST_GIC */>;
                 gpio-names = "resetn";
+
+                /* Inputs into this interrupt controller (ref'ed from interrupts prop of devices):
+                           [0 .. num-irq-1]: SPI
+                           [num-irq * cpuidx .. num-irq * cpuidx + 32]: PPI for CPU# cpuidx ( * #cpus )
+                   set of input irq# = { num-irq - 16 + idx + 32*cpuidx | foreach cpuidx set in bitmask }
+
+                    type  idx bit[31:8]=bitmask of cpu set (i.e. of inputs in PPI range for each CPU)
+                              bit[8:0]=type (8=level)
+                */
         };
 
         csu_core@0xffca0000 { /* TODO: present in Chiplet? Probably, not. ATF wants this. */
