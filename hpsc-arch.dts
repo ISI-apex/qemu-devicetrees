@@ -817,12 +817,6 @@
                 reg = <0x60000 0x0 0x10000 /* prio = -1 */ 0xffffffff>;
         };
 
-        /* This is a wormhole in hardware, there's no actual access to nic1 */
-        to_rtps_wdt {
-            compatible = "qemu:memory-region";
-            alias = <&rtps_wdts>;
-            reg = <0x30a09000 0x0 0x3000 /* prio = 0 */ 0x0>;
-        };
         to_nic2 {
             compatible = "qemu:memory-region";
             alias = <&nic2>;
@@ -1150,9 +1144,10 @@
         clk-freq-hz = <125000000>; \
         max-divider = <32>; \
 
-    rtps_wdts: rtps_wdts { /* accessible from TRCH nic1 and from RTPS R52 */
+    rtps_a53_wdts: rtps_a53_wdts { /* accessible from TRCH nic1 and from RTPS A53 nic3 */
         compatible = "simple-bus";
         ranges ;
+
         rtps_a53_wdt: wdt@0x0000 {
             compatible = "hpsc,hpsc-wdt";
             reg = <0x0000  0x0 0x1000 /* prio = */ 0x0>;
@@ -1162,9 +1157,15 @@
             interrupt-map =  <0 0 0 &rtps_a53_gic GIC_PPI PPI_IRQ__WDT 0x0108>,
                              <0 0 1 &trch_nvic TRCH_IRQ__WDT_RTPS_A53_ST2>;
         };
+    };
+
+    rtps_r52_wdts: rtps_r52_wdts { /* accessible from TRCH nic1 and from RTPS R52 nic2 */
+        compatible = "simple-bus";
+        ranges ;
+
         rtps_r52_wdt0: wdt@0x1000 {
             compatible = "hpsc,hpsc-wdt";
-            reg = <0x1000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0000  0x0 0x1000 /* prio = */ 0x0>;
             WDT_PROPS
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1173,7 +1174,7 @@
         };
         rtps_r52_wdt1: wdt@0x2000 {
             compatible = "hpsc,hpsc-wdt";
-            reg = <0x2000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x1000  0x0 0x1000 /* prio = */ 0x0>;
             WDT_PROPS
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1450,10 +1451,16 @@
             reg = <0x2100a000  0x0 0x1000 /* prio = 0 */ 0x0>;
         };
 
-        to_rtps_wdt {
+        to_rtps_a53_wdt {
             compatible = "qemu:memory-region";
-            alias = <&rtps_wdts>;
-            reg = <0x21003000  0x0 0x3000 /* prio = 0 */ 0x0>;
+            alias = <&rtps_a53_wdts>;
+            reg = <0x21003000  0x0 0x1000 /* prio = 0 */ 0x0>;
+        };
+
+        to_rtps_r52_wdt {
+            compatible = "qemu:memory-region";
+            alias = <&rtps_r52_wdts>;
+            reg = <0x21004000  0x0 0x2000 /* prio = 0 */ 0x0>;
         };
 
         to_rtps_a53_rti_timers {
@@ -1496,6 +1503,13 @@
         compatible = "simple-bus";
         ranges ;
 
+        /* This is a wormhole in hardware, there's no actual access to nic1 */
+        to_rtps_r52_wdt {
+            compatible = "qemu:memory-region";
+            alias = <&rtps_r52_wdts>;
+            reg = <0x30a0a000 0x0 0x2000 /* prio = 0 */ 0x0>;
+        };
+
         to_rtps_r52_rti_timers {
             compatible = "qemu:memory-region";
             alias = <&rtps_r52_rti_timers>;
@@ -1518,6 +1532,13 @@
     nic3: nic3 {
         compatible = "simple-bus";
         ranges ;
+
+        /* This is a wormhole in hardware, there's no actual access to nic1 */
+        to_rtps_a53_wdt {
+            compatible = "qemu:memory-region";
+            alias = <&rtps_a53_wdts>;
+            reg = <0x30a09000 0x0 0x1000 /* prio = 0 */ 0x0>;
+        };
 
         to_rtps_a53_rti_timers {
             compatible = "qemu:memory-region";
