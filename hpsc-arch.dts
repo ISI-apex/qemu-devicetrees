@@ -218,23 +218,23 @@
                 arm,reset-hivecs = <1>;                   \
                 arm,reset-cbar = <0xfd3fe000>;            \
                 start-powered-off = <1>;                  \
-                mr = <&rtpsA53>;                          \
-                memory = <&rtpsA53>;                      \
-                memory_ns = <&rtpsA53>;                   \
+                mr = <&rtps_a53>;                         \
+                memory = <&rtps_a53>;                     \
+                memory_ns = <&rtps_a53>;                  \
                 arm-system-counter = <&elapsed_timer>;    \
 
 
-            rtpsA53_memattr_cpu0_s: rtpsA53_memattr_cpu_s@0 {
+            rtps_a53_memattr_cpu0_s: rtps_a53_memattr_cpu_s@0 {
                 compatible = "qemu:memory-transaction-attr";
                 secure = <1>;
                 master-id = <MASTER_ID_RTPS_A53>;
             };
-            rtpsA53_memattr_cpu0_ns: rtpsA53_memattr_cpu_ns@0 {
+            rtps_a53_memattr_cpu0_ns: rtps_a53_memattr_cpu_ns@0 {
                 compatible = "qemu:memory-transaction-attr";
                 secure = <0>;
                 master-id = <MASTER_ID_RTPS_A53>;
             };
-            rtpsA53_cpu0: rtpsA53_cpu@0 {
+            rtps_a53_cpu0: rtps_a53_cpu@0 {
                 RTPS_A53_PROPS
                 gdb-id = "RTPS Cortex-A53 #0";
 
@@ -251,18 +251,18 @@
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
                              /* intc       type    idx        [31:8]=cpus bitmask [0:7]=level(8=low) (a PPI ided by (idx,bit in mask)) */
-                             <&rtpsA53_gic GIC_PPI PPI_IRQ__TIMER_SEC  0x0108>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
-                             <&rtpsA53_gic GIC_PPI PPI_IRQ__TIMER_PHYS 0x0108>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
-                             <&rtpsA53_gic GIC_PPI PPI_IRQ__TIMER_VIRT 0x0108>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
-                             <&rtpsA53_gic GIC_PPI PPI_IRQ__TIMER_HYP  0x0108>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
+                             <&rtps_a53_gic GIC_PPI PPI_IRQ__TIMER_SEC  0x0108>, /* Secure Physical Timer event     (ID 29 <= 16 + idx) */
+                             <&rtps_a53_gic GIC_PPI PPI_IRQ__TIMER_PHYS 0x0108>, /* Non-secure Physical Timer event (ID 30 <= 16 + idx) */
+                             <&rtps_a53_gic GIC_PPI PPI_IRQ__TIMER_VIRT 0x0108>, /* Virtual Timer event             (ID 27 <= 16 + idx) */
+                             <&rtps_a53_gic GIC_PPI PPI_IRQ__TIMER_HYP  0x0108>; /* Hypervisor Timer event          (ID 26 <= 16 + idx) */
                 interrupt-names =
                              "timer_sec",
                              "timer_phys",
                              "timer_virt",
                              "timer_hyp";
 
-                memattr_s = <&rtpsA53_memattr_cpu0_s>;
-                memattr_ns = <&rtpsA53_memattr_cpu0_ns>;
+                memattr_s = <&rtps_a53_memattr_cpu0_s>;
+                memattr_ns = <&rtps_a53_memattr_cpu0_ns>;
             };
         };
 
@@ -764,7 +764,7 @@
                 */
         };
 
-        rtpsA53_gic: interrupt-controller@0x30c00000 {
+        rtps_a53_gic: interrupt-controller@0x30c00000 {
                 compatible = "arm,arm-gicv3";
                 revision = <3>;
 
@@ -788,13 +788,13 @@
 
                 interrupts-extended = /* signals output by the interrupt controller */
                         /* IRQ * #cpus; each wired to input signal 0=IRQ on each CPU */
-                        <&rtpsA53_cpu0 0>, 
+                        <&rtps_a53_cpu0 0>,
                         /* FIQ * #cpus, each wired to input signal 1=FIQ on each CPU */
-                        <&rtpsA53_cpu0 1>, 
+                        <&rtps_a53_cpu0 1>,
                         /* vIRQ * #cpus, each wired to input signal 2=vIRQ on each CPU */
-                        <&rtpsA53_cpu0 2>, 
+                        <&rtps_a53_cpu0 2>,
                         /* vFIQ * #cpus, each wired to input signal 3=vFIQ on each CPU */
-                        <&rtpsA53_cpu0 3>;
+                        <&rtps_a53_cpu0 3>;
 
                 gpios = /* input signals */
                         </* resetn */ &crl 5 /* RST_GIC */>;
@@ -920,7 +920,7 @@
         };
     };
 
-    rtpsA53: rtps@2 { /* view of address space from RTPS A53 */
+    rtps_a53: rtps_a53@0 { /* view of address space from RTPS A53 */
         compatible = "simple-bus";
         ranges ;
         to_rtps {
@@ -929,7 +929,6 @@
             reg = <0x0 /* size */ 0x1 0x00000000 /* prio */ 0xffffffff /* -1 */>;
         };
     };
-
 
     crf_bus: crf_bus {
         compatible = "simple-bus";
@@ -987,7 +986,7 @@
                     dcache-for-rpu1 = <&dcache_rpu1>;
                     ddr-mem-for-rpu = <&ddr_memory_2_for_rpu>;
                     gic-for-rpu = <&rtps_gic>;
-                    gic-for-A53 = <&rtpsA53_gic>;
+                    gic-for-A53 = <&rtps_a53_gic>;
                 };
             };
         };
@@ -1166,7 +1165,7 @@
             WDT_PROPS
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =  <0 0 0 &rtpsA53_gic GIC_PPI PPI_IRQ__WDT 0x0108>,
+            interrupt-map =  <0 0 0 &rtps_a53_gic GIC_PPI PPI_IRQ__WDT 0x0108>,
                              <0 0 1 &trch_nvic TRCH_IRQ__WDT_RTPS_A53_ST2>;
         };
         rtps_r52_wdt0: wdt@0x1000 {
@@ -1200,7 +1199,7 @@
 
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &rtpsA53_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0108>;
+            interrupt-map = <0 0 0 &rtps_a53_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0108>;
         };
         rtps_r52_rti_timer0: rti-timer@0x1000 {
             compatible = "hpsc,hpsc-rti-timer";
