@@ -1099,10 +1099,86 @@
             alias = <&hpps_wdts>;
             reg = <0x0 0xfff70000 0x0 0x80000 /* prio = 0 */ 0x0>;
         };
-        to_hpps_rti_timers {
-            compatible = "qemu:memory-region";
-            alias = <&hpps_rti_timers>;
-            reg = <0x0 0xffed0000  0x0 0x80000 /* prio = 0 */ 0x0>;
+
+        hpps_rti_timer0: rti-timer@0x00000 {
+            compatible = "hpsc,hpsc-rti-timer";
+            reg = <0x0 0xffed0000  0x0 0x10000 /* prio = */ 0x0>;
+
+            arm-system-counter = <&elapsed_timer>;
+
+            interrupts = <0>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0108>;
+        };
+        hpps_rti_timer1: rti-timer@0x10000 {
+            compatible = "hpsc,hpsc-rti-timer";
+            reg = <0x0 0xffee0000  0x0 0x10000 /* prio = */ 0x0>;
+
+            arm-system-counter = <&elapsed_timer>;
+
+            interrupts = <0>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0208>;
+        };
+        hpps_rti_timer2: rti-timer@0x20000 {
+            compatible = "hpsc,hpsc-rti-timer";
+            reg = <0x0 0xffef0000  0x0 0x10000 /* prio = */ 0x0>;
+
+            arm-system-counter = <&elapsed_timer>;
+
+            interrupts = <0>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0408>;
+        };
+        hpps_rti_timer3: rti-timer@0x30000 {
+            compatible = "hpsc,hpsc-rti-timer";
+            reg = <0x0 0xfff00000 0x0 0x10000 /* prio = */ 0x0>;
+
+            arm-system-counter = <&elapsed_timer>;
+
+            interrupts = <0>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0808>;
+        };
+        hpps_rti_timer4: rti-timer@0x40000 {
+            compatible = "hpsc,hpsc-rti-timer";
+            reg = <0x0 0xfff10000  0x0 0x10000 /* prio = */ 0x0>;
+
+            arm-system-counter = <&elapsed_timer>;
+
+            interrupts = <0>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x1008>;
+        };
+        hpps_rti_timer5: rti-timer@0x50000 {
+            compatible = "hpsc,hpsc-rti-timer";
+            reg = <0x0 0xfff20000  0x0 0x10000 /* prio = */ 0x0>;
+
+            arm-system-counter = <&elapsed_timer>;
+
+            interrupts = <0>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x2008>;
+        };
+        hpps_rti_timer6: rti-timer@0x60000 {
+            compatible = "hpsc,hpsc-rti-timer";
+            reg = <0x0 0xfff30000 0x0 0x10000 /* prio = */ 0x0>;
+
+            arm-system-counter = <&elapsed_timer>;
+
+            interrupts = <0>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x4008>;
+        };
+        hpps_rti_timer7: rti-timer@0x70000 {
+            compatible = "hpsc,hpsc-rti-timer";
+            reg = <0x0 0xfff40000 0x0 0x10000 /* prio = */ 0x0>;
+
+            arm-system-counter = <&elapsed_timer>;
+
+            interrupts = <0>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x8008>;
         };
 
 
@@ -1183,45 +1259,6 @@
         };
     };
 
-    rtps_a53_rti_timers: rtps_a53_rti_timers { /* accessible from TRCH nic1 and from RTPS */
-        compatible = "simple-bus";
-        ranges ;
-        rtps_a53_rti_timer: rti-timer@0x0000 {
-            compatible = "hpsc,hpsc-rti-timer";
-            reg = <0x0000  0x0 0x1000 /* prio = */ 0x0>;
-
-            arm-system-counter = <&elapsed_timer>;
-
-            interrupts = <0>;
-            interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &rtps_a53_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0108>;
-        };
-    };
-    rtps_r52_rti_timers: rtps_r52_rti_timers { /* accessible from TRCH nic1 and from RTPS */
-        compatible = "simple-bus";
-        ranges ;
-        rtps_r52_rti_timer0: rti-timer@0x1000 {
-            compatible = "hpsc,hpsc-rti-timer";
-            reg = <0x1000  0x0 0x1000 /* prio = */ 0x0>;
-
-            arm-system-counter = <&elapsed_timer>;
-
-            interrupts = <0>;
-            interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &rtps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0108>;
-        };
-        rtps_r52_rti_timer1: rti-timer@0x2000 {
-            compatible = "hpsc,hpsc-rti-timer";
-            reg = <0x2000  0x0 0x1000 /* prio = */ 0x0>;
-
-            arm-system-counter = <&elapsed_timer>;
-
-            interrupts = <0>;
-            interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &rtps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0208>;
-        };
-    };
-
     hpps_wdts: hpps_wdts { /* accessible from TRCH nic1 and from HPPS */
         compatible = "simple-bus";
         ranges ;
@@ -1296,91 +1333,6 @@
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =    <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__WDT 0x8008>,
                                <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS7_ST2>;
-        };
-    };
-
-    hpps_rti_timers: hpps_rti_timers {
-        compatible = "simple-bus";
-        ranges ;
-        hpps_rti_timer0: rti-timer@0x00000 {
-            compatible = "hpsc,hpsc-rti-timer";
-            reg = <0x00000  0x0 0x10000 /* prio = */ 0x0>;
-
-            arm-system-counter = <&elapsed_timer>;
-
-            interrupts = <0>;
-            interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0108>;
-        };
-        hpps_rti_timer1: rti-timer@0x10000 {
-            compatible = "hpsc,hpsc-rti-timer";
-            reg = <0x10000  0x0 0x10000 /* prio = */ 0x0>;
-
-            arm-system-counter = <&elapsed_timer>;
-
-            interrupts = <0>;
-            interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0208>;
-        };
-        hpps_rti_timer2: rti-timer@0x20000 {
-            compatible = "hpsc,hpsc-rti-timer";
-            reg = <0x20000  0x0 0x10000 /* prio = */ 0x0>;
-
-            arm-system-counter = <&elapsed_timer>;
-
-            interrupts = <0>;
-            interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0408>;
-        };
-        hpps_rti_timer3: rti-timer@0x30000 {
-            compatible = "hpsc,hpsc-rti-timer";
-            reg = <0x30000  0x0 0x10000 /* prio = */ 0x0>;
-
-            arm-system-counter = <&elapsed_timer>;
-
-            interrupts = <0>;
-            interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0808>;
-        };
-        hpps_rti_timer4: rti-timer@0x40000 {
-            compatible = "hpsc,hpsc-rti-timer";
-            reg = <0x40000  0x0 0x10000 /* prio = */ 0x0>;
-
-            arm-system-counter = <&elapsed_timer>;
-
-            interrupts = <0>;
-            interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x1008>;
-        };
-        hpps_rti_timer5: rti-timer@0x50000 {
-            compatible = "hpsc,hpsc-rti-timer";
-            reg = <0x50000  0x0 0x10000 /* prio = */ 0x0>;
-
-            arm-system-counter = <&elapsed_timer>;
-
-            interrupts = <0>;
-            interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x2008>;
-        };
-        hpps_rti_timer6: rti-timer@0x60000 {
-            compatible = "hpsc,hpsc-rti-timer";
-            reg = <0x60000  0x0 0x10000 /* prio = */ 0x0>;
-
-            arm-system-counter = <&elapsed_timer>;
-
-            interrupts = <0>;
-            interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x4008>;
-        };
-        hpps_rti_timer7: rti-timer@0x70000 {
-            compatible = "hpsc,hpsc-rti-timer";
-            reg = <0x70000  0x0 0x10000 /* prio = */ 0x0>;
-
-            arm-system-counter = <&elapsed_timer>;
-
-            interrupts = <0>;
-            interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x8008>;
         };
     };
 
@@ -1463,27 +1415,10 @@
             reg = <0x21004000  0x0 0x2000 /* prio = 0 */ 0x0>;
         };
 
-        to_rtps_a53_rti_timers {
-            compatible = "qemu:memory-region";
-            alias = <&rtps_a53_rti_timers>;
-            reg = <0x21006000  0x0 0x1000 /* prio = 0 */ 0x0>;
-        };
-        to_rtps_r52_rti_timers {
-            compatible = "qemu:memory-region";
-            alias = <&rtps_r52_rti_timers>;
-            reg = <0x21007000  0x0 0x2000 /* prio = 0 */ 0x0>;
-        };
-
         to_hpps_wdt {
             compatible = "qemu:memory-region";
             alias = <&hpps_wdts>;
             reg = <0x21010000  0x0 0x80000 /* prio = 0 */ 0x0>;
-        };
-
-        to_hpps_rti_timers {
-            compatible = "qemu:memory-region";
-            alias = <&hpps_rti_timers>;
-            reg = <0x21090000  0x0 0x80000 /* prio = 0 */ 0x0>;
         };
 
         to_nic2 {
@@ -1510,10 +1445,25 @@
             reg = <0x30a0a000 0x0 0x2000 /* prio = 0 */ 0x0>;
         };
 
-        to_rtps_r52_rti_timers {
-            compatible = "qemu:memory-region";
-            alias = <&rtps_r52_rti_timers>;
-            reg = <0x30a05000 0x0 0x2000 /* prio = 0 */ 0x0>;
+        rtps_r52_rti_timer0: rti-timer@0x1000 {
+            compatible = "hpsc,hpsc-rti-timer";
+            reg = <0x30a05000   0x0 0x1000 /* prio = */ 0x0>;
+
+            arm-system-counter = <&elapsed_timer>;
+
+            interrupts = <0>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map = <0 0 0 &rtps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0108>;
+        };
+        rtps_r52_rti_timer1: rti-timer@0x2000 {
+            compatible = "hpsc,hpsc-rti-timer";
+            reg = <0x30a06000  0x0 0x1000 /* prio = */ 0x0>;
+
+            arm-system-counter = <&elapsed_timer>;
+
+            interrupts = <0>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map = <0 0 0 &rtps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0208>;
         };
 
         /* TODO: RTPS SPI */
@@ -1540,10 +1490,15 @@
             reg = <0x30a09000 0x0 0x1000 /* prio = 0 */ 0x0>;
         };
 
-        to_rtps_a53_rti_timers {
-            compatible = "qemu:memory-region";
-            alias = <&rtps_a53_rti_timers>;
-            reg = <0x30a04000 0x0 0x1000 /* prio = 0 */ 0x0>;
+        rtps_a53_rti_timer: rti-timer@0x0000 {
+            compatible = "hpsc,hpsc-rti-timer";
+            reg = <0x30a04000  0x0 0x1000 /* prio = */ 0x0>;
+
+            arm-system-counter = <&elapsed_timer>;
+
+            interrupts = <0>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map = <0 0 0 &rtps_a53_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0108>;
         };
 
         rtps_ddr_low: rtps_ddr_low@0x40000000 { /* TODO: TZC400 */
