@@ -823,12 +823,6 @@
             alias = <&rtps_wdts>;
             reg = <0x30a09000 0x0 0x3000 /* prio = 0 */ 0x0>;
         };
-        to_rtps_rti_timers {
-            compatible = "qemu:memory-region";
-            alias = <&rtps_rti_timers>;
-            reg = <0x30a04000 0x0 0x3000 /* prio = 0 */ 0x0>;
-        };
-
         to_nic2 {
             compatible = "qemu:memory-region";
             alias = <&nic2>;
@@ -1188,7 +1182,7 @@
         };
     };
 
-    rtps_rti_timers: rtps_rti_timers { /* accessible from TRCH nic1 and from RTPS R52 */
+    rtps_a53_rti_timers: rtps_a53_rti_timers { /* accessible from TRCH nic1 and from RTPS */
         compatible = "simple-bus";
         ranges ;
         rtps_a53_rti_timer: rti-timer@0x0000 {
@@ -1201,6 +1195,10 @@
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &rtps_a53_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0108>;
         };
+    };
+    rtps_r52_rti_timers: rtps_r52_rti_timers { /* accessible from TRCH nic1 and from RTPS */
+        compatible = "simple-bus";
+        ranges ;
         rtps_r52_rti_timer0: rti-timer@0x1000 {
             compatible = "hpsc,hpsc-rti-timer";
             reg = <0x1000  0x0 0x1000 /* prio = */ 0x0>;
@@ -1458,10 +1456,15 @@
             reg = <0x21003000  0x0 0x3000 /* prio = 0 */ 0x0>;
         };
 
-        to_rtps_rti_timers {
+        to_rtps_a53_rti_timers {
             compatible = "qemu:memory-region";
-            alias = <&rtps_rti_timers>;
-            reg = <0x21006000  0x0 0x3000 /* prio = 0 */ 0x0>;
+            alias = <&rtps_a53_rti_timers>;
+            reg = <0x21006000  0x0 0x1000 /* prio = 0 */ 0x0>;
+        };
+        to_rtps_r52_rti_timers {
+            compatible = "qemu:memory-region";
+            alias = <&rtps_r52_rti_timers>;
+            reg = <0x21007000  0x0 0x2000 /* prio = 0 */ 0x0>;
         };
 
         to_hpps_wdt {
@@ -1493,6 +1496,12 @@
         compatible = "simple-bus";
         ranges ;
 
+        to_rtps_r52_rti_timers {
+            compatible = "qemu:memory-region";
+            alias = <&rtps_r52_rti_timers>;
+            reg = <0x30a05000 0x0 0x2000 /* prio = 0 */ 0x0>;
+        };
+
         /* TODO: RTPS SPI */
 
         to_nic3 {
@@ -1509,6 +1518,12 @@
     nic3: nic3 {
         compatible = "simple-bus";
         ranges ;
+
+        to_rtps_a53_rti_timers {
+            compatible = "qemu:memory-region";
+            alias = <&rtps_a53_rti_timers>;
+            reg = <0x30a04000 0x0 0x1000 /* prio = 0 */ 0x0>;
+        };
 
         rtps_ddr_low: rtps_ddr_low@0x40000000 { /* TODO: TZC400 */
             compatible = "qemu:memory-region";
