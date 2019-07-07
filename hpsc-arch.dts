@@ -659,6 +659,23 @@
         };
     };
 
+    /* TRCH SRAM exposes two slave interfaces:
+        (1) connected to the M4 core's ICode and DCode ports
+        (2) connected to nic1 (DMA load/stores go through here)
+       To model this, we factor SRAM node into a bus node and splice
+       this bus node into the respective memory regions.
+    */
+    trch_sram_bus: trch_sram_bus {
+        compatible = "simple-bus";
+        ranges ;
+
+        trch_sram: trch_sram@0x00000000 {
+            compatible = "qemu:memory-region";
+            qemu,ram = <1>;
+            reg = <0x0  0x0 0x100000 /* prio = */ 0x0>;
+        };
+    };
+
     trch: trch { /* view of address space from TRCH CPU */
         compatible = "simple-bus";
         ranges ;
@@ -700,6 +717,12 @@
             compatible = "qemu:memory-region";
             alias = <&apu_bus>;
             reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
+        };
+
+        to_trch_sram {
+            compatible = "qemu:memory-region";
+            alias = <&trch_sram_bus>;
+            reg = <0x0 /* size */ 0x0 0x100000 /* prio = */ 0x0>;
         };
 
         to_nic1 {
@@ -1340,14 +1363,6 @@
         compatible = "simple-bus";
         ranges ;
 
-        trch_sram: trch_sram@0x00000000 { /* TODO: could this also be accessed over I-/D-Code bus?
-                                             If so, then we should move the definition one level
-                                             above and add aliases to both here nic1{} and trch{}  */
-            compatible = "qemu:memory-region";
-            qemu,ram = <1>;
-            reg = <0x00000000  0x0 0x100000 /* prio = */ 0x1>;
-        };
-
         trch_dma_memattr: trch_dma_memattr@0 {
             compatible = "qemu:memory-transaction-attr";
             secure = <1>;
@@ -1419,6 +1434,12 @@
             compatible = "qemu:memory-region";
             alias = <&hpps_wdts>;
             reg = <0x21010000  0x0 0x80000 /* prio = 0 */ 0x0>;
+        };
+
+        to_trch_sram {
+            compatible = "qemu:memory-region";
+            alias = <&trch_sram_bus>;
+            reg = <0x0 /* size */ 0x0 0x100000 /* prio = 0 */ 0x0>;
         };
 
         to_nic2 {
