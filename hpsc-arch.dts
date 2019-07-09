@@ -1389,6 +1389,10 @@
                             <0 0 15 &rtps_r52_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_14 GIC_LVL_HI>,
                             <0 0 16 &rtps_r52_gic GIC_SPI RTPS_IRQ__RTPS_SMMU_CB_15 GIC_LVL_HI>;
 
+            /* Array of side-band signals on the master interface into each TBU */
+            stream-ids = <MMU_SID_RTPS_DMA>,
+                         <MMU_SID_RTPS_PCIE>;
+
             /* dma:  points to the MR used for PTWs.  */
             dma = <&nic3>;
             /* mr-x: points to the per TBU down-stream MR.  */
@@ -1694,9 +1698,12 @@
                             <0 0 15 &trch_nvic TRCH_IRQ__RT_SMMU_CB_14>,
                             <0 0 16 &trch_nvic TRCH_IRQ__RT_SMMU_CB_15>;
 
+            /* Array of side-band signals on the master interface into each TBU */
+            stream-ids = <MMU_SID_NIC5>;
+
             /* dma:  points to the MR used for PTWs.  */
-            /* mr-x: points to the per TBU down-stream MR.  */
             dma = <&ccn>;
+            /* mr-x: points to the per TBU down-stream MR.  */
             mr-0 = <&ccn>;
         };
 
@@ -1974,6 +1981,16 @@
                             <0 0 14 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_13 GIC_LVL_HI>,
                             <0 0 15 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_14 GIC_LVL_HI>,
                             <0 0 16 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMMU_CB_15 GIC_LVL_HI>;
+
+                /* Array of side-band signals on the master interface into each TBU */
+                stream-ids = <MMU_SID_HPPS_DMA>,
+                             <MMU_SID_HPPS_PCIE>,
+                             <MMU_SID_HPPS_ETH>,
+                             <MMU_SID_HPPS_TTE>,
+                             <MMU_SID_HPPS_SRIO_DMA_0>,
+                             <MMU_SID_HPPS_SRIO_DMA_1>,
+                             <MMU_SID_HPPS_SRIO_EP_0>,
+                             <MMU_SID_HPPS_SRIO_EP_1>;
 
                 /* dma:  points to the MR used for PTWs.  */
                 dma = <&nic7>;
