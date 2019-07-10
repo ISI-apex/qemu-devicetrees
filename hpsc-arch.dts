@@ -1698,7 +1698,7 @@
             #address-cells = <1>;
             #size-cells = <0>;
             compatible = "xlnx,ps7-i2c-1.00.a", "cdns,i2c-r1p10";
-            reg = <0x30004000 0x1000>;
+            reg = <0x30004000 0x0 0x1000 /* prio = */ 0x0>;
             interrupts = <0>;
             interrupt-map =  <0 0 0 &trch_nvic TRCH_IRQ__LSIO_I2C>;
             clocks = <&misc_clk>;
@@ -1738,20 +1738,24 @@
             #address-cells = <1>;
             #size-cells = <0>;
             compatible = "cdns,spi-r1p6";
-            reg = <0x30005000 0x1000>;
+            reg = <0x30005000 0x0 0x1000 /* prio = */ 0x0>;
             clock-names = "ref_clk", "pclk";
             clocks = <&misc_clk>, <&misc_clk>;
             interrupts = <0>;
             interrupt-map =  <0 0 0 &trch_nvic TRCH_IRQ__LSIO_SPI>;
             num-ss-bits = <2>;
             speed-hz = <10000000>;
+
+            #address-cells = <1>;
+            #size-cells = <0>;
+
             spi0_flash0: spi_flash0@0 {
 	        #address-cells = <1>;
         	#size-cells = <1>;
         	#bus-cells = <1>;
         	compatible = "st,m25p80";
         	spi-max-frequency = <50000000>;
-        	reg = <0x0 0x0>;
+               reg = <0x0>;
                 device-index = <0x4>;
 	        spi0_flash0@0x00000000 {
         	    label = "spi0_flash0";
