@@ -57,15 +57,19 @@
     };
 
     cpus {
-        #size-cells = <0>;
-        #priority-cells = <0>;
-
         trch_cpus {
-            trch_memattr_cpu: trch_memattr_cpu@0 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <1>;
-                master-id = <MASTER_ID_TRCH_CPU>;
-            };
+            compatible = "cpu-cluster";
+            cluster-id = <0>;
+
+            #address-cells = <1>;
+            #size-cells = <0>;
+            #priority-cells = <0>;
+
+	    trch_memattr_cpu: trch_memattr_cpu@0 {
+		compatible = "qemu:memory-transaction-attr";
+		secure = <1>;
+		master-id = <MASTER_ID_TRCH_CPU>;
+	    };
 
             trch_cpu: trch_cpu {
                 #address-cells = <1>;
@@ -108,7 +112,13 @@
             };
         };
 
-        rtps_cpus {
+        rtps_r52_cpus {
+            compatible = "cpu-cluster";
+            cluster-id = <1>;
+
+            #address-cells = <1>;
+            #size-cells = <0>;
+            #priority-cells = <0>;
 
 #define RTPS_CPU_PROPS                                 \
                 #interrupt-cells = <1>;                \
@@ -212,6 +222,16 @@
                              "timer_virt",
                              "timer_hyp";
             };
+        };
+
+        rtps_a53_cpus {
+            compatible = "cpu-cluster";
+            cluster-id = <2>;
+
+            #address-cells = <1>;
+            #size-cells = <0>;
+            #priority-cells = <0>;
+
 #define RTPS_A53_PROPS                                    \
                 #interrupt-cells = <1>;                   \
                 compatible = "cortex-a53-arm-cpu";        \
@@ -279,6 +299,12 @@
         };
 
         hpps_cpus {
+            compatible = "cpu-cluster";
+            cluster-id = <3>;
+
+            #address-cells = <1>;
+            #size-cells = <0>;
+            #priority-cells = <0>;
 
 #define HPPS_CPU_PROPS                                    \
                 #interrupt-cells = <1>;                   \
@@ -651,22 +677,6 @@
 
                 memattr_s = <&hpps_memattr_cpu7_s>;
                 memattr_ns = <&hpps_memattr_cpu7_ns>;
-            };
-
-            /* TODO: is this used for anything? */
-            cpu-map {
-                cluster0 {
-                    core0 { cpu = <&hpps_cpu0>; };
-                    core1 { cpu = <&hpps_cpu1>; };
-                    core2 { cpu = <&hpps_cpu2>; };
-                    core3 { cpu = <&hpps_cpu3>; };
-                };
-                cluster1 {
-                    core0 { cpu = <&hpps_cpu4>; };
-                    core1 { cpu = <&hpps_cpu5>; };
-                    core2 { cpu = <&hpps_cpu6>; };
-                    core3 { cpu = <&hpps_cpu7>; };
-                };
             };
         };
     };
