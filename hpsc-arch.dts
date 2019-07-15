@@ -2137,6 +2137,58 @@
         };
 #endif /* CONFIG_ETH_CDNS */
 
+#if CONFIG_RIO
+        rio_endpt0: rio-endpt@0xe3000000 {
+            compatible = "praesum,brc1-rio-endpt";
+            reg = <0x0 0xe3000000  0x0 0x01000000 /* prio = */ 0x0
+                   /* outgoing map region */
+                   0x4 0x00000000  0x1 0x00000000 /* prio = */ 0x0>;
+#if 0
+            port = <&rio_switch 0>;
+#else
+            switch = <&rio_switch>;
+            port-idx = <0>;
+#endif
+            dma = <&ccn>; /* TODO: through MMU */
+
+            interrupts = <0 1 2>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map = <0 0 0 &trch_nvic TRCH_IRQ__RIO_EP_0_EV>,
+                            <0 0 1 &trch_nvic TRCH_IRQ__RIO_EP_0_MSG_TX>,
+                            <0 0 2 &trch_nvic TRCH_IRQ__RIO_EP_0_MSG_RX>;
+        };
+
+        rio_endpt1: rio-endpt@0xe4000000 {
+            compatible = "praesum,brc1-rio-endpt";
+            reg = <0x0 0xe4000000  0x0 0x01000000 /* prio = */ 0x0
+                   /* outgoing map region */
+                   0x5 0x00000000  0x1 0x00000000 /* prio = */ 0x0>;
+
+#if 0
+            port = <&rio_switch 1>;
+#else
+            switch = <&rio_switch>;
+            port-idx = <1>;
+#endif
+            dma = <&ccn>; /* TODO: through MMU */
+
+            interrupts = <0 1 2>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map = <0 0 0 &trch_nvic TRCH_IRQ__RIO_EP_1_EV>,
+                            <0 0 1 &trch_nvic TRCH_IRQ__RIO_EP_1_MSG_TX>,
+                            <0 0 2 &trch_nvic TRCH_IRQ__RIO_EP_1_MSG_RX>;
+        };
+
+        rio_switch: rio-switch@0xe5000000 {
+            compatible = "praesum,sm-rio-switch";
+            reg = <0x0 0xe5000000  0x0 0x00400000 /* prio = */ 0x0>;
+
+            num-ports = <8>;
+            port0 = <&rio_endpt0>;
+            port1 = <&rio_endpt1>;
+        };
+#endif /* CONFIG_RIO */
+
         /* TODO: PCIe */
         /* TODO: Spacewire */
         /* TODO: TTE */
