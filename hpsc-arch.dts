@@ -2110,6 +2110,48 @@
             num-priority-queues = <1>;
         };
 
+        rio_endpt0: rio-endpt@0xe3000000 {
+            compatible = "praesum,brc1-rio-endpt";
+            reg = <0xe3000000  0x0 0x01000000 /* prio = */ 0x0>;
+
+#if 0
+            port = <&rio_switch 0>;
+#else
+            switch = <&rio_switch>;
+            port-idx = <0>;
+#endif
+        };
+
+        rio_endpt1: rio-endpt@0xe4000000 {
+            compatible = "praesum,brc1-rio-endpt";
+            reg = <0xe4000000  0x0 0x01000000 /* prio = */ 0x0>;
+
+#if 0
+            port = <&rio_switch 1>;
+#else
+            switch = <&rio_switch>;
+            port-idx = <1>;
+#endif
+
+            interrupts = <0>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map =    <0 0 0 &trch_nvic TRCH_IRQ__RIO_1>;
+        };
+
+        rio_switch: rio-switch@0xe5000000 {
+            compatible = "praesum,sm-rio-switch";
+            reg = <0xe5000000  0x0 0x00200000 /* prio = */ 0x0>;
+
+            num-ports = <2>;
+#if 0
+            ports = <&rio_endpt0>,
+                    <&rio_endpt1>;
+#else
+            port0 = <&rio_endpt0>;
+            port1 = <&rio_endpt1>;
+#endif
+        };
+
         /* TODO: PCIe */
         /* TODO: Spacewire */
         /* TODO: TTE */

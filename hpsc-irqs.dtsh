@@ -91,6 +91,9 @@
 #define TRCH_IRQ__LSIO_SMC_SRAM                 77
 #define TRCH_IRQ__LSIO_SMC_NAND                 78
 
+#define TRCH_IRQ__RIO_0			    79
+#define TRCH_IRQ__RIO_1			    80
+
 // ******** RTPS interrupt controller inputs **************
 
 #define RTPS_IRQ__LSIO_UART1_0		         0
