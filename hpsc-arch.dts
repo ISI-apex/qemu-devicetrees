@@ -1645,7 +1645,7 @@
             clocks = <&uart_clk &uart_clk>;
         };
 
-        trch_smc353: trch_smc353@0x30006000{
+        lsio_smc353: lsio_smc353@0x30006000 {
             arm,addr25 = <0x0>;
             clock-names = "memclk", "aclk";
             clocks = <&misc_clk>, <&misc_clk>;
@@ -1660,7 +1660,7 @@
             #address-cells = <2>;
             #size-cells = <2>;
 
-	    trch_offchip_sram0: trch_offchip_sram0@0x28000000 {
+	    lsio_smc_sram0@0x28000000 {
 		compatible = "offchip-sram";
 		reg   = <0x0 0x28000000 0x0 0x4000000>;
 		drive = "";
@@ -1670,7 +1670,7 @@
 		region_size = <0x04000000>;
 		pflash_index = <0>;
 	    };
-            trch_nand: trch_nand@0x2c0000000 {
+            lsio_smc_nand@0x2c0000000 {
                 compatible = "nand";
                 arm,nand-cycle-t0 = <0x4>;
                 arm,nand-cycle-t1 = <0x4>;
@@ -1694,7 +1694,8 @@
             /* TODO: GPIO */
             /* TODO: I2C */
             /* TODO: SPI */
-        trch_i2c: i2c@0x30004000{
+
+        lsio_i2c: i2c@0x30004000 {
             #address-cells = <1>;
             #size-cells = <0>;
             compatible = "xlnx,ps7-i2c-1.00.a", "cdns,i2c-r1p10";
@@ -1734,7 +1735,7 @@
                 };
             };
         };
-        trch_spi_0: trch-spi@SPI0 {
+        lsio_spi: spi@0x30005000 {
             #address-cells = <1>;
             #size-cells = <0>;
             compatible = "cdns,spi-r1p6";
@@ -1749,7 +1750,7 @@
             #address-cells = <1>;
             #size-cells = <0>;
 
-            spi0_flash0: spi_flash0@0 {
+            lsio_spi_flash@0 {
 	        #address-cells = <1>;
         	#size-cells = <1>;
         	#bus-cells = <1>;
@@ -1757,7 +1758,7 @@
         	spi-max-frequency = <50000000>;
                reg = <0x0>;
                 device-index = <0x4>;
-	        spi0_flash0@0x00000000 {
+	        lsio_spi_flash0@0x00000000 {
         	    label = "spi0_flash0";
         	    reg = <0x00000000 0x00100000>;
         	};
