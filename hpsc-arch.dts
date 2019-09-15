@@ -20,6 +20,18 @@
 #define HPPS_RESET_ADDR_PRIMARY_CPU   0x80000000 /* ATF bl31_entrypoint */
 #define HPPS_RESET_ADDR_SECONDARY_CPU 0x80000110 /* ATF bl31_warm_entrypoint */
 
+/* Index X identifying the backend drive of type IFACE instantiated via the CLI:
+        -drive file=/path/img.bin,if=IFACE,index=X
+*/
+#define DRIVE_PFLASH__LSIO_SMC__SRAM 0
+#define DRIVE_PFLASH__LSIO_SMC__NAND 1
+#define DRIVE_PFLASH__HPPS_SMC__SRAM 2
+#define DRIVE_PFLASH__HPPS_SMC__NAND 3
+
+#define DRIVE_MTD__LSIO_I2C__M0    0
+#define DRIVE_MTD__LSIO_SPI__M0    1
+#define DRIVE_MTD__RTPS_SPI__M0    2
+
 /dts-v1/;
 
 / {
@@ -1510,10 +1522,7 @@
                 compatible = "st,m25p80";
                 reg = <0x0>;
 
-                /* Index X identifying the backend instantiated via the CLI:
-                        -drive file=/path/img.bin,if=mtd,index=X
-                */
-                device-index = <0x2>;
+                device-index = <DRIVE_MTD__RTPS_SPI__M0>;
 
                 spi-max-frequency = <50000000>;
 
@@ -1713,7 +1722,7 @@
                 start_addr_low= <0x28000000>;
                 region_size = <0x04000000>;
 
-                pflash_index = <0>;
+                pflash_index = <DRIVE_PFLASH__LSIO_SMC__SRAM>;
                 drive = "";
             };
             lsio_smc_nand@0x2c0000000 {
@@ -1724,7 +1733,7 @@
                 start_addr_low= <0x2c000000>;
                 region_size = <0x04000000>;
 
-                pflash_index = <1>;
+                pflash_index = <DRIVE_PFLASH__LSIO_SMC__NAND>;
                 label = "trch-nand";
                 drive = "";
 
@@ -1756,11 +1765,7 @@
             eeprom@44 {
                 compatible = "at,24c08";
                 reg = <0x44>;
-
-                /* Index X identifying the backend instantiated via the CLI:
-                        -drive file=/path/img.bin,if=mtd,index=X
-                */
-                device-index = <0x0>;
+                device-index = <DRIVE_MTD__LSIO_I2C__M0>;
             };
         };
         lsio_spi: spi@0x30005000 {
@@ -1783,10 +1788,7 @@
                 compatible = "st,m25p80";
                 reg = <0x0>;
 
-                /* Index X identifying the backend instantiated via the CLI:
-                        -drive file=/path/img.bin,if=mtd,index=X
-                */
-                device-index = <0x1>;
+                device-index = <DRIVE_MTD__LSIO_SPI__M0>;
 
                 spi-max-frequency = <50000000>;
 
@@ -1958,7 +1960,7 @@
                 start_addr_low= <0x00000000>;
                 region_size = <0x80000000>;
 
-                pflash_index = <2>;
+                pflash_index = <DRIVE_PFLASH__HPPS_SMC__SRAM>;
                 drive = "";
             };
             hpps_nand0: hpps_nand0@0x680000000 {
@@ -1969,7 +1971,7 @@
                 start_addr_low= <0x80000000>;
                 region_size = <0x80000000>;
 
-                pflash_index = <3>;
+                pflash_index = <DRIVE_PFLASH__HPPS_SMC__NAND>;
                 label = "nand0";
                 drive = "";
 
