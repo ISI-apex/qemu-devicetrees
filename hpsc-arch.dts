@@ -850,13 +850,6 @@
                 */
         };
 
-        /* TODO: dummy node enabled in SPLIT mode only, revise this when implementing lock/split modes */
-        ddr_memory_2_for_rpu: ddr_memory_2_for_rpu@0x60000 {
-                compatible = "qemu:memory-region";
-                qemu,ram = <1>;
-                reg = <0x60000 0x0 0x10000 /* prio = -1 */ 0xffffffff>;
-        };
-
         to_nic2 {
             compatible = "qemu:memory-region";
             alias = <&nic2>;
@@ -2518,13 +2511,5 @@
         #clock-cells = <0>;
         clock-frequency = <50000000>;
         compatible = "fixed-clock";
-    };
-
-    /* arm_generic_fdt insists on having a memory node at root: we won't use this */
-    /* TODO: get rid of this */
-    dummy_memory: memory {
-        compatible = "qemu:memory-region";
-        qemu,ram = <1>;
-        reg = <0x0 /* size */ 0x1 0x00000000 /* prio = */ 0x0>;
     };
 };
