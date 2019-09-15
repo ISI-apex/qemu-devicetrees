@@ -1487,7 +1487,44 @@
             interrupt-map = <0 0 0 &rtps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0208>;
         };
 
-        /* TODO: RTPS SPI */
+        rtps_spi: spi@0x30a0c000 {
+            compatible = "cdns,spi-r1p6";
+            reg = <0x30a0c000 0x0 0x1000 /* prio = */ 0x0>;
+
+            num-ss-bits = <2>;
+            speed-hz = <10000000>;
+
+            clock-names = "ref_clk", "pclk";
+            clocks = <&misc_clk>, <&misc_clk>;
+
+            interrupts = <0>;
+            interrupt-map-mask = <0 0 0xffff>;
+            interrupt-map = <0 0 0 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_SPI GIC_LVL_HI>;
+
+            #address-cells = <1>;
+            #size-cells = <0>;
+
+            rtps_spi_flash@0 {
+                compatible = "st,m25p80";
+                reg = <0x0>;
+
+                /* Index X identifying the backend instantiated via the CLI:
+                        -drive file=/path/img.bin,if=mtd,index=X
+                */
+                device-index = <0x2>;
+
+                spi-max-frequency = <50000000>;
+
+                #address-cells = <1>;
+                #size-cells = <1>;
+                #bus-cells = <1>;
+
+                rtps_spi_flash0@0x00000000 {
+                    label = "rtps_spi_flash0";
+                    reg = <0x00000000 0x00100000>;
+                };
+            };
+        };
 
         to_nic3 {
             compatible = "qemu:memory-region";
