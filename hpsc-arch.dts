@@ -1120,10 +1120,12 @@
                 */
         };
 
+#if 0 /* TODO: Make sure Qemu4 works without this */
         csu_core@0xffca0000 { /* TODO: present in Chiplet? Probably, not. ATF wants this. */
             compatible = "xlnx,zynqmp-csu-core";
             reg = <0x0 0xffca0000 0x0 0x100 /* prio = */ 0x1>;
         };
+#endif
 
         /* TODO: both of these IPI nodes will go away once PSCI-via-TRCH is implemented */
         ipibuf_ram: ipibuf@ff990000 {
