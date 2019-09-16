@@ -170,10 +170,10 @@
                 memattr_ns = <&rtps_memattr_cpu0>;
 
                 gpios = /* input signals */
-                        </* RST_R5[0] */    &crl 0
-                         /* R5_0_HALT */    &rpu_ctrl 0>;
-                gpio-names = "reset",
-                             "ncpuhalt";
+                        <&reset_ctrl  0 /* ncpuhalt[0] */
+                         &reset_ctrl 11 /* reset[0] */ >;
+                gpio-names = "ncpuhalt",
+                             "reset";
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
@@ -209,10 +209,10 @@
                 memattr_ns = <&rtps_memattr_cpu1>;
 
                 gpios = /* input signals */
-                        </* RST_R5[1] */    &crl 1
-                         /* R5_1_HALT */    &rpu_ctrl 1>;
-                gpio-names = "reset",
-                             "ncpuhalt";
+                        <&reset_ctrl  1 /* ncpuhalt[1] */
+                         &reset_ctrl 12 /* reset[1] */>;
+                gpio-names = "ncpuhalt",
+                             "reset";
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
@@ -279,10 +279,10 @@
                 arm,rvbar = <0x70000000>;	/* temporary */
 
                 gpios = /* input signals */
-                        </* RST_A53 */ &crl 2
-                         /* A53_HALT */ &rpu_ctrl 7>;
-                gpio-names = "reset",
-                             "ncpuhalt";
+                        <&reset_ctrl  2 /* ncpuhalt[2] */
+                         &reset_ctrl 13 /* reset[2] */ >;
+                gpio-names = "ncpuhalt",
+                             "reset";
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
@@ -353,12 +353,10 @@
                 arm,rvbar = <HPPS_RESET_ADDR_PRIMARY_CPU>;
 
                 gpios = /* input signals */
-                        </* RESET    */ &crf 0
-                         /* NCPUHALT */ &apu 4
-                         /* VINITHI  */ &apu 8>;
-                gpio-names = "reset",
-                             "ncpuhalt",
-                             "vinithi";
+                        <&reset_ctrl  3 /* ncpuhalt[3] */
+                         &reset_ctrl 14 /* reset[3] */ >;
+                gpio-names = "ncpuhalt",
+                             "reset";
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
@@ -396,12 +394,10 @@
                 arm,rvbar = <HPPS_RESET_ADDR_SECONDARY_CPU>;
 
                 gpios = /* input signals */
-                        </* RESET    */ &crf 1
-                         /* NCPUHALT */ &apu 5
-                         /* VINITHI  */ &apu 9>;
-                gpio-names = "reset",
-                             "ncpuhalt",
-                             "vinithi";
+                        <&reset_ctrl  4 /* ncpuhalt[3] */
+                         &reset_ctrl 15 /* reset[3] */ >;
+                gpio-names = "ncpuhalt",
+                             "reset";
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
@@ -440,12 +436,10 @@
                 arm,rvbar = <HPPS_RESET_ADDR_SECONDARY_CPU>;
 
                 gpios = /* input signals */
-                        </* RESET    */ &crf 2
-                         /* NCPUHALT */ &apu 6
-                         /* VINITHI  */ &apu 10>;
-                gpio-names = "reset",
-                             "ncpuhalt",
-                             "vinithi";
+                        <&reset_ctrl  5 /* ncpuhalt[4] */
+                         &reset_ctrl 16 /* reset[4] */ >;
+                gpio-names = "ncpuhalt",
+                             "reset";
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
@@ -484,12 +478,10 @@
                 arm,rvbar = <HPPS_RESET_ADDR_SECONDARY_CPU>;
 
                 gpios = /* input signals */
-                        </* RESET    */ &crf 3
-                         /* NCPUHALT */ &apu 7
-                         /* VINITHI  */ &apu 11>;
-                gpio-names = "reset",
-                             "ncpuhalt",
-                             "vinithi";
+                        <&reset_ctrl  6 /* ncpuhalt[5] */
+                         &reset_ctrl 17 /* reset[5] */ >;
+                gpio-names = "ncpuhalt",
+                             "reset";
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
@@ -528,12 +520,10 @@
                 arm,rvbar = <HPPS_RESET_ADDR_SECONDARY_CPU>;
 
                 gpios = /* input signals */
-                        </* RESET    */ &crf 4
-                         /* NCPUHALT */ &apu1 4
-                         /* VINITHI  */ &apu1 8>;
-                gpio-names = "reset",
-                             "ncpuhalt",
-                             "vinithi";
+                        <&reset_ctrl  7 /* ncpuhalt[6] */
+                         &reset_ctrl 18 /* reset[6] */ >;
+                gpio-names = "ncpuhalt",
+                             "reset";
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
@@ -572,12 +562,10 @@
                 arm,rvbar = <HPPS_RESET_ADDR_SECONDARY_CPU>;
 
                 gpios = /* input signals */
-                        </* RESET    */ &crf 5
-                         /* NCPUHALT */ &apu1 5
-                         /* VINITHI  */ &apu1 9>;
-                gpio-names = "reset",
-                             "ncpuhalt",
-                             "vinithi";
+                        <&reset_ctrl  8 /* ncpuhalt[7] */
+                         &reset_ctrl 20 /* reset[7] */ >;
+                gpio-names = "ncpuhalt",
+                             "reset";
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
@@ -615,12 +603,10 @@
                 arm,rvbar = <HPPS_RESET_ADDR_SECONDARY_CPU>;
 
                 gpios = /* input signals */
-                        </* RESET    */ &crf 6
-                         /* NCPUHALT */ &apu1 6
-                         /* VINITHI  */ &apu1 10>;
-                gpio-names = "reset",
-                             "ncpuhalt",
-                             "vinithi";
+                        <&reset_ctrl  9 /* ncpuhalt[8] */
+                         &reset_ctrl 20 /* reset[8] */ >;
+                gpio-names = "ncpuhalt",
+                             "reset";
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
@@ -658,12 +644,10 @@
                 arm,rvbar = <HPPS_RESET_ADDR_SECONDARY_CPU>;
 
                 gpios = /* input signals */
-                        </* RESET    */ &crf 7
-                         /* NCPUHALT */ &apu1 7
-                         /* VINITHI  */ &apu1 11>;
-                gpio-names = "reset",
-                             "ncpuhalt",
-                             "vinithi";
+                        <&reset_ctrl 10 /* ncpuhalt[9] */
+                         &reset_ctrl 21 /* reset[9] */ >;
+                gpio-names = "ncpuhalt",
+                             "reset";
 
                 interrupts-extended = /* output signals */
                              /* ARMv8 Generic Timer output signals */
@@ -725,28 +709,6 @@
         };
 #endif
 
-        /* TODO: crf and crl will go away once TRCH reset controller is implemented */
-        to_crf_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
-            compatible = "qemu:memory-region";
-            alias = <&crf_bus>;
-            reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
-        };
-        to_crl_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
-            compatible = "qemu:memory-region";
-            alias = <&crl_bus>;
-            reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
-        };
-        to_rpu_ctrl_bus { /* TODO: temporary hack, because both TRCH and RTPS (?) need this */
-            compatible = "qemu:memory-region";
-            alias = <&rpu_ctrl_bus>;
-            reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
-        };
-        to_apu_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
-            compatible = "qemu:memory-region";
-            alias = <&apu_bus>;
-            reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
-        };
-
         to_trch_sram {
             compatible = "qemu:memory-region";
             alias = <&trch_sram_bus>;
@@ -804,7 +766,7 @@
                                   "vfiq[0]", "vfiq[1]";
 
                 gpios = /* input signals */
-                        </* resetn */ &crl 4 /* RST_GIC */>;
+                        <&reset_ctrl 33 /* intc_reset[0] */>;
                 gpio-names = "resetn";
 
                 /* Inputs into this interrupt controller (used interrupts prop of devices):
@@ -832,37 +794,10 @@
             qemu,ram = <1>;
             reg = <0x0  0x0 0x100000 /* prio = */ 0x1>;
         };
-
-        /* alias into RPU1 TCM for lockstep mode */
-        atcm1_for_rpu0: atcm1_for_rpu0 {
-            compatible = "qemu:memory-region";
-            alias = <&tcm_ram_r5_1_A>;
-            reg = <0x100000  0x0 0x100000 /* prio = */ 0x1>;
-        };
-
         tcm_ram_r5_0_B: tcm_ram_r5_0_B@0x200000 {
             compatible = "qemu:memory-region";
             qemu,ram = <1>;
             reg = <0x200000  0x0 0x100000 /* prio = */ 0x1>;
-        };
-
-        /* alias into RPU1 TCM for lockstep mode */
-        btcm1_for_rpu0: btcm1_for_rpu0 {
-            compatible = "qemu:memory-region";
-            alias = <&tcm_ram_r5_1_B>;
-            reg = <0x300000  0x0 0x100000 /* prio = */ 0x1>;
-        };
-
-        icache_rpu0: icache_rpu0@0x400000 {
-            compatible = "qemu:memory-region";
-            qemu,ram = <1>;
-            reg = <0x400000  0x0 0x8000 /* prio = */ 0x1>;
-        };
-
-        dcache_rpu0: dcache_rpu0@0x500000 {
-            compatible = "qemu:memory-region";
-            qemu,ram = <1>;
-            reg = <0x500000  0x0 0x8000 /* prio = */ 0x1>;
         };
 
         to_rtps_r52 {
@@ -886,18 +821,6 @@
             compatible = "qemu:memory-region";
             qemu,ram = <1>;
             reg = <0x20000  0x0 0x10000 /* prio= */ 0x1>;
-        };
-
-        icache_rpu1: icache_rpu1@0x30000 {
-            compatible = "qemu:memory-region";
-            qemu,ram = <1>;
-            reg = <0x30000  0x0 0x8000 /* prio= */ 0x1>;
-        };
-
-        dcache_rpu1: dcache_rpu1@0x40000 {
-            compatible = "qemu:memory-region";
-            qemu,ram = <1>;
-            reg = <0x40000  0x0 0x8000 /* prio= */ 0x1>;
         };
 
         to_rtps_r52 {
@@ -945,7 +868,7 @@
                         <&rtps_a53_cpu0 3>;
 
                 gpios = /* input signals */
-                        </* resetn */ &crl 5 /* RST_GIC */>;
+                        <&reset_ctrl 34 /* intc_reset[1] */>;
                 gpio-names = "resetn";
 
                 /* Inputs into this interrupt controller (ref'ed from interrupts prop of devices):
@@ -962,101 +885,6 @@
             compatible = "qemu:memory-region";
             alias = <&nic3>;
             reg = <0x0 /* size */ 0x1 0x00000000 /* prio */ 0xffffffff /* -1 */>;
-        };
-    };
-
-    crf_bus: crf_bus {
-        compatible = "simple-bus";
-        ranges ;
-
-        /* TODO: to be replaced with Boeing design for reset controller */
-        crf: crf@0xfd1a0000 {
-            compatible = "xlnx,zynqmp_crf";
-            reg = <0xfd1a0000  0x0 0x110 /* prio = */ 0x0>;
-            gpio-controller;
-            #gpio-cells = <1>;
-        };
-    };
-
-    crl_bus: crl_bus {
-        compatible = "simple-bus";
-        ranges ;
-
-        /* TODO: to be replaced with Boeing design for reset controller */
-        crl: crl@0xff5e0000 {
-            gpio-controller;
-            #gpio-cells = <1>;
-            compatible = "xlnx,zynqmp-crl";
-            reg = <0xff5e0000  0x0 0x1000 /* prio = */ 0x0>;
-            num-gpios = <16>; // is it controller(3) or client(1)?
-            // pmu_global_client_gpios[] in xilinx_zynqmp_pmu_global.c
-            //        : out: "error_2_out"
-            // crl: controller_gpios : 0[RST_R5(0)], 1(RST_R5(1)], 2(SRST_B)
-            // Then: if "error_2_out", RST_R5(0)?
-            gpios = <&pmu_global 26>;
-        };
-    };
-
-    rpu_ctrl_bus_descend1 { /* levels enforce dependency (on RTPS CPU nodes) */
-        compatible = "simple-bus";
-        ranges ;
-
-        rpu_ctrl_bus_descend2 {
-            compatible = "simple-bus";
-            ranges ;
-
-            rpu_ctrl_bus: rpu_ctrl_bus {
-                compatible = "simple-bus";
-                ranges ;
-
-                /* TODO: to be replaced with Boeing design for reset controller */
-                rpu_ctrl: rpu_control@0xff9a0000 {
-                    gpio-controller;
-                    #gpio-cells = <1>;
-                    compatible = "xlnx,rpu-control";
-                    reg = <0xff9a0000  0x0 0x400 /* prio = */ 0>;
-                    atcm1-for-rpu0 = <&atcm1_for_rpu0>;
-                    btcm1-for-rpu0 = <&btcm1_for_rpu0>;
-                    icache-for-rpu1 = <&icache_rpu1>;
-                    dcache-for-rpu1 = <&dcache_rpu1>;
-                    ddr-mem-for-rpu = <&ddr_memory_2_for_rpu>;
-                    gic-for-rpu = <&rtps_r52_gic>;
-                    gic-for-A53 = <&rtps_a53_gic>;
-                };
-            };
-        };
-    };
-
-    apu_bus: apu_bus {
-        compatible = "simple-bus";
-        ranges ;
-
-        /* TODO: Xilinx-specific? Needed by ATF/Linux */
-        apu: apu@0xfd5c0000 {
-            compatible = "xlnx,apu";
-            #gpio-cells = <1>;
-            reg = <0xfd5c0000  0x0 0x1000 /* prio= */ 0x0>;
-            cpu0 = <&hpps_cpu0>;
-            cpu1 = <&hpps_cpu1>;
-            cpu2 = <&hpps_cpu2>;
-            cpu3 = <&hpps_cpu3>;
-
-            /* APU GPIO outputs:
-                  wfi_out   *4 (NOT connected)
-                  PWRDWNREQ *4 (connected to NCPUHALT input of HPPS CPUs)
-                  VINITHI   *4 (connected to VINITHI input of HPPS CPUs)
-             */
-        };
-
-        /* TODO: Xilinx-specific? Needed by ATF/Linux */
-        apu1: apu1@0xfd5c1000 {
-            compatible = "xlnx,apu";
-            #gpio-cells = <1>;
-            reg = <0xfd5c1000  0x0 0x1000 /* prio= */ 0x0>;
-            cpu0 = <&hpps_cpu4>;
-            cpu1 = <&hpps_cpu5>;
-            cpu2 = <&hpps_cpu6>;
-            cpu3 = <&hpps_cpu7>;
         };
     };
 
@@ -1104,7 +932,7 @@
                         <&hpps_cpu4 3>, <&hpps_cpu5 3>, <&hpps_cpu6 3>, <&hpps_cpu7 3>;
 
                 gpios = /* input signals into the interrupt controller */
-                        </* resetn */ &crf 8 /* RST_GIC */>;
+                        <&reset_ctrl 35 /* intc_reset[2] */>;
                 gpio-names = "resetn";
 
                 /* Inputs into this interrupt controller (ref'ed from interrupts prop of devices):
@@ -1229,25 +1057,6 @@
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x8008>;
         };
-
-
-        /* TODO: crf and crl will go away once TRCH reset controller is implemented */
-        to_crf_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
-            compatible = "qemu:memory-region";
-            alias = <&crf_bus>;
-            reg = <0x0 0x0 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
-        };
-        to_crl_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
-            compatible = "qemu:memory-region";
-            alias = <&crl_bus>;
-            reg = <0x0 0x0 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
-        };
-        to_apu_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
-            compatible = "qemu:memory-region";
-            alias = <&apu_bus>;
-            reg = <0x0 0x0 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
-        };
-
 
         pmu_global: pmu_global@0xffd80000 {
             compatible = "xlnx,pmu_global";
@@ -1388,6 +1197,13 @@
     nic1: nic1 {
         compatible = "simple-bus";
         ranges ;
+
+        reset_ctrl: reset-controller@0x22000000 {
+            compatible = "hpsc,reset-ctrl";
+            reg = <0x22000000  0x0 0x1000 /* prio = */ 0x0>;
+            gpio-controller;
+            #gpio-cells = <1>;
+        };
 
         trch_dma_memattr: trch_dma_memattr@0 {
             compatible = "qemu:memory-transaction-attr";
