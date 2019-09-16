@@ -1609,7 +1609,7 @@
 
 #if CONFIG_RTPS_SPI
         rtps_spi: spi@0x30a0c000 {
-            compatible = "cdns,spi-r1p6";
+            compatible = "xlnx.ps7-spi";
             reg = <0x30a0c000 0x0 0x1000 /* prio = */ 0x0>;
 
             num-ss-bits = <2>;
@@ -1954,7 +1954,7 @@
 
 #if CONFIG_LSIO_I2C
         lsio_spi: spi@0x30005000 {
-            compatible = "cdns,spi-r1p6";
+            compatible = "xlnx.ps7-spi";
             reg = <0x30005000 0x0 0x1000 /* prio = */ 0x0>;
 
             num-ss-bits = <2>;
