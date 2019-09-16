@@ -159,8 +159,8 @@
                 arm,rvbar = <0x60000000>;
                 arm,vbar  = <0x60000000>;
 
-                mr = <&rtps0>;
-                memory = <&rtps0>;
+                mr = <&rtps_r52_0>;
+                memory = <&rtps_r52_0>;
 
                 /* TODO: memattr_s = ? */
                 memattr_ns = <&rtps_memattr_cpu0>;
@@ -198,8 +198,8 @@
                 arm,rvbar = <0x6c000000>;
                 arm,vbar =  <0x6c000000>;
 
-                mr = <&rtps1>;
-                memory = <&rtps1>;
+                mr = <&rtps_r52_1>;
+                memory = <&rtps_r52_1>;
 
                 /* TODO: memattr_s = ? */
                 memattr_ns = <&rtps_memattr_cpu1>;
@@ -755,7 +755,7 @@
         };
     };
 
-    rtps: rtps { /* visible from both RTPS CPUs */
+    rtps_r52: rtps_r52 { /* visible from both RTPS CPUs (must be declared before rtps@0 and rtps@1) */
         compatible = "simple-bus";
         ranges ;
 
@@ -809,52 +809,6 @@
                 */
         };
 
-        rtps_a53_gic: interrupt-controller@0x30c00000 {
-                compatible = "arm,arm-gicv3";
-                revision = <3>;
-
-                interrupt-controller;
-                #interrupt-cells = <3>;
-
-                /* Addr Bits = 18 + log2(#cores) = 21 (see GIC-500 TRM Section 3.2) */
-                reg = <0x30c00000  0x0 0x10000 /* prio = */ 0x0   /* GICD */
-                       0x30c40000  0x0 0x40000 /* prio = */ 0x0>; /* GICR */
-
-                num-irq = <320>;
-                num-cpu = <1>;
-                cpu-start-id = <3>;
-                has-security-extensions = <1>;
-                /* gicd-tyer: based on the code (arm_gicv3_dist.c) */
-                /*            support of (Affinity level 3)        */
-                /*            no support of (DVIS, LPIS, MBIS)     */
-                /*            IDBits 0b01111 (INTID is 16 bits)    */
-                /*            Security Extn (1 << 10) */
-                gicd-typer = <0x0378041e>;	
-
-                interrupts-extended = /* signals output by the interrupt controller */
-                        /* IRQ * #cpus; each wired to input signal 0=IRQ on each CPU */
-                        <&rtps_a53_cpu0 0>,
-                        /* FIQ * #cpus, each wired to input signal 1=FIQ on each CPU */
-                        <&rtps_a53_cpu0 1>,
-                        /* vIRQ * #cpus, each wired to input signal 2=vIRQ on each CPU */
-                        <&rtps_a53_cpu0 2>,
-                        /* vFIQ * #cpus, each wired to input signal 3=vFIQ on each CPU */
-                        <&rtps_a53_cpu0 3>;
-
-                gpios = /* input signals */
-                        </* resetn */ &crl 5 /* RST_GIC */>;
-                gpio-names = "resetn";
-
-                /* Inputs into this interrupt controller (ref'ed from interrupts prop of devices):
-                           [0 .. num-irq-1]: SPI
-                           [num-irq * cpuidx .. num-irq * cpuidx + 32]: PPI for CPU# cpuidx ( * #cpus )
-                   set of input irq# = { num-irq - 16 + idx + 32*cpuidx | foreach cpuidx set in bitmask }
-
-                     type  idx  bit[31:8]=bitmask of cpu set (i.e. of inputs in PPI range for each CPU)
-                                bit[8:0]=type (8=level)
-                */
-        };
-
         /* TODO: dummy node enabled in SPLIT mode only, revise this when implementing lock/split modes */
         ddr_memory_2_for_rpu: ddr_memory_2_for_rpu@0x60000 {
                 compatible = "qemu:memory-region";
@@ -869,7 +823,7 @@
         };
     };
 
-    rtps0: rtps@0 { /* view of address space from RTPS CPU0 */
+    rtps_r52_0: rtps_r52@0 { /* view of address space from RTPS CPU0 */
         compatible = "simple-bus";
         ranges ;
 
@@ -911,14 +865,14 @@
             reg = <0x500000  0x0 0x8000 /* prio = */ 0x1>;
         };
 
-        to_rtps {
+        to_rtps_r52 {
             compatible = "qemu:memory-region";
-            alias = <&rtps>;
+            alias = <&rtps_r52>;
             reg = <0x0 /* size */ 0x1 0x00000000 /* prio */ 0xffffffff /* -1 */>;
         };
     };
 
-    rtps1: rtps@1 {  /* view of address space from RTPS CPU0 */
+    rtps_r52_1: rtps_r52@1 {  /* view of address space from RTPS CPU0 */
         compatible = "simple-bus";
         ranges ;
 
@@ -946,9 +900,9 @@
             reg = <0x40000  0x0 0x8000 /* prio= */ 0x1>;
         };
 
-        to_rtps {
+        to_rtps_r52 {
             compatible = "qemu:memory-region";
-            alias = <&rtps>;
+            alias = <&rtps_r52>;
             reg = <0x0 /* size */ 0x1 0x00000000 /* prio */ 0xffffffff /* -1 */>;
         };
     };
@@ -957,9 +911,55 @@
         compatible = "simple-bus";
         ranges ;
 
-        to_rtps {
+        rtps_a53_gic: interrupt-controller@0x30c00000 {
+                compatible = "arm,arm-gicv3";
+                revision = <3>;
+
+                interrupt-controller;
+                #interrupt-cells = <3>;
+
+                /* Addr Bits = 18 + log2(#cores) = 21 (see GIC-500 TRM Section 3.2) */
+                reg = <0x30c00000  0x0 0x10000 /* prio = */ 0x0   /* GICD */
+                       0x30c40000  0x0 0x40000 /* prio = */ 0x0>; /* GICR */
+
+                num-irq = <320>;
+                num-cpu = <1>;
+                cpu-start-id = <3>;
+                has-security-extensions = <1>;
+                /* gicd-tyer: based on the code (arm_gicv3_dist.c) */
+                /*            support of (Affinity level 3)        */
+                /*            no support of (DVIS, LPIS, MBIS)     */
+                /*            IDBits 0b01111 (INTID is 16 bits)    */
+                /*            Security Extn (1 << 10) */
+                gicd-typer = <0x0378041e>;
+
+                interrupts-extended = /* signals output by the interrupt controller */
+                        /* IRQ * #cpus; each wired to input signal 0=IRQ on each CPU */
+                        <&rtps_a53_cpu0 0>,
+                        /* FIQ * #cpus, each wired to input signal 1=FIQ on each CPU */
+                        <&rtps_a53_cpu0 1>,
+                        /* vIRQ * #cpus, each wired to input signal 2=vIRQ on each CPU */
+                        <&rtps_a53_cpu0 2>,
+                        /* vFIQ * #cpus, each wired to input signal 3=vFIQ on each CPU */
+                        <&rtps_a53_cpu0 3>;
+
+                gpios = /* input signals */
+                        </* resetn */ &crl 5 /* RST_GIC */>;
+                gpio-names = "resetn";
+
+                /* Inputs into this interrupt controller (ref'ed from interrupts prop of devices):
+                           [0 .. num-irq-1]: SPI
+                           [num-irq * cpuidx .. num-irq * cpuidx + 32]: PPI for CPU# cpuidx ( * #cpus )
+                   set of input irq# = { num-irq - 16 + idx + 32*cpuidx | foreach cpuidx set in bitmask }
+
+                     type  idx  bit[31:8]=bitmask of cpu set (i.e. of inputs in PPI range for each CPU)
+                                bit[8:0]=type (8=level)
+                */
+        };
+
+        to_nic3 {
             compatible = "qemu:memory-region";
-            alias = <&rtps>;
+            alias = <&nic3>;
             reg = <0x0 /* size */ 0x1 0x00000000 /* prio */ 0xffffffff /* -1 */>;
         };
     };
