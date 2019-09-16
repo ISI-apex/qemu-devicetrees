@@ -66,7 +66,9 @@
         };
     };
 
+#if 0
     cpus {
+#endif
         trch_cpus {
             compatible = "cpu-cluster";
             cluster-id = <0>;
@@ -706,7 +708,9 @@
             };
         };
 #endif /* CONFIG_HPPS_A53 */
+#if 0
     };
+#endif
 
     /* TRCH SRAM exposes two slave interfaces:
         (1) connected to the M4 core's ICode and DCode ports
