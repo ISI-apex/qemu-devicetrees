@@ -101,6 +101,7 @@
                 memattr_ns = <&trch_memattr_cpu>;
                 /* TODO: memattr_s, mr-secure : ? */
 
+#if 0 /* TODO: hookup WDT to TRCH CPU in Qemu 4 */
                 /* TODO: add a reset controller between RESET and LAST_TIMEOUT,
                          because LAST_TIMEOUT should reset all blocks within
                          TRCH IP, not only the M4 core. */
@@ -111,6 +112,7 @@
                 gpio-names = "reset",
                              "ncpuhalt",
                              "vinithi";
+#endif
             };
         };
 
