@@ -2428,13 +2428,8 @@
 #endif /* CONFIG_HPPS_DMA */
 
 #if CONFIG_ETH_CDNS
-        xgmac_memattr: xgmac_memattr@0 {
-            compatible = "qemu:memory-transaction-attr";
-            secure = <0>;
-            master-id = <MASTER_ID_XGMAC>;
-        };
-        xgmac: ethernet@0xe5300000 {
-            compatible = "xlnx,ps7-ethernet-1.00.a", "cdns,gem";  /* TODO: change to Synopsys DWC_ether */
+        hsio_eth: ethernet@0xe5300000 {
+            compatible = "cadence_gem";
             reg = <0x0 0xe5300000  0x0 0x1000 /* prio = */ 0x0>;
 
             interrupts = <0 1>;
@@ -2451,15 +2446,10 @@
             dma = <&ccn>;
 #endif /* !CONFIG_HPPS_SMMU */
 
-            memattr = <&xgmac_memattr>;
-
             revision = <0x40070106>;
             local-mac-address = [00 0a 35 00 02 90];
 
             num-priority-queues = <1>;
-
-            #stream-id-cells = <0x1>;
-            #priority-cells = <0>;
         };
 #endif /* CONFIG_ETH_CDNS */
 
