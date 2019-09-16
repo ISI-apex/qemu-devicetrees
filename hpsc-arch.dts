@@ -78,7 +78,9 @@
         };
     };
 
+#if 0
     cpus {
+#endif
         trch_cpus {
             compatible = "cpu-cluster";
             cluster-id = <0>;
@@ -701,7 +703,9 @@
                 memattr_ns = <&hpps_memattr_cpu7_ns>;
             };
         };
+#if 0
     };
+#endif
 
     /* TRCH SRAM exposes two slave interfaces:
         (1) connected to the M4 core's ICode and DCode ports
