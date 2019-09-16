@@ -67,14 +67,7 @@
             #size-cells = <0>;
             #priority-cells = <0>;
 
-	    trch_memattr_cpu: trch_memattr_cpu@0 {
-		compatible = "qemu:memory-transaction-attr";
-		secure = <1>;
-		master-id = <MASTER_ID_TRCH_CPU>;
-	    };
-
             trch_cpu: trch_cpu {
-                #address-cells = <1>;
 
                 compatible = "cortex-m4f-arm-cpu";
                 device_type = "cpu";
@@ -96,10 +89,7 @@
 
                 timebase-frequency = <100000000>;
 
-                mr = <&trch>;
                 memory = <&trch>;
-                memattr_ns = <&trch_memattr_cpu>;
-                /* TODO: memattr_s, mr-secure : ? */
 
 #if 0 /* TODO: hookup WDT to TRCH CPU in Qemu 4 */
                 /* TODO: add a reset controller between RESET and LAST_TIMEOUT,
@@ -149,11 +139,7 @@
                 start-powered-off = <1>;               \
                 arm-system-counter = <&elapsed_timer>; \
 
-            rtps_memattr_cpu0: rtps_memattr_cpu@0 {
-                    compatible = "qemu:memory-transaction-attr";
-                    secure = <1>;
-                    master-id = <MASTER_ID_RTPS_CPU0>;
-            };
+
             rtps_cpu0: rtps_cpu@0 {
                 RTPS_CPU_PROPS
                 reg = <0>;
@@ -163,11 +149,7 @@
                 arm,rvbar = <0x60000000>;
                 arm,vbar  = <0x60000000>;
 
-                mr = <&rtps_r52_0>;
                 memory = <&rtps_r52_0>;
-
-                /* TODO: memattr_s = ? */
-                memattr_ns = <&rtps_memattr_cpu0>;
 
                 gpios = /* input signals */
                         <&reset_ctrl  0 /* ncpuhalt[0] */
@@ -188,11 +170,6 @@
                              "timer_hyp";
             };
 
-            rtps_memattr_cpu1: rtps_memattr_cpu@1 {
-                    compatible = "qemu:memory-transaction-attr";
-                    secure = <1>;
-                    master-id = <MASTER_ID_RTPS_CPU1>;
-            };
             rtps_cpu1: rtps_cpu@1 {
                 RTPS_CPU_PROPS
                 reg = <1>;
@@ -202,11 +179,7 @@
                 arm,rvbar = <0x6c000000>;
                 arm,vbar =  <0x6c000000>;
 
-                mr = <&rtps_r52_1>;
                 memory = <&rtps_r52_1>;
-
-                /* TODO: memattr_s = ? */
-                memattr_ns = <&rtps_memattr_cpu1>;
 
                 gpios = /* input signals */
                         <&reset_ctrl  1 /* ncpuhalt[1] */
@@ -254,22 +227,9 @@
                 arm,reset-hivecs = <1>;                   \
                 arm,reset-cbar = <0xfd3fe000>;            \
                 start-powered-off = <1>;                  \
-                mr = <&rtps_a53>;                         \
-                memory = <&rtps_a53>;                     \
-                memory_ns = <&rtps_a53>;                  \
                 arm-system-counter = <&elapsed_timer>;    \
 
 
-            rtps_a53_memattr_cpu0_s: rtps_a53_memattr_cpu_s@0 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <1>;
-                master-id = <MASTER_ID_RTPS_A53>;
-            };
-            rtps_a53_memattr_cpu0_ns: rtps_a53_memattr_cpu_ns@0 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <0>;
-                master-id = <MASTER_ID_RTPS_A53>;
-            };
             rtps_a53_cpu0: rtps_a53_cpu@0 {
                 RTPS_A53_PROPS
                 gdb-id = "RTPS Cortex-A53 #0";
@@ -277,6 +237,8 @@
                 reg = <0>;
                 arm,mp-affinity = <0>;
                 arm,rvbar = <0x70000000>;	/* temporary */
+                memory = <&rtps_a53>;
+                secure-memory = <&rtps_a53>;
 
                 gpios = /* input signals */
                         <&reset_ctrl  2 /* ncpuhalt[2] */
@@ -296,9 +258,6 @@
                              "timer_phys",
                              "timer_virt",
                              "timer_hyp";
-
-                memattr_s = <&rtps_a53_memattr_cpu0_s>;
-                memattr_ns = <&rtps_a53_memattr_cpu0_ns>;
             };
         };
 
@@ -328,22 +287,12 @@
                 arm,reset-hivecs = <1>;                   \
                 arm,reset-cbar = <0xfd3fe000>;            \
                 start-powered-off = <1>;                  \
-                mr = <&hpps>;                             \
                 memory = <&hpps>;                         \
-                memory_ns = <&hpps>;                      \
+                secure-memory = <&hpps>;                  \
                 arm-system-counter = <&elapsed_timer>;    \
 
 
-            hpps_memattr_cpu0_s: hpps_memattr_cpu_s@0 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <1>;
-                master-id = <MASTER_ID_HPPS_CPU0>;
-            };
-            hpps_memattr_cpu0_ns: hpps_memattr_cpu_ns@0 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <0>;
-                master-id = <MASTER_ID_HPPS_CPU0>;
-            };
+
             hpps_cpu0: hpps_cpu@0 {
                 HPPS_CPU_PROPS
                 gdb-id = "HPPS Cortex-A53 #0";
@@ -370,21 +319,8 @@
                              "timer_phys",
                              "timer_virt",
                              "timer_hyp";
-
-                memattr_s = <&hpps_memattr_cpu0_s>;
-                memattr_ns = <&hpps_memattr_cpu0_ns>;
             };
 
-            hpps_memattr_cpu1_s: hpps_memattr_cpu_s@1 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <1>;
-                master-id = <MASTER_ID_HPPS_CPU0>;
-            };
-            hpps_memattr_cpu1_ns: hpps_memattr_cpu_ns@1 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <0>;
-                master-id = <MASTER_ID_HPPS_CPU1>;
-            };
             hpps_cpu1: hpps_cpu@1 {
                 HPPS_CPU_PROPS
                 gdb-id = "HPPS Cortex-A53 #1";
@@ -412,21 +348,8 @@
                              "timer_phys",
                              "timer_virt",
                              "timer_hyp";
-
-                memattr_s = <&hpps_memattr_cpu1_s>;
-                memattr_ns = <&hpps_memattr_cpu1_ns>;
             };
 
-            hpps_memattr_cpu2_s: hpps_memattr_cpu_s@2 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <1>;
-                master-id = <MASTER_ID_HPPS_CPU2>;
-            };
-            hpps_memattr_cpu2_ns: hpps_memattr_cpu_ns@2 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <0>;
-                master-id = <MASTER_ID_HPPS_CPU2>;
-            };
             hpps_cpu2: hpps_cpu@2 {
                 HPPS_CPU_PROPS
                 gdb-id = "HPPS Cortex-A53 #2";
@@ -454,21 +377,8 @@
                              "timer_phys",
                              "timer_virt",
                              "timer_hyp";
-
-                memattr_s = <&hpps_memattr_cpu2_s>;
-                memattr_ns = <&hpps_memattr_cpu2_ns>;
             };
 
-            hpps_memattr_cpu3_s: hpps_memattr_cpu_s@3 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <1>;
-                master-id = <MASTER_ID_HPPS_CPU3>;
-            };
-            hpps_memattr_cpu3_ns: hpps_memattr_cpu_ns@3 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <0>;
-                master-id = <MASTER_ID_HPPS_CPU3>;
-            };
             hpps_cpu3: hpps_cpu@3 {
                 HPPS_CPU_PROPS
                 gdb-id = "HPPS Cortex-A53 #3";
@@ -496,21 +406,8 @@
                              "timer_phys",
                              "timer_virt",
                              "timer_hyp";
-
-                memattr_s = <&hpps_memattr_cpu3_s>;
-                memattr_ns = <&hpps_memattr_cpu3_ns>;
             };
 
-            hpps_memattr_cpu4_s: hpps_memattr_cpu_s@4 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <1>;
-                master-id = <MASTER_ID_HPPS_CPU4>;
-            };
-            hpps_memattr_cpu4_ns: hpps_memattr_cpu_ns@4 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <0>;
-                master-id = <MASTER_ID_HPPS_CPU4>;
-            };
             hpps_cpu4: hpps_cpu@4 {
                 HPPS_CPU_PROPS
                 gdb-id = "HPPS Cortex-A53 #4";
@@ -538,21 +435,8 @@
                              "timer_phys",
                              "timer_virt",
                              "timer_hyp";
-
-                memattr_s = <&hpps_memattr_cpu4_s>;
-                memattr_ns = <&hpps_memattr_cpu4_ns>;
             };
 
-            hpps_memattr_cpu5_s: hpps_memattr_cpu_s@5 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <1>;
-                master-id = <MASTER_ID_HPPS_CPU5>;
-            };
-            hpps_memattr_cpu5_ns: hpps_memattr_cpu_ns@5 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <0>;
-                master-id = <MASTER_ID_HPPS_CPU5>;
-            };
             hpps_cpu5: hpps_cpu@5 {
                 HPPS_CPU_PROPS
                 gdb-id = "HPPS Cortex-A53 #5";
@@ -580,20 +464,8 @@
                              "timer_phys",
                              "timer_virt",
                              "timer_hyp";
+            };
 
-                memattr_s = <&hpps_memattr_cpu5_s>;
-                memattr_ns = <&hpps_memattr_cpu5_ns>;
-            };
-            hpps_memattr_cpu6_s: hpps_memattr_cpu_s@6 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <1>;
-                master-id = <MASTER_ID_HPPS_CPU6>;
-            };
-            hpps_memattr_cpu6_ns: hpps_memattr_cpu_ns@6 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <0>;
-                master-id = <MASTER_ID_HPPS_CPU6>;
-            };
             hpps_cpu6: hpps_cpu@6 {
                 HPPS_CPU_PROPS
                 gdb-id = "HPPS Cortex-A53 #6";
@@ -621,20 +493,8 @@
                              "timer_phys",
                              "timer_virt",
                              "timer_hyp";
+            };
 
-                memattr_s = <&hpps_memattr_cpu6_s>;
-                memattr_ns = <&hpps_memattr_cpu6_ns>;
-            };
-            hpps_memattr_cpu7_s: hpps_memattr_cpu_s@7 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <1>;
-                master-id = <MASTER_ID_HPPS_CPU7>;
-            };
-            hpps_memattr_cpu7_ns: hpps_memattr_cpu_ns@7 {
-                compatible = "qemu:memory-transaction-attr";
-                secure = <0>;
-                master-id = <MASTER_ID_HPPS_CPU7>;
-            };
             hpps_cpu7: hpps_cpu@7 {
                 HPPS_CPU_PROPS
                 gdb-id = "HPPS Cortex-A53 #7";
@@ -662,9 +522,6 @@
                              "timer_phys",
                              "timer_virt",
                              "timer_hyp";
-
-                memattr_s = <&hpps_memattr_cpu7_s>;
-                memattr_ns = <&hpps_memattr_cpu7_ns>;
             };
         };
 #if 0
@@ -686,6 +543,17 @@
             qemu,ram = <1>;
             reg = <0x0  0x0 0x100000 /* prio = */ 0x0>;
         };
+    };
+
+    trch_tz_bridge_upstream: tz-bridge-upstream@trch {
+        compatible = "simple-bus";
+        ranges ;
+    };
+    trch_tz_bridge: tz-bridge@trch {
+        compatible = "tz-bridge";
+        reg-extended = <&trch_tz_bridge_upstream 0x0 0x1 0x0 /* prio = */ 0x0>;
+        out-secure = <1>;
+        downstream = <&nic1>;
     };
 
     trch: trch { /* view of address space from TRCH CPU */
@@ -715,11 +583,10 @@
             reg = <0x0 /* size */ 0x0 0x100000 /* prio = */ 0x0>;
         };
 
-        to_nic1 {
-            #priority-cells = <1>;
+        to_trch_offcore {
             compatible = "qemu:memory-region";
-            alias = <&nic1>;
-            reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -4 */ 0xfffffffc>;
+            alias = <&trch_tz_bridge_upstream>;
+            reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -1 */ 0xffffffff>;
         };
     };
 
@@ -778,11 +645,22 @@
                 */
         };
 
-        to_nic2 {
+        to_rtps_r52_offcluster {
             compatible = "qemu:memory-region";
-            alias = <&nic2>;
-            reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
+            alias = <&rtps_r52_tz_bridge_upstream>;
+            reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -1 */ 0xffffffff>;
         };
+    };
+
+    rtps_r52_tz_bridge_upstream: tz-bridge-upstream@rtps {
+        compatible = "simple-bus";
+        ranges ;
+    };
+    rtps_r52_tz_bridge: tz-bridge@rtps {
+        compatible = "tz-bridge";
+        reg-extended = <&rtps_r52_tz_bridge_upstream 0x0 0x1 0x0 /* prio = */ 0x0>;
+        out-secure = <1>;
+        downstream = <&nic2>;
     };
 
     rtps_r52_0: rtps_r52@0 { /* view of address space from RTPS CPU0 */
