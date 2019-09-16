@@ -757,7 +757,7 @@
                 /* gicd-tyer: Cortex-R52 TRM r1p1 (Table 9-7)                         */
                 /*            no support of (Affinity level 3, DVIS, LPIS, MBIS) */
                 /*            IDBits 0b01001 (INTID is 10 bits)                  */
-                gicd-typer = <0x0248001e>;	
+                gicd-typer = <0x0248001e>;
 
 
                 interrupts-extended = /* signals output by the interrupt controller */
@@ -934,6 +934,7 @@
     rtps_a53: rtps_a53@0 { /* view of address space from RTPS A53 */
         compatible = "simple-bus";
         ranges ;
+
         to_rtps {
             compatible = "qemu:memory-region";
             alias = <&rtps>;
@@ -1040,7 +1041,6 @@
         #address-cells = <2>;
         compatible = "simple-bus";
         ranges ;
-/*	interrupt-parent = <&hpps_gic>; */
 
         hpps_gic: interrupt-controller@0xf9000000 {
                 compatible = "arm,arm-gicv3";
@@ -1062,7 +1062,6 @@
                 /*            no support of (DVIS, LPIS, MBIS)     */
                 /*            IDBits 0b01111 (INTID is 16 bits) ( 0b01111 << 19)   */
                 /*            Security Extn (1 << 10) */
-		/* 	      				*/
                 gicd-typer = <0x0378041e>;	
 
                 interrupts-extended = /* signals output by the interrupt controller */
@@ -1079,7 +1078,7 @@
                         <&hpps_cpu0 3>, <&hpps_cpu1 3>, <&hpps_cpu2 3>, <&hpps_cpu3 3>,
                         <&hpps_cpu4 3>, <&hpps_cpu5 3>, <&hpps_cpu6 3>, <&hpps_cpu7 3>;
 
-                gpios = /* input signals */
+                gpios = /* input signals into the interrupt controller */
                         </* resetn */ &crf 8 /* RST_GIC */>;
                 gpio-names = "resetn";
 
@@ -1376,13 +1375,16 @@
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &trch_nvic TRCH_IRQ__TRCH_DMA_ABORT>,
                             <0 0 1 &trch_nvic TRCH_IRQ__TRCH_DMA_EV0>; /* count must match num_events */
-            #dma-cells = <1>;
-            dma = <&nic1>;
-            memattr = <&trch_dma_memattr>;
+
             num_chnls  = <1>;
             num_events = <1>;
             num_periph_req = <0>;
             mgr_ns_at_rst = <0>; /* boot into secure mode */
+
+            dma = <&nic1>;
+            memattr = <&trch_dma_memattr>;
+
+            #dma-cells = <1>;
         };
 
         /* TODO: update addresses once defined in HW mem map */
@@ -1531,7 +1533,6 @@
             alias = <&nic3>;
             reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -1 */ 0xffffffff>;
         };
-            
     };
 
     rtps_smmu_tbu0: rtps_smmu_tbu@0 { compatible = "simple-bus"; ranges ; };
@@ -1610,17 +1611,21 @@
         rtps_dma: dma-controller@0x30a08000 {
             compatible = "arm,pl330", "arm,primecell";
             reg = <0x30a08000 0x0 0x1000 /* prio= */ 0x0>;
+
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_DMA_ABORT GIC_LVL_HI>,
                             <0 0 1 &rtps_gic GIC_SPI RTPS_IRQ__RTPS_DMA_EV0   GIC_LVL_HI>;
-            #dma-cells = <1>;
-            dma = <&rtps_smmu_tbu0>;
-            memattr = <&rtps_dma_memattr>;
+
             num_chnls  = <1>;
             num_events = <1>;
             num_periph_req = <0>;
             mgr_ns_at_rst = <0>; /* boot into secure mode */
+
+            dma = <&rtps_smmu_tbu0>;
+            memattr = <&rtps_dma_memattr>;
+
+            #dma-cells = <1>;
         };
 
         /* TODO: PCIe (dma = <&rtps_smmu_tbu1>) */
@@ -1683,32 +1688,49 @@
         };
 
         lsio_smc353: lsio_smc353@0x30006000 {
+            compatible = "arm,pl35x";
+            x = <3>;
+            reg = <0x30006000  0x0 0x1000 /* prio = */ 0x0>;
+
             arm,addr25 = <0x0>;
+
             clock-names = "memclk", "aclk";
             clocks = <&misc_clk>, <&misc_clk>;
-            compatible = "arm,pl35x";
-            reg = <0x30006000  0x0 0x1000 /* prio = */ 0x0>;
+
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =  <0 0 0 &trch_nvic TRCH_IRQ__TRCH_SMC>;
-            x = <3>;
-            ranges ;
 
             #address-cells = <2>;
             #size-cells = <2>;
+            ranges ;
 
-	    lsio_smc_sram0@0x28000000 {
-		compatible = "offchip-sram";
-		reg   = <0x0 0x28000000 0x0 0x4000000>;
-		drive = "";
-                status = "disabled";
-		start_addr_high = <0x0>;
-		start_addr_low= <0x28000000>;
-		region_size = <0x04000000>;
-		pflash_index = <0>;
-	    };
+            lsio_smc_sram0@0x28000000 {
+                compatible = "offchip-sram";
+                reg   = <0x0 0x28000000 0x0 0x4000000>;
+
+                start_addr_high = <0x0>;
+                start_addr_low= <0x28000000>;
+                region_size = <0x04000000>;
+
+                pflash_index = <0>;
+                drive = "";
+            };
             lsio_smc_nand@0x2c0000000 {
                 compatible = "nand";
+
+                reg = <0x2c000000 0x04000000 /* prio = 0 */ 0x0>;
+                start_addr_high = <0x0>;
+                start_addr_low= <0x2c000000>;
+                region_size = <0x04000000>;
+
+                pflash_index = <1>;
+                label = "trch-nand";
+                drive = "";
+
+                chip_id = <0xaa>;
+                manufacturer_id = <0x2c>;
+
                 arm,nand-cycle-t0 = <0x4>;
                 arm,nand-cycle-t1 = <0x4>;
                 arm,nand-cycle-t2 = <0x1>;
@@ -1716,27 +1738,16 @@
                 arm,nand-cycle-t4 = <0x2>;
                 arm,nand-cycle-t5 = <0x2>;
                 arm,nand-cycle-t6 = <0x4>;
-                chip_id = <0xaa>;
-                manufacturer_id = <0x2c>;
-                drive = "";
-                label = "trch-nand";
-                status = "disabled";
-                reg = <0x2c000000 0x04000000 /* prio = 0 */ 0x0>;
-		start_addr_high = <0x0>;
-		start_addr_low= <0x2c000000>;
-		region_size = <0x04000000>;
-		pflash_index = <1>;
             };
         };
-            /* TODO: GPIO */
-            /* TODO: I2C */
-            /* TODO: SPI */
 
         lsio_i2c: i2c@0x30004000 {
             compatible = "xlnx,ps7-i2c-1.00.a", "cdns,i2c-r1p10";
             reg = <0x30004000 0x0 0x1000 /* prio = */ 0x0>;
+
             interrupts = <0>;
             interrupt-map =  <0 0 0 &trch_nvic TRCH_IRQ__LSIO_I2C>;
+
             clocks = <&misc_clk>;
 
             #address-cells = <1>;
@@ -1753,34 +1764,44 @@
             };
         };
         lsio_spi: spi@0x30005000 {
-            #address-cells = <1>;
-            #size-cells = <0>;
             compatible = "cdns,spi-r1p6";
             reg = <0x30005000 0x0 0x1000 /* prio = */ 0x0>;
-            clock-names = "ref_clk", "pclk";
-            clocks = <&misc_clk>, <&misc_clk>;
-            interrupts = <0>;
-            interrupt-map =  <0 0 0 &trch_nvic TRCH_IRQ__LSIO_SPI>;
+
             num-ss-bits = <2>;
             speed-hz = <10000000>;
+
+            clock-names = "ref_clk", "pclk";
+            clocks = <&misc_clk>, <&misc_clk>;
+
+            interrupts = <0>;
+            interrupt-map =  <0 0 0 &trch_nvic TRCH_IRQ__LSIO_SPI>;
 
             #address-cells = <1>;
             #size-cells = <0>;
 
             lsio_spi_flash@0 {
-	        #address-cells = <1>;
-        	#size-cells = <1>;
-        	#bus-cells = <1>;
-        	compatible = "st,m25p80";
-        	spi-max-frequency = <50000000>;
-               reg = <0x0>;
+                compatible = "st,m25p80";
+                reg = <0x0>;
+
+                /* Index X identifying the backend instantiated via the CLI:
+                        -drive file=/path/img.bin,if=mtd,index=X
+                */
                 device-index = <0x1>;
-	        lsio_spi_flash0@0x00000000 {
-        	    label = "spi0_flash0";
-        	    reg = <0x00000000 0x00100000>;
-        	};
+
+                spi-max-frequency = <50000000>;
+
+                #address-cells = <1>;
+                #size-cells = <1>;
+                #bus-cells = <1>;
+
+                lsio_spi_flash0@0x00000000 {
+                    label = "lsio_spi_flash0";
+                    reg = <0x00000000 0x00100000>;
+                };
             };
         };
+
+        /* TODO: GPIO */
     };
 
     nic5: nic5 {
@@ -1913,31 +1934,48 @@
 
         hpps_smc353: hpps_smc353@0xf92d0000 {
             compatible = "arm,pl35x";
+            x = <3>;
             reg = <0xf92d0000  0x0 0x1000 /* prio = */ 0x0>;
+
             arm,addr25 = <0x0>;
+
             clock-names = "memclk", "aclk";
             clocks = <&misc_clk>, <&misc_clk>;
+
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_SMC GIC_LVL_HI>;
-            x = <3>;
-            ranges ;
 
             #address-cells = <2>;
             #size-cells = <2>;
+            ranges ;
 
-	    hpps_sram0: hpps_sram0@0x600000000 {
-		compatible = "offchip-sram";
-		reg   = <0x6 0x00000000 0x0 0x40000000>;
-		drive = "";
-                status = "disabled";
-		start_addr_high = <0x6>;
-		start_addr_low= <0x00000000>;
-		region_size = <0x80000000>;
-		pflash_index = <2>;
-	    };
+            hpps_sram0: hpps_sram0@0x600000000 {
+                compatible = "offchip-sram";
+                reg   = <0x6 0x00000000 0x0 0x40000000>;
+
+                start_addr_high = <0x6>;
+                start_addr_low= <0x00000000>;
+                region_size = <0x80000000>;
+
+                pflash_index = <2>;
+                drive = "";
+            };
             hpps_nand0: hpps_nand0@0x680000000 {
                 compatible = "nand";
+                reg = <0x6 0x80000000 0x0 0x10000000 /* prio = 0 */ 0x0>;
+
+                start_addr_high = <0x6>;
+                start_addr_low= <0x80000000>;
+                region_size = <0x80000000>;
+
+                pflash_index = <3>;
+                label = "nand0";
+                drive = "";
+
+                chip_id = <0xaa>;
+                manufacturer_id = <0x2c>;
+
                 arm,nand-cycle-t0 = <0x4>;
                 arm,nand-cycle-t1 = <0x4>;
                 arm,nand-cycle-t2 = <0x1>;
@@ -1945,30 +1983,20 @@
                 arm,nand-cycle-t4 = <0x2>;
                 arm,nand-cycle-t5 = <0x2>;
                 arm,nand-cycle-t6 = <0x4>;
-                chip_id = <0xaa>;
-                manufacturer_id = <0x2c>;
-                drive = "";
-                label = "nand0";
-                status = "disabled";
-                reg = <0x6 0x80000000 0x0 0x10000000 /* prio = 0 */ 0x0>;
-		start_addr_high = <0x6>;
-		start_addr_low= <0x80000000>;
-		region_size = <0x80000000>;
-		pflash_index = <3>;
             };
         };
 
         hpps_smmu: smmu@0xf9300000 {
-                compatible = "arm,mmu-500";
-                reg-extended = <&nic6 0xf9300000  0x0 0x20000     /* prio = */ 0x0
-                                &hpps_smmu_tbu0 0 0x1 0x00000000  /* prio = */ 0x0
-                                &hpps_smmu_tbu1 0 0x1 0x00000000  /* prio = */ 0x0
-                                &hpps_smmu_tbu2 0 0x1 0x00000000  /* prio = */ 0x0
-                                &hpps_smmu_tbu3 0 0x1 0x00000000  /* prio = */ 0x0
-                                &hpps_smmu_tbu4 0 0x1 0x00000000  /* prio = */ 0x0
-                                &hpps_smmu_tbu5 0 0x1 0x00000000  /* prio = */ 0x0
-                                &hpps_smmu_tbu6 0 0x1 0x00000000  /* prio = */ 0x0
-                                &hpps_smmu_tbu7 0 0x1 0x00000000  /* prio = */ 0x0>;
+            compatible = "arm,mmu-500";
+            reg-extended = <&nic6 0xf9300000  0x0 0x20000     /* prio = */ 0x0
+                            &hpps_smmu_tbu0 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu1 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu2 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu3 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu4 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu5 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu6 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu7 0 0x1 0x00000000  /* prio = */ 0x0>;
 
             interrupts = <0 /* global irq */
                           1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16>; /* context irqs (16 contexts hardcoded in model) */
@@ -2015,19 +2043,23 @@
         hpps_dma: dma-controller@0xf92e0000 {
             compatible = "arm,pl330", "arm,primecell";
             reg = <0xf92e0000  0x0 0x1000 /* prio = */ 0x0>;
+
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_DMA_ABORT GIC_LVL_HI>,
                             <0 0 1 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_DMA_EV0   GIC_LVL_HI>;
-            #dma-cells = <1>;
-            dma = <&hpps_smmu_tbu0>;
-            memattr = <&hpps_dma_memattr>;
+
             num_chnls  = <1>;
             num_events = <1>;
             num_periph_req = <0>;
             mgr_ns_at_rst = <1>; /* boot into non-secure mode */
             INS = <0xffffffff>; /* mark all events as non-secure */
             PNS = <0xffffffff>; /* mark all periphs as non-secure */
+
+            dma = <&hpps_smmu_tbu0>;
+            memattr = <&hpps_dma_memattr>;
+
+            #dma-cells = <1>;
         };
 
         srio0_dma_memattr: srio0_dma_memattr@0 {
@@ -2040,19 +2072,23 @@
         srio0_dma: dma-controller@0xe5310000 {
             compatible = "arm,pl330", "arm,primecell";
             reg = <0xe5310000  0x0 0x1000 /* prio = */ 0x0>;
+
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_IRQ__SRIO0_DMA_ABORT GIC_LVL_HI>,
                             <0 0 1 &hpps_gic GIC_SPI HPPS_IRQ__SRIO0_DMA_EV0   GIC_LVL_HI>;
-            #dma-cells = <1>;
-            dma = <&hpps_smmu_tbu4>;
-            memattr = <&srio0_dma_memattr>;
+
             num_chnls  = <1>;
             num_events = <1>;
             num_periph_req = <0>;
             mgr_ns_at_rst = <1>; /* boot into non-secure mode */
             INS = <0xffffffff>; /* mark all events as non-secure */
             PNS = <0xffffffff>; /* mark all periphs as non-secure */
+
+            dma = <&hpps_smmu_tbu4>;
+            memattr = <&srio0_dma_memattr>;
+
+            #dma-cells = <1>;
         };
 
         srio1_dma_memattr: srio1_dma_memattr@0 {
@@ -2065,19 +2101,23 @@
         srio1_dma: dma-controller@0xe5330000 {
             compatible = "arm,pl330", "arm,primecell";
             reg = <0xe5330000  0x0 0x1000 /* prio = */ 0x0>;
+
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_IRQ__SRIO1_DMA_ABORT GIC_LVL_HI>,
                             <0 0 1 &hpps_gic GIC_SPI HPPS_IRQ__SRIO1_DMA_EV0   GIC_LVL_HI>;
-            #dma-cells = <1>;
-            dma = <&hpps_smmu_tbu5>;
-            memattr = <&srio1_dma_memattr>;
+
             num_chnls  = <1>;
             num_events = <1>;
             num_periph_req = <0>;
             mgr_ns_at_rst = <1>; /* boot into non-secure mode */
             INS = <0xffffffff>; /* mark all events as non-secure */
             PNS = <0xffffffff>; /* mark all periphs as non-secure */
+
+            dma = <&hpps_smmu_tbu5>;
+            memattr = <&srio1_dma_memattr>;
+
+            #dma-cells = <1>;
         };
 
         xgmac_memattr: xgmac_memattr@0 {
@@ -2086,22 +2126,29 @@
             master-id = <MASTER_ID_XGMAC>;
         };
         xgmac: ethernet@0xe5300000 {
-            #stream-id-cells = <0x1>;
-            #priority-cells = <0>;
-            reg = <0xe5300000  0x0 0x1000 /* prio = */ 0x0>;
-            clock-names = "hclk", "pclk";
-            clocks = <&misc_clk>, <&misc_clk>;
             compatible = "xlnx,ps7-ethernet-1.00.a", "cdns,gem";  /* TODO: change to Synopsys DWC_ether */
+            reg = <0xe5300000  0x0 0x1000 /* prio = */ 0x0>;
+
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_IRQ__XGMAC      GIC_LVL_HI>,
                             <0 0 1 &hpps_gic GIC_SPI HPPS_IRQ__XGMAC_WAKE GIC_LVL_HI>;
+
+            clock-names = "hclk", "pclk";
+            clocks = <&misc_clk>, <&misc_clk>;
+
             dma = <&hpps_smmu_tbu2>;
             memattr = <&xgmac_memattr>;
-            local-mac-address = [00 0a 35 00 02 90];
-            num-priority-queues = <1>;
+
             revision = <0x40070106>;
+            local-mac-address = [00 0a 35 00 02 90];
+
+            num-priority-queues = <1>;
+
             mdio = <&mdio0>;
+
+            #stream-id-cells = <0x1>;
+            #priority-cells = <0>;
         };
 
         /* TODO: PCIe */
