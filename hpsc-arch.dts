@@ -1933,7 +1933,7 @@
 
 #if CONFIG_LSIO_I2C
         lsio_i2c: i2c@0x30004000 {
-            compatible = "xlnx,ps7-i2c-1.00.a", "cdns,i2c-r1p10";
+            compatible = "cdns,i2c-r1p10";
             reg = <0x30004000 0x0 0x1000 /* prio = */ 0x0>;
 
             interrupts = <0>;
