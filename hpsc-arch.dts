@@ -2198,7 +2198,7 @@
             compatible = "qemu:memory-region";
             device_type = "memory";
             qemu,ram = <1>;
-            reg = <0x1 0x00000000 0x0 0xC0000000 /* prio = */ 0x0>;
+            reg = <0x1 0x00000000 0x1 0x00000000 /* prio = */ 0x0>;
         };
 
         to_nic6 {
