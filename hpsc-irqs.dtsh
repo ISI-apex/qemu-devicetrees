@@ -156,6 +156,8 @@
 #define RTPS_IRQ__RTPS_DMA_EV6                  58
 #define RTPS_IRQ__RTPS_DMA_EV7                  59
 
+#define RTPS_IRQ__RTPS_SPI                      60
+
 
 // ******** HPPS interrupt controller inputs **************
 
