@@ -1722,9 +1722,10 @@
 
             #address-cells = <2>;
             #size-cells = <2>;
+            #priority-cells = <0>;
             ranges ;
 
-            lsio_smc_sram0@0x28000000 {
+            lsio-smc-sram@0x28000000 {
                 compatible = "offchip-sram";
                 reg   = <0x0 0x28000000 0x0 0x4000000>;
 
@@ -1735,10 +1736,10 @@
                 pflash_index = <DRIVE_PFLASH__LSIO_SMC__SRAM>;
                 drive = "";
             };
-            lsio_smc_nand@0x2c0000000 {
+            lsio-smc-nand@0x2c0000000 {
                 compatible = "nand";
 
-                reg = <0x2c000000 0x04000000 /* prio = 0 */ 0x0>;
+                reg = <0x0 0x2c000000 0x0 0x04000000>;
                 start_addr_high = <0x0>;
                 start_addr_low= <0x2c000000>;
                 region_size = <0x04000000>;
@@ -1960,9 +1961,10 @@
 
             #address-cells = <2>;
             #size-cells = <2>;
+            #priority-cells = <0>;
             ranges ;
 
-            hpps_sram0: hpps_sram0@0x600000000 {
+            hpps-sram@0x600000000 {
                 compatible = "offchip-sram";
                 reg   = <0x6 0x00000000 0x0 0x40000000>;
 
@@ -1973,9 +1975,9 @@
                 pflash_index = <DRIVE_PFLASH__HPPS_SMC__SRAM>;
                 drive = "";
             };
-            hpps_nand0: hpps_nand0@0x680000000 {
+            hpps-nand@0x680000000 {
                 compatible = "nand";
-                reg = <0x6 0x80000000 0x0 0x10000000 /* prio = 0 */ 0x0>;
+                reg = <0x6 0x80000000 0x0 0x10000000>;
 
                 start_addr_high = <0x6>;
                 start_addr_low= <0x80000000>;
