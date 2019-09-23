@@ -2163,7 +2163,7 @@
             compatible = "qemu:memory-region";
             device_type = "memory";
             qemu,ram = <1>;
-            reg = <0x0 0x80000000 0x0 0x04000000 /* prio = */ 0x0>;
+            reg = <0x0 0x80000000 0x0 0x08000000 /* prio = */ 0x0>;
         };
 #if 0
         hpps_ddr_high0: hpps_ddr_high0@0x100000000 { /* TODO: TZC400 */
