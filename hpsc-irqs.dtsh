@@ -80,7 +80,6 @@
 #define TRCH_IRQ__TRCH_DMA_EV6                  69
 #define TRCH_IRQ__TRCH_DMA_EV7                  70
 
-#define TRCH_IRQ__TRCH_SMC                      71
 #define TRCH_IRQ__ELAPSED_TIMER                 72
 
 #define TRCH_IRQ__WDT_RTPS_A53_ST2              73 /* TODO: move to WDTs */
@@ -88,6 +87,9 @@
 
 #define TRCH_IRQ__LSIO_I2C			75
 #define TRCH_IRQ__LSIO_SPI			76
+
+#define TRCH_IRQ__LSIO_SMC_SRAM                 77
+#define TRCH_IRQ__LSIO_SMC_NAND                 78
 
 // ******** RTPS interrupt controller inputs **************
 
@@ -248,18 +250,19 @@
 #define HPPS_IRQ__XGMAC                         78
 #define HPPS_IRQ__XGMAC_WAKE                    79
 
-#define HPPS_IRQ__HPPS_SMC                      80
+#define HPPS_IRQ__HPPS_SMC_NAND                 80
+#define HPPS_IRQ__HPPS_SMC_SRAM                 81
 
-#define HPPS_IRQ__IPI0                          81
+#define HPPS_IRQ__IPI0                          82
 
-#define HPPS_IRQ__PMU_0                         82
-#define HPPS_IRQ__PMU_1                         83
-#define HPPS_IRQ__PMU_2                         84
-#define HPPS_IRQ__PMU_3                         85
-#define HPPS_IRQ__PMU_4                         86
-#define HPPS_IRQ__PMU_5                         87
-#define HPPS_IRQ__PMU_6                         88
-#define HPPS_IRQ__PMU_7                         89
+#define HPPS_IRQ__PMU_0                         83
+#define HPPS_IRQ__PMU_1                         84
+#define HPPS_IRQ__PMU_2                         85
+#define HPPS_IRQ__PMU_3                         86
+#define HPPS_IRQ__PMU_4                         87
+#define HPPS_IRQ__PMU_5                         88
+#define HPPS_IRQ__PMU_6                         89
+#define HPPS_IRQ__PMU_7                         90
 
 
 // *** HPPS and RTPS: GIC PPI IRQs ***
