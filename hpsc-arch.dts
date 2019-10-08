@@ -1743,7 +1743,7 @@
             #priority-cells = <0>;
             ranges ;
 
-        lsio-smc-sram@0x28000000 {
+        lsio-sram@0x28000000 {
             compatible = "offchip-sram";
 #ifndef SMC_REG_HACK
             reg = <0x0 0x28000000 0x0 0x2000000>;
@@ -1757,7 +1757,7 @@
             rank = <0>;
             drive = "";
         };
-        lsio-smc-sram@0x2a000000 {
+        lsio-sram@0x2a000000 {
             compatible = "offchip-sram";
 #ifndef SMC_REG_HACK
             reg = <0x0 0x2a000000 0x0 0x2000000>;
@@ -1771,7 +1771,7 @@
             rank = <1>;
             drive = "";
         };
-        lsio-smc-sram@0x2c000000 {
+        lsio-sram@0x2c000000 {
             compatible = "offchip-sram";
 #ifndef SMC_REG_HACK
             reg = <0x0 0x2c000000 0x0 0x2000000>;
@@ -1785,7 +1785,7 @@
             rank = <2>;
             drive = "";
         };
-        lsio-smc-sram@0x2e000000 {
+        lsio-sram@0x2e000000 {
             compatible = "offchip-sram";
 #ifndef SMC_REG_HACK
             reg = <0x0 0x2e000000 0x0 0x2000000>;
@@ -1822,7 +1822,7 @@
             #priority-cells = <0>;
             ranges ;
 
-            lsio-smc-nand@0x24000000 {
+            lsio-nand@0x24000000 {
                 compatible = "nand";
 #ifndef SMC_REG_HACK
                 reg = <0x0 0x24000000 0x0 0x01000000>;
@@ -1839,7 +1839,7 @@
 
                 NAND_CHIP_256MIB_8BIT
             };
-            lsio-smc-nand@0x25000000 {
+            lsio-nand@0x25000000 {
                 compatible = "nand";
 #ifndef SMC_REG_HACK
                 reg = <0x0 0x25000000 0x0 0x01000000>;
@@ -1856,7 +1856,7 @@
 
                 NAND_CHIP_256MIB_8BIT
             };
-            lsio-smc-nand@0x26000000 {
+            lsio-nand@0x26000000 {
                 compatible = "nand";
 #ifndef SMC_REG_HACK
                 reg = <0x0 0x26000000 0x0 0x01000000>;
@@ -1873,7 +1873,7 @@
 
                 NAND_CHIP_256MIB_8BIT
             };
-            lsio-smc-nand@0x27000000 {
+            lsio-nand@0x27000000 {
                 compatible = "nand";
 #ifndef SMC_REG_HACK
                 reg = <0x0 0x27000000 0x0 0x01000000>;
