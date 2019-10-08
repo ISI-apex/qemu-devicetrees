@@ -2102,11 +2102,11 @@
             hpps-sram@0x600000000 {
                 compatible = "offchip-sram";
 #ifndef SMC_REG_HACK
-                reg   = <0x6 0x00000000 0x0 0x40000000>;
+                reg   = <0x6 0x00000000 0x0 0x800000>;
 #else
                 start_addr_high = <0x6>;
                 start_addr_low= <0x00000000>;
-                region_size = <0x40000000>;
+                region_size = <0x800000>;
 #endif
 
                 pflash_index = <DRIVE_PFLASH__HPPS_SMC_SRAM_0>;
@@ -2116,11 +2116,11 @@
             hpps-sram@0x640000000 {
                 compatible = "offchip-sram";
 #ifndef SMC_REG_HACK
-                reg   = <0x6 0x40000000 0x0 0x40000000>;
+                reg   = <0x6 0x40000000 0x0 0x800000>;
 #else
                 start_addr_high = <0x6>;
                 start_addr_low= <0x40000000>;
-                region_size = <0x40000000>;
+                region_size = <0x800000>;
 #endif
 
                 pflash_index = <DRIVE_PFLASH__HPPS_SMC_SRAM_1>;
@@ -2130,11 +2130,11 @@
             hpps-sram@0x680000000 {
                 compatible = "offchip-sram";
 #ifndef SMC_REG_HACK
-                reg   = <0x6 0x80000000 0x0 0x40000000>;
+                reg   = <0x6 0x80000000 0x0 0x800000>;
 #else
                 start_addr_high = <0x6>;
                 start_addr_low= <0x80000000>;
-                region_size = <0x40000000>;
+                region_size = <0x800000>;
 #endif
 
                 pflash_index = <DRIVE_PFLASH__HPPS_SMC_SRAM_2>;
@@ -2144,12 +2144,12 @@
             hpps-sram@0x6c0000000 {
                 compatible = "offchip-sram";
 #ifndef SMC_REG_HACK
-                reg   = <0x6 0xc0000000 0x0 0x40000000>;
+                reg   = <0x6 0xc0000000 0x0 0x800000>;
 #else
 
                 start_addr_high = <0x6>;
                 start_addr_low= <0xc0000000>;
-                region_size = <0x40000000>;
+                region_size = <0x800000>;
 #endif
 
                 pflash_index = <DRIVE_PFLASH__HPPS_SMC_SRAM_3>;
