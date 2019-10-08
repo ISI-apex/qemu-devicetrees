@@ -44,6 +44,10 @@
 #define DRIVE_MTD__LSIO_SPI__M0    1
 #define DRIVE_MTD__RTPS_SPI__M0    2
 
+#define NAND_CHIP_256MIB_8BIT \
+                chip_id = <0xaa>; \
+                manufacturer_id = <0x2c>; \
+
 #define SMC_REG_HACK
 
 /dts-v1/;
@@ -1818,18 +1822,6 @@
             #priority-cells = <0>;
             ranges ;
 
-#define LSIO_SMC_NAND_PROPS \
-                chip_id = <0xaa>; \
-                manufacturer_id = <0x2c>; \
-                arm,nand-cycle-t0 = <0x4>; \
-                arm,nand-cycle-t1 = <0x4>; \
-                arm,nand-cycle-t2 = <0x1>; \
-                arm,nand-cycle-t3 = <0x2>; \
-                arm,nand-cycle-t4 = <0x2>; \
-                arm,nand-cycle-t5 = <0x2>; \
-                arm,nand-cycle-t6 = <0x4>; \
-                drive = ""; \
-
             lsio-smc-nand@0x24000000 {
                 compatible = "nand";
 #ifndef SMC_REG_HACK
@@ -1843,8 +1835,9 @@
                 pflash_index = <DRIVE_PFLASH__LSIO_SMC_NAND_0>;
                 rank = <0>;
                 label = "lsio-nand-0";
+                drive = "";
 
-                LSIO_SMC_NAND_PROPS
+                NAND_CHIP_256MIB_8BIT
             };
             lsio-smc-nand@0x25000000 {
                 compatible = "nand";
@@ -1859,8 +1852,9 @@
                 pflash_index = <DRIVE_PFLASH__LSIO_SMC_NAND_1>;
                 rank = <1>;
                 label = "lsio-nand-1";
+                drive = "";
 
-                LSIO_SMC_NAND_PROPS
+                NAND_CHIP_256MIB_8BIT
             };
             lsio-smc-nand@0x26000000 {
                 compatible = "nand";
@@ -1875,8 +1869,9 @@
                 pflash_index = <DRIVE_PFLASH__LSIO_SMC_NAND_2>;
                 rank = <2>;
                 label = "lsio-nand-2";
+                drive = "";
 
-                LSIO_SMC_NAND_PROPS
+                NAND_CHIP_256MIB_8BIT
             };
             lsio-smc-nand@0x27000000 {
                 compatible = "nand";
@@ -1891,8 +1886,9 @@
                 pflash_index = <DRIVE_PFLASH__LSIO_SMC_NAND_3>;
                 rank = <3>;
                 label = "lsio-nand-3";
+                drive = "";
 
-                LSIO_SMC_NAND_PROPS
+                NAND_CHIP_256MIB_8BIT
             };
         };
 
@@ -2179,18 +2175,6 @@
             #priority-cells = <0>;
             ranges ;
 
-#define HPPS_SMC_NAND_PROPS \
-                chip_id = <0xaa>; \
-                manufacturer_id = <0x2c>; \
-                arm,nand-cycle-t0 = <0x4>; \
-                arm,nand-cycle-t1 = <0x4>; \
-                arm,nand-cycle-t2 = <0x1>; \
-                arm,nand-cycle-t3 = <0x2>; \
-                arm,nand-cycle-t4 = <0x2>; \
-                arm,nand-cycle-t5 = <0x2>; \
-                arm,nand-cycle-t6 = <0x4>; \
-                drive = ""; \
-
             hpps-nand@0xfb000000 {
                 compatible = "nand";
 #ifndef SMC_REG_HACK
@@ -2204,8 +2188,9 @@
                 pflash_index = <DRIVE_PFLASH__HPPS_SMC_NAND_0>;
                 rank = <0>;
                 label = "hpps-nand-0";
+                drive = "";
 
-                HPPS_SMC_NAND_PROPS
+                NAND_CHIP_256MIB_8BIT
             };
             hpps-nand@0xfc000000 {
                 compatible = "nand";
@@ -2220,8 +2205,9 @@
                 pflash_index = <DRIVE_PFLASH__HPPS_SMC_NAND_1>;
                 rank = <1>;
                 label = "hpps-nand-1";
+                drive = "";
 
-                HPPS_SMC_NAND_PROPS
+                NAND_CHIP_256MIB_8BIT
             };
             hpps-nand@0xfd000000 {
                 compatible = "nand";
@@ -2236,8 +2222,9 @@
                 pflash_index = <DRIVE_PFLASH__HPPS_SMC_NAND_2>;
                 rank = <2>;
                 label = "hpps-nand-2";
+                drive = "";
 
-                HPPS_SMC_NAND_PROPS
+                NAND_CHIP_256MIB_8BIT
             };
             hpps-nand@0xfe000000 {
                 compatible = "nand";
@@ -2252,8 +2239,9 @@
                 pflash_index = <DRIVE_PFLASH__HPPS_SMC_NAND_3>;
                 rank = <3>;
                 label = "hpps-nand-3";
+                drive = "";
 
-                HPPS_SMC_NAND_PROPS
+                NAND_CHIP_256MIB_8BIT
             };
         };
 
