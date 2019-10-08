@@ -44,6 +44,10 @@
 #define DRIVE_MTD__LSIO_SPI__M0    1
 #define DRIVE_MTD__RTPS_SPI__M0    2
 
+#define NAND_CHIP_64MIB_8BIT \
+                chip_id = <0xa2>; \
+                manufacturer_id = <0x2c>; \
+
 #define NAND_CHIP_256MIB_8BIT \
                 chip_id = <0xaa>; \
                 manufacturer_id = <0x2c>; \
@@ -1837,7 +1841,7 @@
                 label = "lsio-nand-0";
                 drive = "";
 
-                NAND_CHIP_256MIB_8BIT
+                NAND_CHIP_64MIB_8BIT
             };
             lsio-nand@0x25000000 {
                 compatible = "nand";
@@ -1854,7 +1858,7 @@
                 label = "lsio-nand-1";
                 drive = "";
 
-                NAND_CHIP_256MIB_8BIT
+                NAND_CHIP_64MIB_8BIT
             };
             lsio-nand@0x26000000 {
                 compatible = "nand";
@@ -1871,7 +1875,7 @@
                 label = "lsio-nand-2";
                 drive = "";
 
-                NAND_CHIP_256MIB_8BIT
+                NAND_CHIP_64MIB_8BIT
             };
             lsio-nand@0x27000000 {
                 compatible = "nand";
@@ -1888,7 +1892,7 @@
                 label = "lsio-nand-3";
                 drive = "";
 
-                NAND_CHIP_256MIB_8BIT
+                NAND_CHIP_64MIB_8BIT
             };
         };
 
@@ -2207,7 +2211,7 @@
                 label = "hpps-nand-1";
                 drive = "";
 
-                NAND_CHIP_256MIB_8BIT
+                NAND_CHIP_64MIB_8BIT
             };
             hpps-nand@0xfd000000 {
                 compatible = "nand";
@@ -2224,7 +2228,7 @@
                 label = "hpps-nand-2";
                 drive = "";
 
-                NAND_CHIP_256MIB_8BIT
+                NAND_CHIP_64MIB_8BIT
             };
             hpps-nand@0xfe000000 {
                 compatible = "nand";
@@ -2241,7 +2245,7 @@
                 label = "hpps-nand-3";
                 drive = "";
 
-                NAND_CHIP_256MIB_8BIT
+                NAND_CHIP_64MIB_8BIT
             };
         };
 
