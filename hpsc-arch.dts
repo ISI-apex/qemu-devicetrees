@@ -1659,7 +1659,6 @@
         compatible = "simple-bus";
         ranges ;
 
-#if 0 /* Qemu 4 */
         /* {RTPS,TRCH} -> HPPS MMU */
         rt_smmu: smmu0@0x31100000 {
             compatible = "arm,mmu-500";
@@ -1695,7 +1694,6 @@
             /* mr-x: points to the per TBU down-stream MR.  */
             mr-0 = <&ccn>;
         };
-#endif /* Qemu 4 */
 
         to_nic4 { /* lsio */
                 compatible = "qemu:memory-region";
