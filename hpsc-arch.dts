@@ -2118,6 +2118,7 @@
             switch = <&rio_switch>;
             port-idx = <0>;
 #endif
+            dma = <&ccn>; /* TODO: through MMU */
         };
 
         rio_endpt1: rio-endpt@0xe4000000 {
@@ -2130,6 +2131,7 @@
             switch = <&rio_switch>;
             port-idx = <1>;
 #endif
+            dma = <&ccn>; /* TODO: through MMU */
 
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
