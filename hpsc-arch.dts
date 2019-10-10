@@ -1714,11 +1714,12 @@
 
     nic6: nic6 {
         compatible = "simple-bus";
+        #address-cells = <2>;
         ranges ;
 
         hpps_trch_mailbox: mailbox@0xfff50000 {
             compatible = "hpsc,hpsc-mbox";
-            reg = <0xfff50000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xfff50000  0x0 0x1000 /* prio = */ 0x0>;
 
             interrupts = <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1742,7 +1743,7 @@
 
         hpps_rtps_mailbox: mailbox@0xfff60000 {
             compatible = "hpsc,hpsc-mbox";
-            reg = <0xfff60000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xfff60000  0x0 0x1000 /* prio = */ 0x0>;
 
             interrupts = <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1766,7 +1767,7 @@
 
         hpps_uart_0: serial@0xf92c0000 {
             compatible = "sysbus-serial"; /* 16550A */
-            reg = <0xf92c0000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xf92c0000  0x0 0x1000 /* prio = */ 0x0>;
             baudrate = <125000>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1778,7 +1779,7 @@
         hpps_smc353_sram: hpps_smc353_sram@0xf92d0000 {
             compatible = "arm,pl35x";
             x = <3>;
-            reg = <0xf92d0000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xf92d0000  0x0 0x1000 /* prio = */ 0x0>;
 
             arm,addr25 = <0x0>;
 
@@ -1858,7 +1859,7 @@
         hpps_smc353_nand: hpps_smc353_nand@0xf9400000 {
             compatible = "arm,pl35x";
             x = <3>;
-            reg = <0xf9400000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xf9400000  0x0 0x1000 /* prio = */ 0x0>;
 
             arm,addr25 = <0x0>;
 
@@ -1946,15 +1947,15 @@
 
         hpps_smmu: smmu@0xf9300000 {
             compatible = "arm,mmu-500";
-            reg-extended = <&nic6 0xf9300000  0x0 0x20000     /* prio = */ 0x0
-                            &hpps_smmu_tbu0 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu1 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu2 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu3 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu4 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu5 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu6 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu7 0 0x1 0x00000000  /* prio = */ 0x0>;
+            reg-extended = <&nic6 0x0 0xf9300000  0x0 0x20000     /* prio = */ 0x0
+                            &hpps_smmu_tbu0 0x0 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu1 0x0 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu2 0x0 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu3 0x0 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu4 0x0 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu5 0x0 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu6 0x0 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu7 0x0 0 0x1 0x00000000  /* prio = */ 0x0>;
 
             interrupts = <0 /* global irq */
                           1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16>; /* context irqs (16 contexts hardcoded in model) */
@@ -2010,7 +2011,7 @@
         /* TODO: secure at 0xf92f0000: another node? */
         hpps_dma: dma-controller@0xf92e0000 {
             compatible = "arm,pl330";
-            reg = <0xf92e0000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xf92e0000  0x0 0x1000 /* prio = */ 0x0>;
 
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -2039,7 +2040,7 @@
         /* TODO: secure at 0xe5320000: another node? */
         srio0_dma: dma-controller@0xe5310000 {
             compatible = "arm,pl330";
-            reg = <0xe5310000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xe5310000  0x0 0x1000 /* prio = */ 0x0>;
 
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -2068,7 +2069,7 @@
         /* TODO: secure at 0xe5340000: another node? */
         srio1_dma: dma-controller@0xe5330000 {
             compatible = "arm,pl330";
-            reg = <0xe5330000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xe5330000  0x0 0x1000 /* prio = */ 0x0>;
 
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -2090,7 +2091,7 @@
 
        hsio_eth: ethernet@0xe5300000 {
             compatible = "cadence_gem";
-            reg = <0xe5300000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xe5300000  0x0 0x1000 /* prio = */ 0x0>;
 
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -2110,7 +2111,7 @@
 
         rio_endpt0: rio-endpt@0xe3000000 {
             compatible = "praesum,brc1-rio-endpt";
-            reg = <0xe3000000  0x0 0x01000000 /* prio = */ 0x0>;
+            reg = <0x0 0xe3000000  0x0 0x01000000 /* prio = */ 0x0>;
 
 #if 0
             port = <&rio_switch 0>;
@@ -2123,7 +2124,7 @@
 
         rio_endpt1: rio-endpt@0xe4000000 {
             compatible = "praesum,brc1-rio-endpt";
-            reg = <0xe4000000  0x0 0x01000000 /* prio = */ 0x0>;
+            reg = <0x0 0xe4000000  0x0 0x01000000 /* prio = */ 0x0>;
 
 #if 0
             port = <&rio_switch 1>;
@@ -2140,7 +2141,7 @@
 
         rio_switch: rio-switch@0xe5000000 {
             compatible = "praesum,sm-rio-switch";
-            reg = <0xe5000000  0x0 0x00200000 /* prio = */ 0x0>;
+            reg = <0x0 0xe5000000  0x0 0x00200000 /* prio = */ 0x0>;
 
             num-ports = <2>;
 #if 0
