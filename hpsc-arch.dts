@@ -2111,8 +2111,9 @@
 
         rio_endpt0: rio-endpt@0xe3000000 {
             compatible = "praesum,brc1-rio-endpt";
-            reg = <0x0 0xe3000000  0x0 0x01000000 /* prio = */ 0x0>;
-
+            reg = <0x0 0xe3000000  0x0 0x01000000 /* prio = */ 0x0
+                   /* outgoing map region */
+                   0x4 0x00000000  0x1 0x00000000 /* prio = */ 0x0>;
 #if 0
             port = <&rio_switch 0>;
 #else
@@ -2124,7 +2125,9 @@
 
         rio_endpt1: rio-endpt@0xe4000000 {
             compatible = "praesum,brc1-rio-endpt";
-            reg = <0x0 0xe4000000  0x0 0x01000000 /* prio = */ 0x0>;
+            reg = <0x0 0xe4000000  0x0 0x01000000 /* prio = */ 0x0
+                   /* outgoing map region */
+                   0x5 0x00000000  0x1 0x00000000 /* prio = */ 0x0>;
 
 #if 0
             port = <&rio_switch 1>;
