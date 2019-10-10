@@ -2046,12 +2046,13 @@
 
     nic6: nic6 {
         compatible = "simple-bus";
+        #address-cells = <2>;
         ranges ;
 
 #if CONFIG_HPPS_MAILBOX_0
         hpps_mailbox0: mailbox@0xfff50000 {
             compatible = "hpsc,hpsc-mbox";
-            reg = <0xfff50000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xfff50000  0x0 0x1000 /* prio = */ 0x0>;
 
             interrupts = <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -2077,7 +2078,7 @@
 #if CONFIG_HPPS_MAILBOX_1
         hpps_mailbox1: mailbox@0xfff60000 {
             compatible = "hpsc,hpsc-mbox";
-            reg = <0xfff60000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xfff60000  0x0 0x1000 /* prio = */ 0x0>;
 
             interrupts = <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -2102,7 +2103,7 @@
 
         hpps_uart_0: serial@0xf92c0000 {
             compatible = "sysbus-serial"; /* 16550A */
-            reg = <0xf92c0000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xf92c0000  0x0 0x1000 /* prio = */ 0x0>;
             baudrate = <125000>;
 #if CONFIG_HPPS_A53 /* TODO: connect to all interrupt controllers */
             interrupts = <0>;
@@ -2117,7 +2118,7 @@
         hpps_smc353: hpps_smc353@0xf92d0000 {
             compatible = "arm,pl35x";
             x = <3>;
-            reg = <0xf92d0000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xf92d0000  0x0 0x1000 /* prio = */ 0x0>;
 
             arm,addr25 = <0x0>;
 
@@ -2213,15 +2214,15 @@
 #if CONFIG_HPPS_SMMU
         hpps_smmu: smmu@0xf9300000 {
             compatible = "arm,mmu-500";
-            reg-extended = <&nic6 0xf9300000  0x0 0x20000     /* prio = */ 0x0
-                            &hpps_smmu_tbu0 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu1 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu2 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu3 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu4 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu5 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu6 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu7 0 0x1 0x00000000  /* prio = */ 0x0>;
+            reg-extended = <&nic6 0x0 0xf9300000  0x0 0x20000     /* prio = */ 0x0
+                            &hpps_smmu_tbu0 0x0 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu1 0x0 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu2 0x0 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu3 0x0 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu4 0x0 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu5 0x0 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu6 0x0 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu7 0x0 0 0x1 0x00000000  /* prio = */ 0x0>;
 
             interrupts = <0 /* global irq */
                           1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16>; /* context irqs (16 contexts hardcoded in model) */
@@ -2270,6 +2271,7 @@
         hpps_dma: dma-controller@0xf92e0000 {
             compatible = "arm,pl330", "arm,primecell";
             reg = <0xf92e0000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xf92e0000  0x0 0x1000 /* prio = */ 0x0>;
 
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -2303,7 +2305,7 @@
         /* TODO: secure at 0xe5320000: another node? */
         srio0_dma: dma-controller@0xe5310000 {
             compatible = "arm,pl330", "arm,primecell";
-            reg = <0xe5310000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xe5310000  0x0 0x1000 /* prio = */ 0x0>;
 
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -2337,7 +2339,7 @@
         /* TODO: secure at 0xe5340000: another node? */
         srio1_dma: dma-controller@0xe5330000 {
             compatible = "arm,pl330", "arm,primecell";
-            reg = <0xe5330000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xe5330000  0x0 0x1000 /* prio = */ 0x0>;
 
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -2371,7 +2373,7 @@
         };
         xgmac: ethernet@0xe5300000 {
             compatible = "xlnx,ps7-ethernet-1.00.a", "cdns,gem";  /* TODO: change to Synopsys DWC_ether */
-            reg = <0xe5300000  0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0xe5300000  0x0 0x1000 /* prio = */ 0x0>;
 
             interrupts = <0 1>;
             interrupt-map-mask = <0 0 0xffff>;
