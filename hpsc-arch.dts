@@ -1747,63 +1747,63 @@
             #priority-cells = <0>;
             ranges ;
 
-        lsio-sram@0x28000000 {
-            compatible = "offchip-sram";
+            lsio-sram@0x28000000 {
+                compatible = "offchip-sram";
 #ifndef SMC_REG_HACK
-            reg = <0x0 0x28000000 0x0 0x2000000>;
+                reg = <0x0 0x28000000 0x0 0x2000000>;
 #else
-            start_addr_high = <0x0>;
-            start_addr_low= <0x28000000>;
-            region_size = <0x02000000>;
+                start_addr_high = <0x0>;
+                start_addr_low= <0x28000000>;
+                region_size = <0x02000000>;
 #endif
 
-            pflash_index = <DRIVE_PFLASH__LSIO_SMC_SRAM_0>;
-            rank = <0>;
-            drive = "";
-        };
-        lsio-sram@0x2a000000 {
-            compatible = "offchip-sram";
+                pflash_index = <DRIVE_PFLASH__LSIO_SMC_SRAM_0>;
+                rank = <0>;
+                drive = "";
+            };
+            lsio-sram@0x2a000000 {
+                compatible = "offchip-sram";
 #ifndef SMC_REG_HACK
-            reg = <0x0 0x2a000000 0x0 0x2000000>;
+                reg = <0x0 0x2a000000 0x0 0x2000000>;
 #else
-            start_addr_high = <0x0>;
-            start_addr_low= <0x2a000000>;
-            region_size = <0x02000000>;
+                start_addr_high = <0x0>;
+                start_addr_low= <0x2a000000>;
+                region_size = <0x02000000>;
 #endif
 
-            pflash_index = <DRIVE_PFLASH__LSIO_SMC_SRAM_1>;
-            rank = <1>;
-            drive = "";
-        };
-        lsio-sram@0x2c000000 {
-            compatible = "offchip-sram";
+                pflash_index = <DRIVE_PFLASH__LSIO_SMC_SRAM_1>;
+                rank = <1>;
+                drive = "";
+            };
+            lsio-sram@0x2c000000 {
+                compatible = "offchip-sram";
 #ifndef SMC_REG_HACK
-            reg = <0x0 0x2c000000 0x0 0x2000000>;
+                reg = <0x0 0x2c000000 0x0 0x2000000>;
 #else
-            start_addr_high = <0x0>;
-            start_addr_low= <0x2c000000>;
-            region_size = <0x02000000>;
+                start_addr_high = <0x0>;
+                start_addr_low= <0x2c000000>;
+                region_size = <0x02000000>;
 #endif
 
-            pflash_index = <DRIVE_PFLASH__LSIO_SMC_SRAM_2>;
-            rank = <2>;
-            drive = "";
-        };
-        lsio-sram@0x2e000000 {
-            compatible = "offchip-sram";
+                pflash_index = <DRIVE_PFLASH__LSIO_SMC_SRAM_2>;
+                rank = <2>;
+                drive = "";
+            };
+            lsio-sram@0x2e000000 {
+                compatible = "offchip-sram";
 #ifndef SMC_REG_HACK
-            reg = <0x0 0x2e000000 0x0 0x2000000>;
+                reg = <0x0 0x2e000000 0x0 0x2000000>;
 #else
-            start_addr_high = <0x0>;
-            start_addr_low= <0x2e000000>;
-            region_size = <0x02000000>;
+                start_addr_high = <0x0>;
+                start_addr_low= <0x2e000000>;
+                region_size = <0x02000000>;
 #endif
 
-            pflash_index = <DRIVE_PFLASH__LSIO_SMC_SRAM_3>;
-            rank = <3>;
-            drive = "";
+                pflash_index = <DRIVE_PFLASH__LSIO_SMC_SRAM_3>;
+                rank = <3>;
+                drive = "";
+            };
         };
-    };
 
 	/* Allocated into "Unused" section in Memory Map v14, since this device
 	 * didn't exist in v14. */
