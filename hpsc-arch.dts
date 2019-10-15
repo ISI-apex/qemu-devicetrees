@@ -48,9 +48,18 @@
                 chip_id = <0xa2>; \
                 manufacturer_id = <0x2c>; \
 
+/* NAND 256MiB 1,8V 8-bit, 64B OOB */
 #define NAND_CHIP_256MIB_8BIT \
                 chip_id = <0xaa>; \
                 manufacturer_id = <0x2c>; \
+
+/* AMD/Spansion AMD/Spansion NAND 4Gb 1.8V 16-bit, 128B OOB */
+#define NAND_CHIP_512MIB_16BIT_128OOB_SPANSION \
+                chip_id = <0xbc>; \
+                manufacturer_id = <0x01>; \
+                full_id_low = <0x5590bc01>; \
+                full_id_high = <0xbc010056>; \
+
 
 #define SMC_REG_HACK
 
