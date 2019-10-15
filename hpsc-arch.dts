@@ -2052,8 +2052,16 @@
                 arm,nand-cycle-t4 = <0x2>;
                 arm,nand-cycle-t5 = <0x2>;
                 arm,nand-cycle-t6 = <0x4>;
+
+/*		AMD/Spansion AMD/Spansion NAND 4Gb 1.8V 16-bit, 128B OOB */
+                chip_id = <0xbc>;
+                manufacturer_id = <0x01>;
+                full_id_low = <0x5590bc01>;
+                full_id_high = <0xbc010056>; 
+
+/*              NAND 256MiB 1,8V 8-bit, 64B OOB 
                 chip_id = <0xaa>;
-                manufacturer_id = <0x2c>;
+                manufacturer_id = <0x2c>;  */
                 drive = "";
                 label = "nand0";
                 status = "disabled";
