@@ -2144,7 +2144,7 @@
 
         rio_switch: rio-switch@0xe5000000 {
             compatible = "praesum,sm-rio-switch";
-            reg = <0x0 0xe5000000  0x0 0x00200000 /* prio = */ 0x0>;
+            reg = <0x0 0xe5000000  0x0 0x00400000 /* prio = */ 0x0>;
 
             num-ports = <2>;
 #if 0
