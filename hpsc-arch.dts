@@ -1086,6 +1086,20 @@
         };
     };
 
+    pmu_bus: pmu_bus { /* TODO: remove once all Xilinx HW is removed */
+        compatible = "simple-bus";
+        ranges ;
+
+        pmu_global: pmu_global@0xffd80000 {
+            compatible = "xlnx,pmu_global";
+            reg = <0x0 0xffd80000 0x0 0x40000 /* prio= */ 0x0>;
+            gpio-controller;
+            #gpio-cells = <1>;
+            num-gpios = <30>; /* pmu_global_client_gpios(30), pmu_global_controller_gpios(3 or 4) in xilinx_zynqmp_pmu_global.c */
+            ignore-pwr-req = <1>;
+        };
+    };
+
     hpps: hpps { /* view of address space from HPPS CPUs */
         #address-cells = <2>;
         compatible = "simple-bus";
@@ -1268,15 +1282,10 @@
             alias = <&apu_bus>;
             reg = <0x0 0x0 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
         };
-
-
-        pmu_global: pmu_global@0xffd80000 {
-            compatible = "xlnx,pmu_global";
-            reg = <0x0 0xffd80000 0x0 0x40000 /* prio= */ 0x0>;
-            gpio-controller;
-            #gpio-cells = <1>;
-            num-gpios = <30>; /* pmu_global_client_gpios(30), pmu_global_controller_gpios(3 or 4) in xilinx_zynqmp_pmu_global.c */
-            ignore-pwr-req = <1>;
+        to_pmu_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
+            compatible = "qemu:memory-region";
+            alias = <&pmu_bus>;
+            reg = <0x0 0x0 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
         };
 
         to_ccn {
