@@ -752,6 +752,11 @@
             alias = <&crf_bus>;
             reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
         };
+        to_apu_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
+            compatible = "qemu:memory-region";
+            alias = <&apu_bus>;
+            reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
+        };
         to_crl_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
             compatible = "qemu:memory-region";
             alias = <&crl_bus>;
@@ -760,11 +765,6 @@
         to_rpu_ctrl_bus { /* TODO: temporary hack, because both TRCH and RTPS (?) need this */
             compatible = "qemu:memory-region";
             alias = <&rpu_ctrl_bus>;
-            reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
-        };
-        to_apu_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
-            compatible = "qemu:memory-region";
-            alias = <&apu_bus>;
             reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
         };
 
@@ -1263,11 +1263,6 @@
             alias = <&crf_bus>;
             reg = <0x0 0x0 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
         };
-        to_crl_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
-            compatible = "qemu:memory-region";
-            alias = <&crl_bus>;
-            reg = <0x0 0x0 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
-        };
         to_apu_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
             compatible = "qemu:memory-region";
             alias = <&apu_bus>;
@@ -1527,6 +1522,12 @@
     nic2: nic2 {
         compatible = "simple-bus";
         ranges ;
+
+        to_crl_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
+            compatible = "qemu:memory-region";
+            alias = <&crl_bus>;
+            reg = <0x0 0x0 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
+        };
 
 #if CONFIG_RTPS_R52_WDTS
         /* This is a wormhole in hardware, there's no actual access to nic1 */
