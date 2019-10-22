@@ -1774,7 +1774,7 @@
         compatible = "simple-bus";
         ranges ;
 
-#if CONFIG_LSIO_MAILBOXES
+#if CONFIG_LSIO_MAILBOX
         lsio_mailbox: mailbox@0x3000a000 {
             compatible = "hpsc,hpsc-mbox";
             reg = <0x3000a000  0x0 0x1000 /* prio = */ 0x0>;
@@ -1798,7 +1798,7 @@
                             <0 0 14 &trch_nvic TRCH_IRQ__TR_MBOX_14>, <0 0 14 &rtps_r52_gic GIC_SPI RTPS_IRQ__TR_MBOX_14 GIC_LVL_HI>,
                             <0 0 15 &trch_nvic TRCH_IRQ__TR_MBOX_15>, <0 0 15 &rtps_r52_gic GIC_SPI RTPS_IRQ__TR_MBOX_15 GIC_LVL_HI>;
         };
-#endif /* CONFIG_LSIO_MAILBOXES */
+#endif /* CONFIG_LSIO_MAILBOX */
 
         lsio_uart_0: serial@0x30000000 {
             compatible = "sysbus-serial"; /* 16550A */
@@ -2055,8 +2055,8 @@
         compatible = "simple-bus";
         ranges ;
 
-#if CONFIG_HPPS_MAILBOXES
-        hpps_trch_mailbox: mailbox@0xfff50000 {
+#if CONFIG_HPPS_MAILBOX_0
+        hpps_mailbox0: mailbox@0xfff50000 {
             compatible = "hpsc,hpsc-mbox";
             reg = <0xfff50000  0x0 0x1000 /* prio = */ 0x0>;
 
@@ -2079,8 +2079,10 @@
                             <0 0 14 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_14 GIC_LVL_HI>, <0 0 14 &trch_nvic TRCH_IRQ__HT_MBOX_14>,
                             <0 0 15 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_15 GIC_LVL_HI>, <0 0 15 &trch_nvic TRCH_IRQ__HT_MBOX_15>;
         };
+#endif /* CONFIG_HPPS_MAILBOX_0 */
 
-        hpps_rtps_mailbox: mailbox@0xfff60000 {
+#if CONFIG_HPPS_MAILBOX_1
+        hpps_mailbox1: mailbox@0xfff60000 {
             compatible = "hpsc,hpsc-mbox";
             reg = <0xfff60000  0x0 0x1000 /* prio = */ 0x0>;
 
@@ -2103,7 +2105,7 @@
                             <0 0 14 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_14 GIC_LVL_HI>, <0 0 14 &rtps_r52_gic GIC_SPI RTPS_IRQ__HR_MBOX_14 GIC_LVL_HI>,
                             <0 0 15 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_15 GIC_LVL_HI>, <0 0 15 &rtps_r52_gic GIC_SPI RTPS_IRQ__HR_MBOX_15 GIC_LVL_HI>;
         };
-#endif /* CONFIG_HPPS_MAILBOXES */
+#endif /* CONFIG_HPPS_MAILBOX_1 */
 
         hpps_uart_0: serial@0xf92c0000 {
             compatible = "sysbus-serial"; /* 16550A */
