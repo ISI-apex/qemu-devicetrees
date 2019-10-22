@@ -139,6 +139,7 @@
             };
         };
 
+#if CONFIG_RTPS_R52
         rtps_r52_cpus {
             compatible = "cpu-cluster";
             cluster-id = <1>;
@@ -250,7 +251,9 @@
                              "timer_hyp";
             };
         };
+#endif /* CONFIG_RTPS_R52 */
 
+#if CONFIG_RTPS_A53
         rtps_a53_cpus {
             compatible = "cpu-cluster";
             cluster-id = <2>;
@@ -324,7 +327,9 @@
                 memattr_ns = <&rtps_a53_memattr_cpu0_ns>;
             };
         };
+#endif /* CONFIG_RTPS_A53 */
 
+#if CONFIG_HPPS_A53
         hpps_cpus {
             compatible = "cpu-cluster";
             cluster-id = <3>;
@@ -706,6 +711,7 @@
                 memattr_ns = <&hpps_memattr_cpu7_ns>;
             };
         };
+#endif /* CONFIG_HPPS_A53 */
     };
 
     /* TRCH SRAM exposes two slave interfaces:
@@ -747,6 +753,7 @@
 #endif
 
         /* TODO: crf and crl will go away once TRCH reset controller is implemented */
+#if CONFIG_HPPS_A53
         to_crf_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
             compatible = "qemu:memory-region";
             alias = <&crf_bus>;
@@ -757,6 +764,8 @@
             alias = <&apu_bus>;
             reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
         };
+#endif /* CONFIG_HPPS_A53 */
+#if CONFIG_RTPS_R52 || CONFIG_RTPS_A53
         to_crl_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
             compatible = "qemu:memory-region";
             alias = <&crl_bus>;
@@ -767,6 +776,7 @@
             alias = <&rpu_ctrl_bus>;
             reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
         };
+#endif /* CONFIG_RTPS_R52 || CONFIG_RTPS_A53 */
 
         to_trch_sram {
             compatible = "qemu:memory-region";
@@ -782,6 +792,7 @@
         };
     };
 
+#if CONFIG_RTPS_R52
     rtps_r52: rtps_r52 { /* visible from both RTPS CPUs (must be declared before rtps@0 and rtps@1) */
         compatible = "simple-bus";
         ranges ;
@@ -933,7 +944,9 @@
             reg = <0x0 /* size */ 0x1 0x00000000 /* prio */ 0xffffffff /* -1 */>;
         };
     };
+#endif /* CONFIG_RTPS_R52 */
 
+#if CONFIG_RTPS_A53
     rtps_a53: rtps_a53@0 { /* view of address space from RTPS A53 */
         compatible = "simple-bus";
         ranges ;
@@ -990,7 +1003,9 @@
             reg = <0x0 /* size */ 0x1 0x00000000 /* prio */ 0xffffffff /* -1 */>;
         };
     };
+#endif /* CONFIG_RTPS_A53 */
 
+#if CONFIG_HPPS_A53
     crf_bus: crf_bus {
         compatible = "simple-bus";
         ranges ;
@@ -1003,7 +1018,9 @@
             #gpio-cells = <1>;
         };
     };
+#endif /* CONFIG_HPPS_A53 */
 
+#if CONFIG_RTPS_R52 || CONFIG_RTPS_A53
     crl_bus: crl_bus {
         compatible = "simple-bus";
         ranges ;
@@ -1041,18 +1058,24 @@
                     #gpio-cells = <1>;
                     compatible = "xlnx,rpu-control";
                     reg = <0xff9a0000  0x0 0x400 /* prio = */ 0>;
+#if CONFIG_RTPS_R52
                     atcm1-for-rpu0 = <&atcm1_for_rpu0>;
                     btcm1-for-rpu0 = <&btcm1_for_rpu0>;
                     icache-for-rpu1 = <&icache_rpu1>;
                     dcache-for-rpu1 = <&dcache_rpu1>;
                     ddr-mem-for-rpu = <&ddr_memory_2_for_rpu>;
                     gic-for-rpu = <&rtps_r52_gic>;
+#endif /* CONFIG_RTPS_R52 */
+#if CONFIG_RTPS_A53
                     gic-for-A53 = <&rtps_a53_gic>;
+#endif /* CONFIG_RTPS_A53 */
                 };
             };
         };
     };
+#endif /* CONFIG_RTPS_R52 || CONFIG_RTPS_A53 */
 
+#if CONFIG_HPPS_A53
     apu_bus: apu_bus {
         compatible = "simple-bus";
         ranges ;
@@ -1085,7 +1108,9 @@
             cpu3 = <&hpps_cpu7>;
         };
     };
+#endif /* CONFIG_HPPS_A53 */
 
+#if CONFIG_RTPS_R52 || CONFIG_RTPS_A53 || CONFIG_HPPS_A53
     pmu_bus: pmu_bus { /* TODO: remove once all Xilinx HW is removed */
         compatible = "simple-bus";
         ranges ;
@@ -1099,7 +1124,9 @@
             ignore-pwr-req = <1>;
         };
     };
+#endif /* CONFIG_RTPS_R52 || CONFIG_RTPS_A53 || CONFIG_HPPS_A53 */
 
+#if CONFIG_HPPS_A53
     hpps: hpps { /* view of address space from HPPS CPUs */
         #address-cells = <2>;
         compatible = "simple-bus";
@@ -1271,6 +1298,7 @@
 #endif /* CONFIG_HPPS_RTI_TIMERS */
 
 
+#if CONFIG_HPPS_A53
         /* TODO: crf and crl will go away once TRCH reset controller is implemented */
         to_crf_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
             compatible = "qemu:memory-region";
@@ -1282,11 +1310,14 @@
             alias = <&apu_bus>;
             reg = <0x0 0x0 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
         };
+#endif /* CONFIG_HPPS_A53 */
+#if CONFIG_RTPS_R52 || CONFIG_RTPS_A53 || CONFIG_HPPS_A53
         to_pmu_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
             compatible = "qemu:memory-region";
             alias = <&pmu_bus>;
             reg = <0x0 0x0 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
         };
+#endif /* CONFIG_RTPS_R52 || CONFIG_RTPS_A53 || CONFIG_HPPS_A53 */
 
         to_ccn {
             compatible = "qemu:memory-region";
@@ -1294,11 +1325,13 @@
             reg = <0x0 0x0 /* size = */ 0xFFFFFFFF 0xFFFFFFFF /* prio = -1 */ 0xfffffffe>;
         };
     };
+#endif /* CONFIG_HPPS_A53 */
 
 #define WDT_PROPS \
         clk-freq-hz = <125000000>; \
         max-divider = <32>; \
 
+#if CONFIG_RTPS_A53_WDTS
     rtps_a53_wdts: rtps_a53_wdts { /* accessible from TRCH nic1 and from RTPS A53 nic3 */
         compatible = "simple-bus";
         ranges ;
@@ -1313,7 +1346,9 @@
                              <0 0 1 &trch_nvic TRCH_IRQ__WDT_RTPS_A53_ST2>;
         };
     };
+#endif /* CONFIG_RTPS_A53_WDTS */
 
+#if CONFIG_RTPS_R52_WDTS
     rtps_r52_wdts: rtps_r52_wdts { /* accessible from TRCH nic1 and from RTPS R52 nic2 */
         compatible = "simple-bus";
         ranges ;
@@ -1337,6 +1372,7 @@
                                <0 0 1 &trch_nvic TRCH_IRQ__WDT_RTPS_R52_1_ST2>;
         };
     };
+#endif /* CONFIG_RTPS_R52_WDTS */
 
 #if CONFIG_HPPS_WDTS
     hpps_wdts: hpps_wdts { /* accessible from TRCH nic1 and from HPPS */
@@ -1532,11 +1568,13 @@
         compatible = "simple-bus";
         ranges ;
 
+#if CONFIG_RTPS_R52 || CONFIG_RTPS_A53
         to_crl_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
             compatible = "qemu:memory-region";
             alias = <&crl_bus>;
             reg = <0x0 0x0 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
         };
+#endif /* CONFIG_RTPS_R52 || CONFIG_RTPS_A53 */
 
 #if CONFIG_RTPS_R52_WDTS
         /* This is a wormhole in hardware, there's no actual access to nic1 */
@@ -1768,6 +1806,7 @@
             baudrate = <125000>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
+            /* TODO: connect to all TRCH and RTPS interrupt controllers */
             interrupt-map = <0 0 0 &trch_nvic TRCH_IRQ__LSIO_UART0_0>;
             clock-names = "uart_clk", "pclk";
             clocks = <&uart_clk &uart_clk>;
@@ -1777,9 +1816,11 @@
             compatible = "sysbus-serial";
             reg = <0x30001000  0x0 0x1000 /* prio = */ 0x0>;
             current-speed = <125000>;
+#if CONFIG_RTPS_R52 /* TODO: connect to all TRCH and RTPS interrupt controllers */
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &rtps_r52_gic GIC_SPI RTPS_IRQ__LSIO_UART1_0 GIC_LVL_HI>;
+#endif /* CONFIG_RTPS_R52 */
             clock-names = "uart_clk", "pclk";
             clocks = <&uart_clk &uart_clk>;
         };
@@ -2068,9 +2109,11 @@
             compatible = "sysbus-serial"; /* 16550A */
             reg = <0xf92c0000  0x0 0x1000 /* prio = */ 0x0>;
             baudrate = <125000>;
+#if CONFIG_HPPS_A53 /* TODO: connect to all interrupt controllers */
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_UART0_0 GIC_LVL_HI>;
+#endif /* CONFIG_HPPS_A53 */
             clock-names = "uart_clk", "pclk";
             clocks = <&uart_clk &uart_clk>;
         };
