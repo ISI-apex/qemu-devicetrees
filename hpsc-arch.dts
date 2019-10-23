@@ -810,8 +810,10 @@
                        0x30e40000  0x0 0x40000    /* prio = */ 0x1>; /* GICR */
 
                 num-irq = <320>;
-                cpu-start-id = <1>;
                 num-cpu = <2>;
+                cpu0 = <&rtps_r52_cpu0>;
+                cpu1 = <&rtps_r52_cpu1>;
+
                 has-security-extensions = <0>;
 
                 /* gicd-tyer: Cortex-R52 TRM r1p1 (Table 9-7)                         */
@@ -964,7 +966,8 @@
 
                 num-irq = <320>;
                 num-cpu = <1>;
-                cpu-start-id = <3>;
+                cpu0 = <&rtps_a53_cpu0>;
+
                 has-security-extensions = <1>;
                 /* gicd-tyer: based on the code (arm_gicv3_dist.c) */
                 /*            support of (Affinity level 3)        */
@@ -1144,8 +1147,30 @@
                        0x0 0xf9100000  0x0 0x100000 /* prio = */ 0x0>; /* GICR */
 
                 num-irq = <320>;
+
+#if CONFIG_HPPS_A53_CL0 && CONFIG_HPPS_A53_CL1
                 num-cpu = <8>;
-                cpu-start-id = <4>;
+                cpu0 = <&hpps_cpu0>;
+                cpu1 = <&hpps_cpu1>;
+                cpu2 = <&hpps_cpu2>;
+                cpu3 = <&hpps_cpu3>;
+                cpu4 = <&hpps_cpu4>;
+                cpu5 = <&hpps_cpu5>;
+                cpu6 = <&hpps_cpu6>;
+                cpu7 = <&hpps_cpu7>;
+#elif CONFIG_HPPS_A53_CL0
+                num-cpu = <4>;
+                cpu0 = <&hpps_cpu0>;
+                cpu1 = <&hpps_cpu1>;
+                cpu2 = <&hpps_cpu2>;
+                cpu3 = <&hpps_cpu3>;
+#elif CONFIG_HPPS_A53_CL1
+#error Invalid CONFIG_HPPS_A53_CL*: expected: !CL0 && !CL1, CL0, or CL0 && CL1
+#else /* single processor (not SMP) */
+                num-cpu = <1>;
+                cpu0 = <&hpps_cpu0>;
+#endif /* CONFIG_HPPS_A53_CL* */
+
                 has-security-extensions = <1>;
                 /* gicd-tyer: based on the code (arm_gicv3_dist.c) */
                 /*            support of nonzero value of (Affinity level 3)    (1 << 24)    */
