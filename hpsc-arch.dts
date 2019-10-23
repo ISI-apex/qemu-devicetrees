@@ -124,16 +124,22 @@
                 /* TODO: add a reset controller between RESET and LAST_TIMEOUT,
                          because LAST_TIMEOUT should reset all blocks within
                          TRCH IP, not only the M4 core. */
-                gpios = /* input signals */
-                        </* RESET    */ &trch_wdt 0 /* LAST_TIMEOUT */
+                gpios = </* input signals */
+#if CONFIG_TRCH_WDTS
+                         /* RESET    */ &trch_wdt 0 /* LAST_TIMEOUT */
+#else
+                         /* RESET    */ /* disconnected */
+#endif /* CONFIG_TRCH_WDTS */
                          /* NCPUHALT */ /* disconnected */
-                         /* VINITHI  */ /* disconnected */>;
+                         /* VINITHI  */ /* disconnected */
+                        >;
                 gpio-names = "reset",
                              "ncpuhalt",
                              "vinithi";
             };
         };
 
+#if CONFIG_RTPS_R52
         rtps_r52_cpus {
             compatible = "cpu-cluster";
             cluster-id = <1>;
@@ -172,7 +178,7 @@
                     secure = <1>;
                     master-id = <MASTER_ID_RTPS_CPU0>;
             };
-            rtps_cpu0: rtps_cpu@0 {
+            rtps_r52_cpu0: rtps_r52_cpu@0 {
                 RTPS_CPU_PROPS
                 reg = <0>;
                 gdb-id = "RTPS Cortex-R52 #0";
@@ -211,7 +217,7 @@
                     secure = <1>;
                     master-id = <MASTER_ID_RTPS_CPU1>;
             };
-            rtps_cpu1: rtps_cpu@1 {
+            rtps_r52_cpu1: rtps_r52_cpu@1 {
                 RTPS_CPU_PROPS
                 reg = <1>;
                 gdb-id = "RTPS Cortex-R52 #1";
@@ -245,7 +251,9 @@
                              "timer_hyp";
             };
         };
+#endif /* CONFIG_RTPS_R52 */
 
+#if CONFIG_RTPS_A53
         rtps_a53_cpus {
             compatible = "cpu-cluster";
             cluster-id = <2>;
@@ -319,7 +327,9 @@
                 memattr_ns = <&rtps_a53_memattr_cpu0_ns>;
             };
         };
+#endif /* CONFIG_RTPS_A53 */
 
+#if CONFIG_HPPS_A53
         hpps_cpus {
             compatible = "cpu-cluster";
             cluster-id = <3>;
@@ -701,6 +711,7 @@
                 memattr_ns = <&hpps_memattr_cpu7_ns>;
             };
         };
+#endif /* CONFIG_HPPS_A53 */
     };
 
     /* TRCH SRAM exposes two slave interfaces:
@@ -742,11 +753,19 @@
 #endif
 
         /* TODO: crf and crl will go away once TRCH reset controller is implemented */
+#if CONFIG_HPPS_A53
         to_crf_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
             compatible = "qemu:memory-region";
             alias = <&crf_bus>;
             reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
         };
+        to_apu_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
+            compatible = "qemu:memory-region";
+            alias = <&apu_bus>;
+            reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
+        };
+#endif /* CONFIG_HPPS_A53 */
+#if CONFIG_RTPS_R52 || CONFIG_RTPS_A53
         to_crl_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
             compatible = "qemu:memory-region";
             alias = <&crl_bus>;
@@ -757,11 +776,7 @@
             alias = <&rpu_ctrl_bus>;
             reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
         };
-        to_apu_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
-            compatible = "qemu:memory-region";
-            alias = <&apu_bus>;
-            reg = <0x0 /* size */ 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
-        };
+#endif /* CONFIG_RTPS_R52 || CONFIG_RTPS_A53 */
 
         to_trch_sram {
             compatible = "qemu:memory-region";
@@ -777,6 +792,7 @@
         };
     };
 
+#if CONFIG_RTPS_R52
     rtps_r52: rtps_r52 { /* visible from both RTPS CPUs (must be declared before rtps@0 and rtps@1) */
         compatible = "simple-bus";
         ranges ;
@@ -794,8 +810,10 @@
                        0x30e40000  0x0 0x40000    /* prio = */ 0x1>; /* GICR */
 
                 num-irq = <320>;
-                cpu-start-id = <1>;
                 num-cpu = <2>;
+                cpu0 = <&rtps_r52_cpu0>;
+                cpu1 = <&rtps_r52_cpu1>;
+
                 has-security-extensions = <0>;
 
                 /* gicd-tyer: Cortex-R52 TRM r1p1 (Table 9-7)                         */
@@ -806,13 +824,13 @@
 
                 interrupts-extended = /* signals output by the interrupt controller */
                         /* IRQ * #cpus; each wired to input signal 0=IRQ on each CPU */
-                        <&rtps_cpu0 0>, <&rtps_cpu1 0>,
+                        <&rtps_r52_cpu0 0>, <&rtps_r52_cpu1 0>,
                         /* FIQ * #cpus, each wired to input signal 1=FIQ on each CPU */
-                        <&rtps_cpu0 1>, <&rtps_cpu1 1>,
+                        <&rtps_r52_cpu0 1>, <&rtps_r52_cpu1 1>,
                         /* vIRQ * #cpus, each wired to input signal 2=vIRQ on each CPU */
-                        <&rtps_cpu0 2>, <&rtps_cpu1 2>,
+                        <&rtps_r52_cpu0 2>, <&rtps_r52_cpu1 2>,
                         /* vFIQ * #cpus, each wired to input signal 3=vFIQ on each CPU */
-                        <&rtps_cpu0 3>, <&rtps_cpu1 3>;
+                        <&rtps_r52_cpu0 3>, <&rtps_r52_cpu1 3>;
                 interrupt-names = "irq[0]", "irq[1]",
                                   "fiq[0]", "fiq[1]",
                                   "virq[0]", "virq[1]",
@@ -928,7 +946,9 @@
             reg = <0x0 /* size */ 0x1 0x00000000 /* prio */ 0xffffffff /* -1 */>;
         };
     };
+#endif /* CONFIG_RTPS_R52 */
 
+#if CONFIG_RTPS_A53
     rtps_a53: rtps_a53@0 { /* view of address space from RTPS A53 */
         compatible = "simple-bus";
         ranges ;
@@ -946,7 +966,8 @@
 
                 num-irq = <320>;
                 num-cpu = <1>;
-                cpu-start-id = <3>;
+                cpu0 = <&rtps_a53_cpu0>;
+
                 has-security-extensions = <1>;
                 /* gicd-tyer: based on the code (arm_gicv3_dist.c) */
                 /*            support of (Affinity level 3)        */
@@ -985,7 +1006,9 @@
             reg = <0x0 /* size */ 0x1 0x00000000 /* prio */ 0xffffffff /* -1 */>;
         };
     };
+#endif /* CONFIG_RTPS_A53 */
 
+#if CONFIG_HPPS_A53
     crf_bus: crf_bus {
         compatible = "simple-bus";
         ranges ;
@@ -998,7 +1021,9 @@
             #gpio-cells = <1>;
         };
     };
+#endif /* CONFIG_HPPS_A53 */
 
+#if CONFIG_RTPS_R52 || CONFIG_RTPS_A53
     crl_bus: crl_bus {
         compatible = "simple-bus";
         ranges ;
@@ -1031,18 +1056,24 @@
                     #gpio-cells = <1>;
                     compatible = "xlnx,rpu-control";
                     reg = <0xff9a0000  0x0 0x400 /* prio = */ 0>;
+#if CONFIG_RTPS_R52
                     atcm1-for-rpu0 = <&atcm1_for_rpu0>;
                     btcm1-for-rpu0 = <&btcm1_for_rpu0>;
                     icache-for-rpu1 = <&icache_rpu1>;
                     dcache-for-rpu1 = <&dcache_rpu1>;
                     ddr-mem-for-rpu = <&ddr_memory_2_for_rpu>;
                     gic-for-rpu = <&rtps_r52_gic>;
+#endif /* CONFIG_RTPS_R52 */
+#if CONFIG_RTPS_A53
                     gic-for-A53 = <&rtps_a53_gic>;
+#endif /* CONFIG_RTPS_A53 */
                 };
             };
         };
     };
+#endif /* CONFIG_RTPS_R52 || CONFIG_RTPS_A53 */
 
+#if CONFIG_HPPS_A53
     apu_bus: apu_bus {
         compatible = "simple-bus";
         ranges ;
@@ -1075,7 +1106,9 @@
             cpu3 = <&hpps_cpu7>;
         };
     };
+#endif /* CONFIG_HPPS_A53 */
 
+#if CONFIG_HPPS_A53
     hpps: hpps { /* view of address space from HPPS CPUs */
         #address-cells = <2>;
         compatible = "simple-bus";
@@ -1093,8 +1126,30 @@
                        0x0 0xf9100000  0x0 0x100000 /* prio = */ 0x0>; /* GICR */
 
                 num-irq = <320>;
+
+#if CONFIG_HPPS_A53_CL0 && CONFIG_HPPS_A53_CL1
                 num-cpu = <8>;
-                cpu-start-id = <4>;
+                cpu0 = <&hpps_cpu0>;
+                cpu1 = <&hpps_cpu1>;
+                cpu2 = <&hpps_cpu2>;
+                cpu3 = <&hpps_cpu3>;
+                cpu4 = <&hpps_cpu4>;
+                cpu5 = <&hpps_cpu5>;
+                cpu6 = <&hpps_cpu6>;
+                cpu7 = <&hpps_cpu7>;
+#elif CONFIG_HPPS_A53_CL0
+                num-cpu = <4>;
+                cpu0 = <&hpps_cpu0>;
+                cpu1 = <&hpps_cpu1>;
+                cpu2 = <&hpps_cpu2>;
+                cpu3 = <&hpps_cpu3>;
+#elif CONFIG_HPPS_A53_CL1
+#error Invalid CONFIG_HPPS_A53_CL*: expected: !CL0 && !CL1, CL0, or CL0 && CL1
+#else /* single processor (not SMP) */
+                num-cpu = <1>;
+                cpu0 = <&hpps_cpu0>;
+#endif /* CONFIG_HPPS_A53_CL* */
+
                 has-security-extensions = <1>;
                 /* gicd-tyer: based on the code (arm_gicv3_dist.c) */
                 /*            support of nonzero value of (Affinity level 3)    (1 << 24)    */
@@ -1136,12 +1191,15 @@
             reg = <0x0 0xffca0000 0x0 0x100 /* prio = */ 0x1>;
         };
 
+#if CONFIG_HPPS_WDTS
         to_hpps_wdt { /* A wormhole in HW, there's no path to nic1 */
             compatible = "qemu:memory-region";
             alias = <&hpps_wdts>;
             reg = <0x0 0xfff70000 0x0 0x80000 /* prio = 0 */ 0x0>;
         };
+#endif /* CONFIG_HPPS_WDTS */
 
+#if CONFIG_HPPS_RTI_TIMERS
         hpps_rti_timer0: rti-timer@0x00000 {
             compatible = "hpsc,hpsc-rti-timer";
             reg = <0x0 0xffed0000  0x0 0x10000 /* prio = */ 0x0>;
@@ -1222,17 +1280,14 @@
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &hpps_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x8008>;
         };
+#endif /* CONFIG_HPPS_RTI_TIMERS */
 
 
+#if CONFIG_HPPS_A53
         /* TODO: crf and crl will go away once TRCH reset controller is implemented */
         to_crf_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
             compatible = "qemu:memory-region";
             alias = <&crf_bus>;
-            reg = <0x0 0x0 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
-        };
-        to_crl_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
-            compatible = "qemu:memory-region";
-            alias = <&crl_bus>;
             reg = <0x0 0x0 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
         };
         to_apu_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
@@ -1240,6 +1295,7 @@
             alias = <&apu_bus>;
             reg = <0x0 0x0 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
         };
+#endif /* CONFIG_HPPS_A53 */
 
         to_ccn {
             compatible = "qemu:memory-region";
@@ -1247,11 +1303,13 @@
             reg = <0x0 0x0 /* size = */ 0xFFFFFFFF 0xFFFFFFFF /* prio = -1 */ 0xfffffffe>;
         };
     };
+#endif /* CONFIG_HPPS_A53 */
 
 #define WDT_PROPS \
         clk-freq-hz = <125000000>; \
         max-divider = <32>; \
 
+#if CONFIG_RTPS_A53_WDTS
     rtps_a53_wdts: rtps_a53_wdts { /* accessible from TRCH nic1 and from RTPS A53 nic3 */
         compatible = "simple-bus";
         ranges ;
@@ -1266,7 +1324,9 @@
                              <0 0 1 &trch_nvic TRCH_IRQ__WDT_RTPS_A53_ST2>;
         };
     };
+#endif /* CONFIG_RTPS_A53_WDTS */
 
+#if CONFIG_RTPS_R52_WDTS
     rtps_r52_wdts: rtps_r52_wdts { /* accessible from TRCH nic1 and from RTPS R52 nic2 */
         compatible = "simple-bus";
         ranges ;
@@ -1290,7 +1350,9 @@
                                <0 0 1 &trch_nvic TRCH_IRQ__WDT_RTPS_R52_1_ST2>;
         };
     };
+#endif /* CONFIG_RTPS_R52_WDTS */
 
+#if CONFIG_HPPS_WDTS
     hpps_wdts: hpps_wdts { /* accessible from TRCH nic1 and from HPPS */
         compatible = "simple-bus";
         ranges ;
@@ -1367,6 +1429,7 @@
                                <0 0 1 &trch_nvic TRCH_IRQ__WDT_HPPS7_ST2>;
         };
     };
+#endif /* CONFIG_HPPS_WDTS */
 
     nic1: nic1 {
         compatible = "simple-bus";
@@ -1378,6 +1441,7 @@
             master-id = <MASTER_ID_TRCH_DMA>;
         };
 
+#if CONFIG_TRCH_DMA
         trch_dma: dma-controller@0x21000000 {
             compatible = "arm,pl330", "arm,primecell";
             reg = <0x21000000  0x0 0x1000 /* prio= */ 0x0>;
@@ -1396,7 +1460,9 @@
 
             #dma-cells = <1>;
         };
+#endif /* CONFIG_TRCH_DMA */
 
+#if CONFIG_TRCH_WDTS
         /* TODO: update addresses once defined in HW mem map */
         trch_wdt: wdt@0x21002000 {
             compatible = "hpsc,hpsc-wdt";
@@ -1412,7 +1478,9 @@
             interrupt-map =    <0 0 0 &trch_nvic TRCH_IRQ__WDT_TRCH_ST1>
                                /* stage two not wired to NVIC, since LAST_TIMEOUT is wired */;
         };
+#endif /* CONFIG_TRCH_WDTS */
 
+#if CONFIG_TRCH_RTI_TIMERS
         trch_rti_timer: rti-timer@0x21009000 {
             compatible = "hpsc,hpsc-rti-timer";
             reg = <0x21009000  0x0 0x1000 /* prio = */ 0x0>;
@@ -1423,6 +1491,7 @@
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &trch_nvic TRCH_IRQ__RTI_TIMER>;
         };
+#endif /* CONFIG_TRCH_RTI_TIMERS */
 
         to_system_counter {
             compatible = "qemu:memory-region";
@@ -1430,23 +1499,29 @@
             reg = <0x2100a000  0x0 0x1000 /* prio = 0 */ 0x0>;
         };
 
+#if CONFIG_RTPS_A53_WDTS
         to_rtps_a53_wdt {
             compatible = "qemu:memory-region";
             alias = <&rtps_a53_wdts>;
             reg = <0x21003000  0x0 0x1000 /* prio = 0 */ 0x0>;
         };
+#endif /* CONFIG_RTPS_A53_WDTS */
 
+#if CONFIG_RTPS_R52_WDTS
         to_rtps_r52_wdt {
             compatible = "qemu:memory-region";
             alias = <&rtps_r52_wdts>;
             reg = <0x21004000  0x0 0x2000 /* prio = 0 */ 0x0>;
         };
+#endif /* CONFIG_RTPS_R52_WDTS */
 
+#if CONFIG_HPPS_WDTS
         to_hpps_wdt {
             compatible = "qemu:memory-region";
             alias = <&hpps_wdts>;
             reg = <0x21010000  0x0 0x80000 /* prio = 0 */ 0x0>;
         };
+#endif /* CONFIG_HPPS_WDTS */
 
         to_trch_sram {
             compatible = "qemu:memory-region";
@@ -1471,13 +1546,24 @@
         compatible = "simple-bus";
         ranges ;
 
+#if CONFIG_RTPS_R52 || CONFIG_RTPS_A53
+        to_crl_bus { /* TODO: temporary hack, because both TRCH and HPPS need this */
+            compatible = "qemu:memory-region";
+            alias = <&crl_bus>;
+            reg = <0x0 0x0 0x1 0x00000000 /* prio = -2 */ 0xfffffffe>;
+        };
+#endif /* CONFIG_RTPS_R52 || CONFIG_RTPS_A53 */
+
+#if CONFIG_RTPS_R52_WDTS
         /* This is a wormhole in hardware, there's no actual access to nic1 */
         to_rtps_r52_wdt {
             compatible = "qemu:memory-region";
             alias = <&rtps_r52_wdts>;
             reg = <0x30a0a000 0x0 0x2000 /* prio = 0 */ 0x0>;
         };
+#endif /* CONFIG_RTPS_R52_WDTS */
 
+#if CONFIG_RTPS_R52_RTI_TIMERS
         rtps_r52_rti_timer0: rti-timer@0x1000 {
             compatible = "hpsc,hpsc-rti-timer";
             reg = <0x30a05000   0x0 0x1000 /* prio = */ 0x0>;
@@ -1498,7 +1584,9 @@
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &rtps_r52_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0208>;
         };
+#endif /* CONFIG_RTPS_R52_RTI_TIMERS */
 
+#if CONFIG_RTPS_SPI
         rtps_spi: spi@0x30a0c000 {
             compatible = "cdns,spi-r1p6";
             reg = <0x30a0c000 0x0 0x1000 /* prio = */ 0x0>;
@@ -1534,6 +1622,7 @@
                 };
             };
         };
+#endif /* CONFIG_RTPS_SPI */
 
         to_nic3 {
             compatible = "qemu:memory-region";
@@ -1542,20 +1631,25 @@
         };
     };
 
+#if CONFIG_RTPS_SMMU
     rtps_smmu_tbu0: rtps_smmu_tbu@0 { compatible = "simple-bus"; ranges ; };
     rtps_smmu_tbu1: rtps_smmu_tbu@1 { compatible = "simple-bus"; ranges ; };
+#endif /* CONFIG_RTPS_SMMU */
 
     nic3: nic3 {
         compatible = "simple-bus";
         ranges ;
 
+#if CONFIG_RTPS_A53_WDTS
         /* This is a wormhole in hardware, there's no actual access to nic1 */
         to_rtps_a53_wdt {
             compatible = "qemu:memory-region";
             alias = <&rtps_a53_wdts>;
             reg = <0x30a09000 0x0 0x1000 /* prio = 0 */ 0x0>;
         };
+#endif /* CONFIG_RTPS_A53_WDTS */
 
+#if CONFIG_RTPS_A53_RTI_TIMERS
         rtps_a53_rti_timer: rti-timer@0x0000 {
             compatible = "hpsc,hpsc-rti-timer";
             reg = <0x30a04000  0x0 0x1000 /* prio = */ 0x0>;
@@ -1566,6 +1660,7 @@
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &rtps_a53_gic GIC_PPI PPI_IRQ__RTI_TIMER 0x0108>;
         };
+#endif /* CONFIG_RTPS_A53_RTI_TIMERS */
 
         rtps_ddr_low: rtps_ddr_low@0x40000000 { /* TODO: TZC400 */
             compatible = "qemu:memory-region";
@@ -1574,6 +1669,7 @@
             reg = <0x40000000 /* size */ 0x0 0x40000000 /* prio= */ 0x0>;
         };
 
+#if CONFIG_RTPS_SMMU
         rtps_smmu: rtps_smmu@0x31000000 {
             compatible = "arm,mmu-500";
             reg-extended = <&nic3 0x31000000    0x0    0x20000 /* prio= */ 0x0
@@ -1607,7 +1703,9 @@
             mr-0 = <&nic3>;
             mr-1 = <&nic3>;
         };
+#endif /* CONFIG_RTPS_SMMU */
 
+#if CONFIG_RTPS_DMA
         rtps_dma_memattr: rtps_dma_memattr@0 {
             compatible = "qemu:memory-transaction-attr";
             secure = <1>;
@@ -1629,11 +1727,17 @@
             num_periph_req = <0>;
             mgr_ns_at_rst = <0>; /* boot into secure mode */
 
+#if CONFIG_RTPS_SMMU
             dma = <&rtps_smmu_tbu0>;
+#else
+            dma = <&nic3>;
+#endif /* !CONFIG_RTPS_SMMU */
+
             memattr = <&rtps_dma_memattr>;
 
             #dma-cells = <1>;
         };
+#endif /* CONFIG_RTPS_DMA */
 
         /* TODO: PCIe (dma = <&rtps_smmu_tbu1>) */
 
@@ -1648,6 +1752,7 @@
         compatible = "simple-bus";
         ranges ;
 
+#if CONFIG_LSIO_MAILBOX
         lsio_mailbox: mailbox@0x3000a000 {
             compatible = "hpsc,hpsc-mbox";
             reg = <0x3000a000  0x0 0x1000 /* prio = */ 0x0>;
@@ -1671,6 +1776,7 @@
                             <0 0 14 &trch_nvic TRCH_IRQ__TR_MBOX_14>, <0 0 14 &rtps_r52_gic GIC_SPI RTPS_IRQ__TR_MBOX_14 GIC_LVL_HI>,
                             <0 0 15 &trch_nvic TRCH_IRQ__TR_MBOX_15>, <0 0 15 &rtps_r52_gic GIC_SPI RTPS_IRQ__TR_MBOX_15 GIC_LVL_HI>;
         };
+#endif /* CONFIG_LSIO_MAILBOX */
 
         lsio_uart_0: serial@0x30000000 {
             compatible = "sysbus-serial"; /* 16550A */
@@ -1678,6 +1784,7 @@
             baudrate = <125000>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
+            /* TODO: connect to all TRCH and RTPS interrupt controllers */
             interrupt-map = <0 0 0 &trch_nvic TRCH_IRQ__LSIO_UART0_0>;
             clock-names = "uart_clk", "pclk";
             clocks = <&uart_clk &uart_clk>;
@@ -1687,13 +1794,16 @@
             compatible = "sysbus-serial";
             reg = <0x30001000  0x0 0x1000 /* prio = */ 0x0>;
             current-speed = <125000>;
+#if CONFIG_RTPS_R52 /* TODO: connect to all TRCH and RTPS interrupt controllers */
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &rtps_r52_gic GIC_SPI RTPS_IRQ__LSIO_UART1_0 GIC_LVL_HI>;
+#endif /* CONFIG_RTPS_R52 */
             clock-names = "uart_clk", "pclk";
             clocks = <&uart_clk &uart_clk>;
         };
 
+#if CONFIG_LSIO_SMC
         lsio_smc353: lsio_smc353@0x30006000 {
             compatible = "arm,pl35x";
             x = <3>;
@@ -1787,7 +1897,9 @@
                 NAND_CHIP_64MIB_8BIT
             };
         };
+#endif /* CONFIG_LSIO_SMC */
 
+#if CONFIG_LSIO_I2C
         lsio_i2c: i2c@0x30004000 {
             compatible = "xlnx,ps7-i2c-1.00.a", "cdns,i2c-r1p10";
             reg = <0x30004000 0x0 0x1000 /* prio = */ 0x0>;
@@ -1806,6 +1918,9 @@
                 device-index = <DRIVE_MTD__LSIO_I2C__M0>;
             };
         };
+#endif /* CONFIG_LSIO_I2C */
+
+#if CONFIG_LSIO_I2C
         lsio_spi: spi@0x30005000 {
             compatible = "cdns,spi-r1p6";
             reg = <0x30005000 0x0 0x1000 /* prio = */ 0x0>;
@@ -1840,6 +1955,7 @@
                 };
             };
         };
+#endif /* CONFIG_LSIO_I2C */
 
         /* TODO: GPIO */
     };
@@ -1889,6 +2005,7 @@
         };
     };
 
+#if CONFIG_ETH_CDNS
     mdio0: mdio {
         #address-cells = <1>;
         #size-cells = <0>;
@@ -1899,7 +2016,9 @@
             reg = <7>;
         };
     };
+#endif /* CONFIG_ETH_CDNS */
 
+#if CONFIG_HPPS_SMMU
     hpps_smmu_tbu0: hpps_smmu_tbu@0 { compatible = "simple-bus"; ranges ; };
     hpps_smmu_tbu1: hpps_smmu_tbu@1 { compatible = "simple-bus"; ranges ; };
     hpps_smmu_tbu2: hpps_smmu_tbu@2 { compatible = "simple-bus"; ranges ; };
@@ -1908,13 +2027,14 @@
     hpps_smmu_tbu5: hpps_smmu_tbu@5 { compatible = "simple-bus"; ranges ; };
     hpps_smmu_tbu6: hpps_smmu_tbu@6 { compatible = "simple-bus"; ranges ; };
     hpps_smmu_tbu7: hpps_smmu_tbu@7 { compatible = "simple-bus"; ranges ; };
+#endif /* CONFIG_HPPS_SMMU */
 
     nic6: nic6 {
         compatible = "simple-bus";
         ranges ;
 
-#if 0
-        hpps_trch_mailbox: mailbox@0xfff50000 {
+#if CONFIG_HPPS_MAILBOX_0
+        hpps_mailbox0: mailbox@0xfff50000 {
             compatible = "hpsc,hpsc-mbox";
             reg = <0xfff50000  0x0 0x1000 /* prio = */ 0x0>;
 
@@ -1937,8 +2057,10 @@
                             <0 0 14 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_14 GIC_LVL_HI>, <0 0 14 &trch_nvic TRCH_IRQ__HT_MBOX_14>,
                             <0 0 15 &hpps_gic GIC_SPI HPPS_IRQ__HT_MBOX_15 GIC_LVL_HI>, <0 0 15 &trch_nvic TRCH_IRQ__HT_MBOX_15>;
         };
+#endif /* CONFIG_HPPS_MAILBOX_0 */
 
-        hpps_rtps_mailbox: mailbox@0xfff60000 {
+#if CONFIG_HPPS_MAILBOX_1
+        hpps_mailbox1: mailbox@0xfff60000 {
             compatible = "hpsc,hpsc-mbox";
             reg = <0xfff60000  0x0 0x1000 /* prio = */ 0x0>;
 
@@ -1961,19 +2083,22 @@
                             <0 0 14 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_14 GIC_LVL_HI>, <0 0 14 &rtps_r52_gic GIC_SPI RTPS_IRQ__HR_MBOX_14 GIC_LVL_HI>,
                             <0 0 15 &hpps_gic GIC_SPI HPPS_IRQ__HR_MBOX_15 GIC_LVL_HI>, <0 0 15 &rtps_r52_gic GIC_SPI RTPS_IRQ__HR_MBOX_15 GIC_LVL_HI>;
         };
-#endif
+#endif /* CONFIG_HPPS_MAILBOX_1 */
 
         hpps_uart_0: serial@0xf92c0000 {
             compatible = "sysbus-serial"; /* 16550A */
             reg = <0xf92c0000  0x0 0x1000 /* prio = */ 0x0>;
             baudrate = <125000>;
+#if CONFIG_HPPS_A53 /* TODO: connect to all interrupt controllers */
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map = <0 0 0 &hpps_gic GIC_SPI HPPS_IRQ__HPPS_UART0_0 GIC_LVL_HI>;
+#endif /* CONFIG_HPPS_A53 */
             clock-names = "uart_clk", "pclk";
             clocks = <&uart_clk &uart_clk>;
         };
 
+#if CONFIG_HPPS_SMC
         hpps_smc353: hpps_smc353@0xf92d0000 {
             compatible = "arm,pl35x";
             x = <3>;
@@ -2068,8 +2193,9 @@
                 NAND_CHIP_256MIB_8BIT
             };
         };
+#endif /* CONFIG_HPPS_SMC */
 
-#if 0
+#if CONFIG_HPPS_SMMU
         hpps_smmu: smmu@0xf9300000 {
             compatible = "arm,mmu-500";
             reg-extended = <&nic6 0xf9300000  0x0 0x20000     /* prio = */ 0x0
@@ -2116,7 +2242,9 @@
                 mr-6 = <&nic7>; /* SRIO EP 0 */
                 mr-7 = <&nic7>; /* SRIO EP 1 */
         };
+#endif /* CONFIG_HPPS_SMMU */
 
+#if CONFIG_HPPS_DMA
         hpps_dma_memattr: hpps_dma_memattr@0 {
             compatible = "qemu:memory-transaction-attr";
             secure = <0>;
@@ -2140,7 +2268,12 @@
             INS = <0xffffffff>; /* mark all events as non-secure */
             PNS = <0xffffffff>; /* mark all periphs as non-secure */
 
+#if CONFIG_HPPS_SMMU
             dma = <&hpps_smmu_tbu0>;
+#else
+            dma = <&ccn>;
+#endif /* !CONFIG_HPPS_SMMU */
+
             memattr = <&hpps_dma_memattr>;
 
             #dma-cells = <1>;
@@ -2169,7 +2302,12 @@
             INS = <0xffffffff>; /* mark all events as non-secure */
             PNS = <0xffffffff>; /* mark all periphs as non-secure */
 
+#if CONFIG_HPPS_SMMU
             dma = <&hpps_smmu_tbu4>;
+#else
+            dma = <&ccn>;
+#endif /* !CONFIG_HPPS_SMMU */
+
             memattr = <&srio0_dma_memattr>;
 
             #dma-cells = <1>;
@@ -2198,12 +2336,19 @@
             INS = <0xffffffff>; /* mark all events as non-secure */
             PNS = <0xffffffff>; /* mark all periphs as non-secure */
 
+#if CONFIG_HPPS_SMMU
             dma = <&hpps_smmu_tbu5>;
+#else
+            dma = <&ccn>;
+#endif /* !CONFIG_HPPS_SMMU */
+
             memattr = <&srio1_dma_memattr>;
 
             #dma-cells = <1>;
         };
+#endif /* CONFIG_HPPS_DMA */
 
+#if CONFIG_ETH_CDNS
         xgmac_memattr: xgmac_memattr@0 {
             compatible = "qemu:memory-transaction-attr";
             secure = <0>;
@@ -2221,7 +2366,12 @@
             clock-names = "hclk", "pclk";
             clocks = <&misc_clk>, <&misc_clk>;
 
+#if CONFIG_HPPS_SMMU
             dma = <&hpps_smmu_tbu2>;
+#else
+            dma = <&ccn>;
+#endif /* !CONFIG_HPPS_SMMU */
+
             memattr = <&xgmac_memattr>;
 
             revision = <0x40070106>;
@@ -2234,7 +2384,7 @@
             #stream-id-cells = <0x1>;
             #priority-cells = <0>;
         };
-#endif
+#endif /* CONFIG_ETH_CDNS */
 
         /* TODO: PCIe */
         /* TODO: Spacewire */
