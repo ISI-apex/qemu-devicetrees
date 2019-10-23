@@ -2429,19 +2429,29 @@
         compatible = "simple-bus";
         ranges ;
 
+#ifndef CONFIG_HPPS_DDR_LO_SIZE
+#define CONFIG_HPPS_DDR_LO_SIZE 0x40000000 /* 1 GiB */
+#endif
         hpps_ddr_low: hpps_ddr_low@0x80000000 { /* TODO: TZC400 */
             compatible = "qemu:memory-region";
             device_type = "memory";
             qemu,ram = <1>;
-            reg = <0x0 0x80000000 0x0 0x40000000 /* prio = */ 0x0>;
+
+            reg = <0x0 0x80000000 0x0 CONFIG_HPPS_DDR_LO_SIZE /* prio = */ 0x0>;
         };
 
+#ifndef CONFIG_HPPS_DDR_HI_SIZE_HI
+#define CONFIG_HPPS_DDR_HI_SIZE_HI 0x1
+#endif
+#if CONFIG_HPPS_DDR_HI_SIZE_HI > 0
         hpps_ddr_high0: hpps_ddr_high0@0x100000000 { /* TODO: TZC400 */
             compatible = "qemu:memory-region";
             device_type = "memory";
             qemu,ram = <1>;
-            reg = <0x1 0x00000000 0x1 0x00000000 /* prio = */ 0x0>;
+            reg = <0x1 0x00000000 CONFIG_HPPS_DDR_HI_SIZE_HI 0x00000000
+                   /* prio = */ 0x0>;
         };
+#endif /* CONFIG_HPPS_DDR_HI_SIZE_HI */
 
         to_nic6 {
             compatible = "qemu:memory-region";
