@@ -178,7 +178,7 @@
                     secure = <1>;
                     master-id = <MASTER_ID_RTPS_CPU0>;
             };
-            rtps_cpu0: rtps_cpu@0 {
+            rtps_r52_cpu0: rtps_r52_cpu@0 {
                 RTPS_CPU_PROPS
                 reg = <0>;
                 gdb-id = "RTPS Cortex-R52 #0";
@@ -217,7 +217,7 @@
                     secure = <1>;
                     master-id = <MASTER_ID_RTPS_CPU1>;
             };
-            rtps_cpu1: rtps_cpu@1 {
+            rtps_r52_cpu1: rtps_r52_cpu@1 {
                 RTPS_CPU_PROPS
                 reg = <1>;
                 gdb-id = "RTPS Cortex-R52 #1";
@@ -822,13 +822,13 @@
 
                 interrupts-extended = /* signals output by the interrupt controller */
                         /* IRQ * #cpus; each wired to input signal 0=IRQ on each CPU */
-                        <&rtps_cpu0 0>, <&rtps_cpu1 0>,
+                        <&rtps_r52_cpu0 0>, <&rtps_r52_cpu1 0>,
                         /* FIQ * #cpus, each wired to input signal 1=FIQ on each CPU */
-                        <&rtps_cpu0 1>, <&rtps_cpu1 1>,
+                        <&rtps_r52_cpu0 1>, <&rtps_r52_cpu1 1>,
                         /* vIRQ * #cpus, each wired to input signal 2=vIRQ on each CPU */
-                        <&rtps_cpu0 2>, <&rtps_cpu1 2>,
+                        <&rtps_r52_cpu0 2>, <&rtps_r52_cpu1 2>,
                         /* vFIQ * #cpus, each wired to input signal 3=vFIQ on each CPU */
-                        <&rtps_cpu0 3>, <&rtps_cpu1 3>;
+                        <&rtps_r52_cpu0 3>, <&rtps_r52_cpu1 3>;
                 interrupt-names = "irq[0]", "irq[1]",
                                   "fiq[0]", "fiq[1]",
                                   "virq[0]", "virq[1]",
