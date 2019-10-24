@@ -2218,7 +2218,7 @@
                 label = "hpps-nand-0";
                 drive = "";
 
-                NAND_CHIP_256MIB_8BIT
+                NAND_CHIP_512MIB_16BIT_128OOB_SPANSION
             };
         };
 #endif /* CONFIG_HPPS_SMC */
