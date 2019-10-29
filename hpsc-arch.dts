@@ -2033,19 +2033,6 @@
         };
     };
 
-#if CONFIG_ETH_CDNS
-    mdio0: mdio {
-        #address-cells = <1>;
-        #size-cells = <0>;
-        compatible="mdio";
-        phy0: phy@7 {
-            compatible = "88e1118r";
-            device_type = "ethernet-phy";
-            reg = <7>;
-        };
-    };
-#endif /* CONFIG_ETH_CDNS */
-
 #if CONFIG_HPPS_SMMU
     hpps_smmu_tbu0: hpps_smmu_tbu@0 { compatible = "simple-bus"; ranges ; };
     hpps_smmu_tbu1: hpps_smmu_tbu@1 { compatible = "simple-bus"; ranges ; };
@@ -2406,8 +2393,6 @@
             local-mac-address = [00 0a 35 00 02 90];
 
             num-priority-queues = <1>;
-
-            mdio = <&mdio0>;
 
             #stream-id-cells = <0x1>;
             #priority-cells = <0>;
