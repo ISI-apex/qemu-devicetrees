@@ -193,8 +193,8 @@
                 gdb-id = "RTPS Cortex-R52 #0";
 
                 arm,mp-affinity = <0x0>;
-                arm,rvbar = <0x60000000>;
-                arm,vbar  = <0x60000000>;
+                arm,rvbar = <0x40000000>;
+                arm,vbar  = <0x40000000>;
 
                 mr = <&rtps_r52_0>;
                 memory = <&rtps_r52_0>;
@@ -232,8 +232,8 @@
                 gdb-id = "RTPS Cortex-R52 #1";
 
                 arm,mp-affinity = <0x1>;
-                arm,rvbar = <0x6c000000>;
-                arm,vbar =  <0x6c000000>;
+                arm,rvbar = <0x40000000>;
+                arm,vbar =  <0x40000000>;
 
                 mr = <&rtps_r52_1>;
                 memory = <&rtps_r52_1>;
@@ -311,7 +311,7 @@
 
                 reg = <0>;
                 arm,mp-affinity = <0>;
-                arm,rvbar = <0x70000000>;	/* temporary */
+                arm,rvbar = <0x60000000>;
 
                 gpios = /* input signals */
                         </* RST_A53 */ &crl 2
