@@ -2246,7 +2246,6 @@
         /* TODO: secure at 0xf92f0000: another node? */
         hpps_dma: dma-controller@0xf92e0000 {
             compatible = "arm,pl330", "arm,primecell";
-            reg = <0xf92e0000  0x0 0x1000 /* prio = */ 0x0>;
             reg = <0x0 0xf92e0000  0x0 0x1000 /* prio = */ 0x0>;
 
             interrupts = <0 1>;
