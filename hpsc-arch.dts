@@ -748,7 +748,7 @@
             compatible = "arm,armv7m_nvic";
             interrupt-controller;
             #interrupt-cells = <1>;
-            reg = <0xe000e000 0x0 0x420 /* prio = */ 0x0>;
+            reg = <0xe000e000 0x0 0x1000 /* prio = */ 0x0>;
             num-irq = <256>;
             cpu-id = <0>; /* TODO: could this be a ref to the cpu node? */
         };
