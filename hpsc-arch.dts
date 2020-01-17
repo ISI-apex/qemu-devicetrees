@@ -356,7 +356,7 @@
                 i-cache-line-size = <0x20>;               \
                 i-cache-size = <0x8000>;                  \
                 arm,midr = <0x410fd032>;                  \
-                arm,ctr = <0x83338003>;                   \
+                arm,ctr = <0x84448004>;                   \
                 arm,clidr = <0x09200003>;                 \
                 arm,id_pfr0 = <0x1231>;                   \
                 arm,ccsidr0 = <0x701fe019>;               \
