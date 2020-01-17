@@ -361,6 +361,7 @@
                 arm,id_pfr0 = <0x1231>;                   \
                 arm,ccsidr0 = <0x701fe019>;               \
                 arm,ccsidr1 = <0x201fe019>;               \
+                arm,pmcr = <0x41033000>;                  \
                 enable-method = "psci";                   \
                 arm,reset-hivecs = <1>;                   \
                 arm,reset-cbar = <0xfd3fe000>;            \
