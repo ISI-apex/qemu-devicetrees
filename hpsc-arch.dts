@@ -1601,9 +1601,63 @@ aliases {
         compatible = "simple-bus";
         ranges ;
 
+        #address-cells = <2>;
+        #size-cells = <2>;
+        trch_offchip_sram0: trch_offchip_sram0@0x28000000 {
+            compatible = "offchip-sram";
+            reg   = <0x0 0x28000000 0x0 0x2000000 0x0>;
+            drive = "";
+            status = "disabled";
+            size = <0x02000000>;
+            pflash-index = <0>;
+#if 1
+            start-addr-high = <0x0>;
+            start-addr-low= <0x28000000>;
+#endif
+        };
+        trch_offchip_sram1: trch_offchip_sram1@0x2a000000 {
+            compatible = "offchip-sram";
+            reg   = <0x0 0x2a000000 0x0 0x2000000 0x0>;
+            drive = "";
+            status = "disabled";
+            size = <0x02000000>;
+            pflash-index = <1>;
+#if 1
+            start-addr-high = <0x0>;
+            start-addr-low= <0x2a000000>;
+            region-size = <0x02000000>;
+#endif
+        };
+        trch_offchip_sram2: trch_offchip_sram2@0x2c000000 {
+            compatible = "offchip-sram";
+            reg   = <0x0 0x2c000000 0x0 0x2000000 0x0>;
+            drive = "";
+            status = "disabled";
+            size = <0x02000000>;
+            pflash-index = <2>;
+#if 1
+            start-addr-high = <0x0>;
+            start-addr-low= <0x2c000000>;
+            region-size = <0x02000000>;
+#endif
+        };
+        trch_offchip_sram3: trch_offchip_sram3@0x2e000000 {
+            compatible = "offchip-sram";
+            reg   = <0x0 0x2e000000 0x0 0x2000000 0x0>;
+            drive = "";
+            status = "disabled";
+            size = <0x02000000>;
+            pflash-index = <3>;
+#if 1
+            start-addr-high = <0x0>;
+            start-addr-low= <0x2e000000>;
+            region-size = <0x02000000>;
+#endif
+        };
+
         lsio_mailbox: mailbox@0x26012000 {
             compatible = "hpsc,hpsc-mbox";
-            reg = <0x26012000 0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0x26012000 0x0 0x1000 /* prio = */ 0x0>;
 
             interrupts = <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1627,7 +1681,7 @@ aliases {
 
         lsio_uart_0: serial@0x26004000{
             compatible = "sysbus-serial"; /* 16550A */
-            reg = <0x26004000 0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0x26004000 0x0 0x1000 /* prio = */ 0x0>;
             baudrate = <125000>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1638,7 +1692,7 @@ aliases {
 
         lsio_uart_1: serial@0x26005000{
             compatible = "sysbus-serial";
-            reg = <0x26005000 0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0x26005000 0x0 0x1000 /* prio = */ 0x0>;
             current-speed = <125000>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
@@ -1649,7 +1703,7 @@ aliases {
 
 	test: test@0x11{
 	   compatible = "ds1225y";
-            reg = <0x26008000 0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0x26008000 0x0 0x1000 /* prio = */ 0x0>;
 	   size = <0x10000>;
 	   filename = "test";
         };
@@ -1659,7 +1713,7 @@ aliases {
             clock-names = "memclk", "aclk";
             clocks = <&misc_clk>, <&misc_clk>;
             compatible = "arm,pl35x";
-            reg = <0x26002000 0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0x26002000 0x0 0x1000 /* prio = */ 0x0>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =  <0 0 0 &trch_nvic TRCH_IRQ__TRCH_SMC>;
@@ -1672,17 +1726,35 @@ aliases {
             #size-cells = <2>;
 
 
-	    trch_offchip_sram0: trch_offchip_sram0@0x28000000 {
-		compatible = "offchip-sram";
-		reg   = <0x0 0x28000000 0x0 0x2000000>;
-		drive = "";
-                status = "disabled";
-		start-addr-high = <0x0>;
-		start-addr-low= <0x28000000>;
-		region-size = <0x02000000>;
-		pflash-index = <0>;
+            trch_smc_353_sram_itf0: trch_smc_353_sram_itf0@0x26002000 {
+		compatible = "pl35x-itf";
+                dev-type = "sram"; 	/* either "sram" or "nand" */
+		interface = <0>;
 		rank = <0>;
+                chip = &trch_offchip_sram0;
 	    };
+            trch_smc_353_sram_itf1: trch_smc_353_sram_itf1@0x26002000 {
+		compatible = "pl35x-itf";
+                dev-type = "sram"; 	/* either "sram" or "nand" */
+		interface = <0>;
+		rank = <0>;
+                chip = &trch_offchip_sram1;
+	    };
+            trch_smc_353_sram_itf2: trch_smc_353_sram_itf2@0x26002000 {
+		compatible = "pl35x-itf";
+                dev-type = "sram"; 	/* either "sram" or "nand" */
+		interface = <0>;
+		rank = <0>;
+                chip = &trch_offchip_sram2;
+	    };
+            trch_smc_353_sram_itf3: trch_smc_353_sram_itf3@0x26002000 {
+		compatible = "pl35x-itf";
+                dev-type = "sram"; 	/* either "sram" or "nand" */
+		interface = <0>;
+		rank = <0>;
+                chip = &trch_offchip_sram3;
+	    };
+#if 0
 	    trch_offchip_sram1: trch_offchip_sram1@0x2a000000 {
 		compatible = "offchip-sram";
 		reg   = <0x0 0x2a000000 0x0 0x2000000>;
@@ -1716,13 +1788,14 @@ aliases {
 		pflash-index = <3>;
 		rank = <3>;
 	    };
+#endif
         };
         trch_smc353_nand: trch_smc353_nand@0x26000000{
             arm,addr25 = <0x0>;
             clock-names = "memclk", "aclk";
             clocks = <&misc_clk>, <&misc_clk>;
             compatible = "arm,pl35x";
-            reg = <0x26000000 0x0 0x1000 /* prio = */ 0x0>;
+            reg = <0x0 0x26000000 0x0 0x1000 /* prio = */ 0x0>;
             interrupts = <0>;
             interrupt-map-mask = <0 0 0xffff>;
             interrupt-map =  <0 0 0 &trch_nvic TRCH_IRQ__TRCH_SMC>;
@@ -1746,7 +1819,7 @@ aliases {
                 drive = "";
                 label = "trch-nand0";
                 status = "disabled";
-                reg = <0x30000000 0x01000000 /* prio = 0 */ 0x0>;
+                reg = <0x0 0x30000000 0x01000000 /* prio = 0 */ 0x0>;
 		start-addr-high = <0x0>;
 		start-addr-low= <0x30000000>;
 		region-size =   <0x01000000>;
@@ -1767,7 +1840,7 @@ aliases {
                 drive = "";
                 label = "trch-nand1";
                 status = "disabled";
-                reg = <0x31000000 0x01000000 /* prio = 0 */ 0x0>;
+                reg = <0x0 0x31000000 0x01000000 /* prio = 0 */ 0x0>;
 		start-addr-high = <0x0>;
 		start-addr-low= <0x31000000>;
 		region-size =   <0x01000000>;
@@ -1788,7 +1861,7 @@ aliases {
                 drive = "";
                 label = "trch-nand2";
                 status = "disabled";
-                reg = <0x32000000 0x01000000 /* prio = 0 */ 0x0>;
+                reg = <0x0 0x32000000 0x01000000 /* prio = 0 */ 0x0>;
 		start-addr-high = <0x0>;
 		start-addr-low= <0x32000000>;
 		region-size =   <0x01000000>;
@@ -1809,7 +1882,7 @@ aliases {
                 drive = "";
                 label = "trch-nand3";
                 status = "disabled";
-                reg = <0x33000000 0x01000000 /* prio = 0 */ 0x0>;
+                reg = <0x0 0x33000000 0x01000000 /* prio = 0 */ 0x0>;
 		start-addr-high = <0x0>;
 		start-addr-low= <0x33000000>;
 		region-size =   <0x01000000>;
@@ -1972,6 +2045,7 @@ aliases {
             id2 = <0x23>;
             id3 = <0x01>;
             big-endian = <0>;
+            pflash-index = <8>;
             drive = "";
             status = "disabled";
         };
@@ -2051,38 +2125,10 @@ aliases {
             #size-cells = <2>;
             hpsc_smc_353_sram_itf0: hpps_smc_353_sram_itf0@0x26002000 {
 		compatible = "pl35x-itf";
-#if 0
-		start-addr-high = <0x3>;
-		start-addr-low= <0x00000000>;
-		region-size = <0x04000000>;
-#endif
-		bank-width = <4>;
-		pflash-index = <8>;
                 dev-type = "sram"; 	/* either "sram" or "nand" */
 		interface = <0>;
 		rank = <0>;
-/* 		dev-type = "pflash"; */
                 chip = &hpps_sram0;
-
-#if 0
-	        hpps_sram0: hpps_sram0@0x300000000 {
-#if 1
-		    compatible = "cfi.pflash01";
-		    bank-width = <4>;
-		    sector-length = <0x20000>;
-		    num-blocks = <0x200>;
-		    name = "hpps_sram0";
-		    new-name = "hpps_sram0";
-#else
-/*
-		compatible = "offchip-sram";
-*/
-#endif
-		    reg   = <0x3 0x00000000 0x0 0x80000000>;
-		    drive = "";
-                    status = "disabled";
-		};
-#endif
 	    };
         };
 
