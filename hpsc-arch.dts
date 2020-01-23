@@ -1610,10 +1610,6 @@ aliases {
             status = "disabled";
             size = <0x02000000>;
             pflash-index = <0>;
-#if 1
-            start-addr-high = <0x0>;
-            start-addr-low= <0x28000000>;
-#endif
         };
         trch_offchip_sram1: trch_offchip_sram1@0x2a000000 {
             compatible = "offchip-sram";
@@ -1622,11 +1618,6 @@ aliases {
             status = "disabled";
             size = <0x02000000>;
             pflash-index = <1>;
-#if 1
-            start-addr-high = <0x0>;
-            start-addr-low= <0x2a000000>;
-            region-size = <0x02000000>;
-#endif
         };
         trch_offchip_sram2: trch_offchip_sram2@0x2c000000 {
             compatible = "offchip-sram";
@@ -1635,11 +1626,6 @@ aliases {
             status = "disabled";
             size = <0x02000000>;
             pflash-index = <2>;
-#if 1
-            start-addr-high = <0x0>;
-            start-addr-low= <0x2c000000>;
-            region-size = <0x02000000>;
-#endif
         };
         trch_offchip_sram3: trch_offchip_sram3@0x2e000000 {
             compatible = "offchip-sram";
@@ -1648,11 +1634,6 @@ aliases {
             status = "disabled";
             size = <0x02000000>;
             pflash-index = <3>;
-#if 1
-            start-addr-high = <0x0>;
-            start-addr-low= <0x2e000000>;
-            region-size = <0x02000000>;
-#endif
         };
 
         lsio_mailbox: mailbox@0x26012000 {
@@ -1731,65 +1712,139 @@ aliases {
                 dev-type = "sram"; 	/* either "sram" or "nand" */
 		interface = <0>;
 		rank = <0>;
+                t0 = <0x4>;
+                t1 = <0x4>;
+                t2 = <0x1>;
+                t3 = <0x2>;
+                t4 = <0x2>;
+                t5 = <0x2>;
+                t6 = <0x4>;
                 chip = &trch_offchip_sram0;
 	    };
             trch_smc_353_sram_itf1: trch_smc_353_sram_itf1@0x26002000 {
 		compatible = "pl35x-itf";
                 dev-type = "sram"; 	/* either "sram" or "nand" */
 		interface = <0>;
-		rank = <0>;
+		rank = <1>;
+                t0 = <0x4>;
+                t1 = <0x4>;
+                t2 = <0x1>;
+                t3 = <0x2>;
+                t4 = <0x2>;
+                t5 = <0x2>;
+                t6 = <0x4>;
                 chip = &trch_offchip_sram1;
 	    };
             trch_smc_353_sram_itf2: trch_smc_353_sram_itf2@0x26002000 {
 		compatible = "pl35x-itf";
                 dev-type = "sram"; 	/* either "sram" or "nand" */
 		interface = <0>;
-		rank = <0>;
+		rank = <2>;
+                t0 = <0x4>;
+                t1 = <0x4>;
+                t2 = <0x1>;
+                t3 = <0x2>;
+                t4 = <0x2>;
+                t5 = <0x2>;
+                t6 = <0x4>;
                 chip = &trch_offchip_sram2;
 	    };
             trch_smc_353_sram_itf3: trch_smc_353_sram_itf3@0x26002000 {
 		compatible = "pl35x-itf";
                 dev-type = "sram"; 	/* either "sram" or "nand" */
 		interface = <0>;
-		rank = <0>;
+		rank = <3>;
+                t0 = <0x4>;
+                t1 = <0x4>;
+                t2 = <0x1>;
+                t3 = <0x2>;
+                t4 = <0x2>;
+                t5 = <0x2>;
+                t6 = <0x4>;
                 chip = &trch_offchip_sram3;
 	    };
-#if 0
-	    trch_offchip_sram1: trch_offchip_sram1@0x2a000000 {
-		compatible = "offchip-sram";
-		reg   = <0x0 0x2a000000 0x0 0x2000000>;
-		drive = "";
-                status = "disabled";
-		start-addr-high = <0x0>;
-		start-addr-low= <0x2a000000>;
-		region-size = <0x02000000>;
-		pflash-index = <1>;
-		rank = <1>;
-	    };
-	    trch_offchip_sram2: trch_offchip_sram2@0x2c000000 {
-		compatible = "offchip-sram";
-		reg   = <0x0 0x2c000000 0x0 0x2000000>;
-		drive = "";
-                status = "disabled";
-		start-addr-high = <0x0>;
-		start-addr-low= <0x2c000000>;
-		region-size = <0x02000000>;
-		pflash-index = <2>;
-		rank = <2>;
-	    };
-	    trch_offchip_sram3: trch_offchip_sram3@0x2e000000 {
-		compatible = "offchip-sram";
-		reg   = <0x0 0x2e000000 0x0 0x2000000>;
-		drive = "";
-                status = "disabled";
-		start-addr-high = <0x0>;
-		start-addr-low= <0x2e000000>;
-		region-size = <0x02000000>;
-		pflash-index = <3>;
-		rank = <3>;
-	    };
-#endif
         };
+
+        trch_nand0: trch_nand0@0x30000000 {
+            compatible = "nand";
+            arm,nand-cycle-t0 = <0x4>;
+            arm,nand-cycle-t1 = <0x4>;
+            arm,nand-cycle-t2 = <0x1>;
+            arm,nand-cycle-t3 = <0x2>;
+            arm,nand-cycle-t4 = <0x2>;
+            arm,nand-cycle-t5 = <0x2>;
+            arm,nand-cycle-t6 = <0x4>;
+            chip-id = <0xaa>;
+            manufacturer-id = <0x2c>;
+            drive = "";
+            label = "trch-nand0";
+            status = "disabled";
+            start-addr-high = <0x0>;
+            start-addr-low= <0x30000000>;
+            region-size =   <0x01000000>;
+            pflash-index = <4>;
+        };
+
+        trch_nand1: trch_nand1@0x31000000 {
+            compatible = "nand";
+            arm,nand-cycle-t0 = <0x4>;
+            arm,nand-cycle-t1 = <0x4>;
+            arm,nand-cycle-t2 = <0x1>;
+            arm,nand-cycle-t3 = <0x2>;
+            arm,nand-cycle-t4 = <0x2>;
+            arm,nand-cycle-t5 = <0x2>;
+            arm,nand-cycle-t6 = <0x4>;
+            chip-id = <0xaa>;
+            manufacturer-id = <0x2c>;
+            drive = "";
+            label = "trch-nand1";
+            status = "disabled";
+            start-addr-high = <0x0>;
+            start-addr-low= <0x31000000>;
+            region-size =   <0x01000000>;
+            pflash-index = <5>;
+        };
+
+        trch_nand2: trch_nand2@0x32000000 {
+            compatible = "nand";
+            arm,nand-cycle-t0 = <0x4>;
+            arm,nand-cycle-t1 = <0x4>;
+            arm,nand-cycle-t2 = <0x1>;
+            arm,nand-cycle-t3 = <0x2>;
+            arm,nand-cycle-t4 = <0x2>;
+            arm,nand-cycle-t5 = <0x2>;
+            arm,nand-cycle-t6 = <0x4>;
+            chip-id = <0xaa>;
+            manufacturer-id = <0x2c>;
+            drive = "";
+            label = "trch-nand2";
+            status = "disabled";
+            start-addr-high = <0x0>;
+            start-addr-low= <0x32000000>;
+            region-size =   <0x01000000>;
+            pflash-index = <6>;
+        };
+
+        trch_nand3: trch_nand3@0x33000000 {
+            compatible = "nand";
+            arm,nand-cycle-t0 = <0x4>;
+            arm,nand-cycle-t1 = <0x4>;
+            arm,nand-cycle-t2 = <0x1>;
+            arm,nand-cycle-t3 = <0x2>;
+            arm,nand-cycle-t4 = <0x2>;
+            arm,nand-cycle-t5 = <0x2>;
+            arm,nand-cycle-t6 = <0x4>;
+            chip-id = <0xaa>;
+            manufacturer-id = <0x2c>;
+            drive = "";
+            label = "trch-nand3";
+            status = "disabled";
+            start-addr-high = <0x0>;
+            start-addr-low= <0x33000000>;
+            region-size =   <0x01000000>;
+            pflash-index = <7>;
+        };
+
         trch_smc353_nand: trch_smc353_nand@0x26000000{
             arm,addr25 = <0x0>;
             clock-names = "memclk", "aclk";
@@ -1805,90 +1860,66 @@ aliases {
             #address-cells = <2>;
             #size-cells = <2>;
 
-            trch_nand0: trch_nand0@0x30000000 {
-                compatible = "nand";
-                arm,nand-cycle-t0 = <0x4>;
-                arm,nand-cycle-t1 = <0x4>;
-                arm,nand-cycle-t2 = <0x1>;
-                arm,nand-cycle-t3 = <0x2>;
-                arm,nand-cycle-t4 = <0x2>;
-                arm,nand-cycle-t5 = <0x2>;
-                arm,nand-cycle-t6 = <0x4>;
-                chip-id = <0xaa>;
-                manufacturer-id = <0x2c>;
-                drive = "";
-                label = "trch-nand0";
-                status = "disabled";
-                reg = <0x0 0x30000000 0x01000000 /* prio = 0 */ 0x0>;
-		start-addr-high = <0x0>;
-		start-addr-low= <0x30000000>;
-		region-size =   <0x01000000>;
-		pflash-index = <4>;
+            trch_smc_353_nand_itf0: trch_smc_353_nand_itf0@0x26000000 {
+		compatible = "pl35x-itf";
+                dev-type = "nand"; 	/* either "sram" or "nand" */
+		interface = <1>;
 		rank = <0>;
-            };
-            trch_nand1: trch_nand1@0x31000000 {
-                compatible = "nand";
-                arm,nand-cycle-t0 = <0x4>;
-                arm,nand-cycle-t1 = <0x4>;
-                arm,nand-cycle-t2 = <0x1>;
-                arm,nand-cycle-t3 = <0x2>;
-                arm,nand-cycle-t4 = <0x2>;
-                arm,nand-cycle-t5 = <0x2>;
-                arm,nand-cycle-t6 = <0x4>;
-                chip-id = <0xaa>;
-                manufacturer-id = <0x2c>;
-                drive = "";
-                label = "trch-nand1";
-                status = "disabled";
-                reg = <0x0 0x31000000 0x01000000 /* prio = 0 */ 0x0>;
-		start-addr-high = <0x0>;
-		start-addr-low= <0x31000000>;
-		region-size =   <0x01000000>;
-		pflash-index = <5>;
+                t0 = <0x4>;
+                t1 = <0x4>;
+                t2 = <0x1>;
+                t3 = <0x2>;
+                t4 = <0x2>;
+                t5 = <0x2>;
+                t6 = <0x4>;
+                chip = &trch_nand0;
+	    };
+
+            trch_smc_353_nand_itf1: trch_smc_353_nand_itf1@0x26000000 {
+		compatible = "pl35x-itf";
+                dev-type = "nand"; 	/* either "sram" or "nand" */
+		interface = <1>;
 		rank = <1>;
-            };
-            trch_nand2: trch_nand2@0x32000000 {
-                compatible = "nand";
-                arm,nand-cycle-t0 = <0x4>;
-                arm,nand-cycle-t1 = <0x4>;
-                arm,nand-cycle-t2 = <0x1>;
-                arm,nand-cycle-t3 = <0x2>;
-                arm,nand-cycle-t4 = <0x2>;
-                arm,nand-cycle-t5 = <0x2>;
-                arm,nand-cycle-t6 = <0x4>;
-                chip-id = <0xaa>;
-                manufacturer-id = <0x2c>;
-                drive = "";
-                label = "trch-nand2";
-                status = "disabled";
-                reg = <0x0 0x32000000 0x01000000 /* prio = 0 */ 0x0>;
-		start-addr-high = <0x0>;
-		start-addr-low= <0x32000000>;
-		region-size =   <0x01000000>;
-		pflash-index = <6>;
+                t0 = <0x4>;
+                t1 = <0x4>;
+                t2 = <0x1>;
+                t3 = <0x2>;
+                t4 = <0x2>;
+                t5 = <0x2>;
+                t6 = <0x4>;
+                chip = &trch_nand1;
+	    };
+
+            trch_smc_353_nand_itf2: trch_smc_353_nand_itf2@0x26000000 {
+		compatible = "pl35x-itf";
+                dev-type = "nand"; 	/* either "sram" or "nand" */
+		interface = <1>;
 		rank = <2>;
-            };
-            trch_nand3: trch_nand3@0x33000000 {
-                compatible = "nand";
-                arm,nand-cycle-t0 = <0x4>;
-                arm,nand-cycle-t1 = <0x4>;
-                arm,nand-cycle-t2 = <0x1>;
-                arm,nand-cycle-t3 = <0x2>;
-                arm,nand-cycle-t4 = <0x2>;
-                arm,nand-cycle-t5 = <0x2>;
-                arm,nand-cycle-t6 = <0x4>;
-                chip-id = <0xaa>;
-                manufacturer-id = <0x2c>;
-                drive = "";
-                label = "trch-nand3";
-                status = "disabled";
-                reg = <0x0 0x33000000 0x01000000 /* prio = 0 */ 0x0>;
-		start-addr-high = <0x0>;
-		start-addr-low= <0x33000000>;
-		region-size =   <0x01000000>;
-		pflash-index = <7>;
+                t0 = <0x4>;
+                t1 = <0x4>;
+                t2 = <0x1>;
+                t3 = <0x2>;
+                t4 = <0x2>;
+                t5 = <0x2>;
+                t6 = <0x4>;
+                chip = &trch_nand2;
+	    };
+
+            trch_smc_353_nand_itf3: trch_smc_353_nand_itf3@0x26002000 {
+		compatible = "pl35x-itf";
+                dev-type = "nand"; 	/* either "sram" or "nand" */
+		interface = <1>;
 		rank = <3>;
-            };
+                t0 = <0x4>;
+                t1 = <0x4>;
+                t2 = <0x1>;
+                t3 = <0x2>;
+                t4 = <0x2>;
+                t5 = <0x2>;
+                t6 = <0x4>;
+                chip = &trch_nand3;
+	    };
+
         };
             /* TODO: GPIO */
             /* TODO: I2C */
@@ -2123,13 +2154,42 @@ aliases {
 
             #address-cells = <2>;
             #size-cells = <2>;
-            hpsc_smc_353_sram_itf0: hpps_smc_353_sram_itf0@0x26002000 {
+            hppc_smc_353_sram_itf0: hpps_smc_353_sram_itf0@0x26002000 {
 		compatible = "pl35x-itf";
                 dev-type = "sram"; 	/* either "sram" or "nand" */
 		interface = <0>;
 		rank = <0>;
+                t0 = <0x4>;
+                t1 = <0x4>;
+                t2 = <0x1>;
+                t3 = <0x2>;
+                t4 = <0x2>;
+                t5 = <0x2>;
+                t6 = <0x4>;
                 chip = &hpps_sram0;
 	    };
+        };
+
+        hpps_nand0: hpps_nand0@0xe8000000 {
+            compatible = "nand";
+#ifdef HPPS_NAND_512MB
+/*		AMD/Spansion AMD/Spansion NAND 4Gb 1.8V 16-bit, 128B OOB */
+            chip-id = <0xbc>;
+            manufacturer-id = <0x01>;
+            full-id-low = <0x5590bc01>;
+            full-id-high = <0xbc010056>;
+#else
+/*              NAND 256MiB 1,8V 8-bit, 64B OOB */
+            chip-id = <0xaa>;
+            manufacturer-id = <0x2c>;
+#endif
+            drive = "";
+            label = "nand0";
+            status = "disabled";
+            start-addr-high = <0x0>;
+            start-addr-low= <0xe8000000>;
+            region-size = <0x1000000>;
+            pflash-index = <12>;
         };
 
         hpps_smc353_nand: hpps_smc353_nand@0xe0460000{
@@ -2147,36 +2207,20 @@ aliases {
             #address-cells = <2>;
             #size-cells = <2>;
 
-            hpps_nand0: hpps_nand0@0xe8000000 {
-                compatible = "nand";
-                arm,nand-cycle-t0 = <0x4>;
-                arm,nand-cycle-t1 = <0x4>;
-                arm,nand-cycle-t2 = <0x1>;
-                arm,nand-cycle-t3 = <0x2>;
-                arm,nand-cycle-t4 = <0x2>;
-                arm,nand-cycle-t5 = <0x2>;
-                arm,nand-cycle-t6 = <0x4>;
-#ifdef HPPS_NAND_512MB
-/*		AMD/Spansion AMD/Spansion NAND 4Gb 1.8V 16-bit, 128B OOB */
-                chip-id = <0xbc>;
-                manufacturer-id = <0x01>;
-                full-id-low = <0x5590bc01>;
-                full-id-high = <0xbc010056>;
-#else
-/*              NAND 256MiB 1,8V 8-bit, 64B OOB */
-                chip-id = <0xaa>;
-                manufacturer-id = <0x2c>;
-#endif
-                drive = "";
-                label = "nand0";
-                status = "disabled";
-                reg = <0x0 0xe8000000 0x0 0x1000000 /* prio = 0 */ 0x0>;
-		start-addr-high = <0x0>;
-		start-addr-low= <0xe8000000>;
-		region-size =    <0x1000000>;
-		pflash-index = <12>;
-                rank = <0>;
-            };
+            hpps_smc_353_nand_itf0: hpps_smc_353_nand_itf0@0x26002000 {
+		compatible = "pl35x-itf";
+                dev-type = "nand"; 	/* either "sram" or "nand" */
+		interface = <1>;
+		rank = <0>;
+                t0 = <0x4>;
+                t1 = <0x4>;
+                t2 = <0x1>;
+                t3 = <0x2>;
+                t4 = <0x2>;
+                t5 = <0x2>;
+                t6 = <0x4>;
+                chip = &hpps_nand0;
+	    };
         };
 
         hpps_smmu: smmu@0xe5000000{
