@@ -29,10 +29,6 @@
     #priority-cells = <1>;
     #interrupt-cells = <1>; /* within the scope of each interrupt-map */
 
-aliases {
-        hpps_sram0_alias = &hpps_sram0;
-};
-
     system_counter_bus: system_counter_bus { /* must be initialized before cpus */
         compatible = "simple-bus";
         ranges ;
