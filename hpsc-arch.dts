@@ -22,44 +22,23 @@
 
 /* Index X identifying the backend drive of type IFACE instantiated via the CLI:
         -drive file=/path/img.bin,if=IFACE,index=X
+   Note: some combinations are exclusive, but indexes can be sequential.
 */
-#define DRIVE_PFLASH__LSIO_SMC_SRAM_0  0
-#define DRIVE_PFLASH__LSIO_SMC_SRAM_1  1
-#define DRIVE_PFLASH__LSIO_SMC_SRAM_2  2
-#define DRIVE_PFLASH__LSIO_SMC_SRAM_3  3
-#define DRIVE_PFLASH__LSIO_SMC_NAND_0  4
-#define DRIVE_PFLASH__LSIO_SMC_NAND_1  5
-#define DRIVE_PFLASH__LSIO_SMC_NAND_2  6
-#define DRIVE_PFLASH__LSIO_SMC_NAND_3  7
-#define DRIVE_PFLASH__HPPS_SMC_SRAM_0  8
-#define DRIVE_PFLASH__HPPS_SMC_SRAM_1  9
-#define DRIVE_PFLASH__HPPS_SMC_SRAM_2 10
-#define DRIVE_PFLASH__HPPS_SMC_SRAM_3 11
-#define DRIVE_PFLASH__HPPS_SMC_NAND_0 12
-#define DRIVE_PFLASH__HPPS_SMC_NAND_1 13
-#define DRIVE_PFLASH__HPPS_SMC_NAND_2 14
-#define DRIVE_PFLASH__HPPS_SMC_NAND_3 15
+#define DRIVE_PFLASH__LSIO_NVRAM_0  0
+#define DRIVE_PFLASH__LSIO_NVRAM_1  1
+#define DRIVE_PFLASH__LSIO_NVRAM_2  2
+#define DRIVE_PFLASH__LSIO_NVRAM_3  3
+#define DRIVE_PFLASH__LSIO_NAND     4
+#define DRIVE_PFLASH__HPPS_NOR      5
+#define DRIVE_PFLASH__HPPS_NVRAM_0  6
+#define DRIVE_PFLASH__HPPS_NVRAM_1  7
+#define DRIVE_PFLASH__HPPS_NVRAM_2  8
+#define DRIVE_PFLASH__HPPS_NVRAM_3  9
+#define DRIVE_PFLASH__HPPS_NAND    10
 
 #define DRIVE_MTD__LSIO_I2C__M0    0
 #define DRIVE_MTD__LSIO_SPI__M0    1
 #define DRIVE_MTD__RTPS_SPI__M0    2
-
-#define NAND_CHIP_64MIB_8BIT \
-                chip_id = <0xa2>; \
-                manufacturer_id = <0x2c>; \
-
-/* NAND 256MiB 1,8V 8-bit, 64B OOB */
-#define NAND_CHIP_256MIB_8BIT \
-                chip_id = <0xaa>; \
-                manufacturer_id = <0x2c>; \
-
-/* AMD/Spansion AMD/Spansion NAND 4Gb 1.8V 16-bit, 128B OOB */
-#define NAND_CHIP_512MIB_16BIT_128OOB_SPANSION \
-                chip_id = <0xbc>; \
-                manufacturer_id = <0x01>; \
-                full_id_low = <0x5590bc01>; \
-                full_id_high = <0xbc010056>; \
-
 
 #define SMC_REG_HACK
 
@@ -1809,98 +1788,107 @@
         };
 
 #if CONFIG_LSIO_SMC
+
+#if CONFIG_LSIO_SMC_SRAM__NVRAM
+        lsio_nvram0: lsio_nvram0@0x28000000 {
+            /* Generic NV RAM memory chip of size 16 MiB */
+            compatible = "offchip-sram";
+            reg   = <0x28000000 0x0 0x1000000 0x0>;
+            size = <0x01000000>;
+            pflash-index = <DRIVE_PFLASH__LSIO_NVRAM_0>;
+            drive = "";
+        };
+        lsio_nvram1: lsio_nvram1@0x29000000 {
+            /* Generic NV RAM memory chip of size 16 MiB */
+            compatible = "offchip-sram";
+            reg   = <0x29000000 0x0 0x1000000 0x0>;
+            size = <0x01000000>;
+            pflash-index = <DRIVE_PFLASH__LSIO_NVRAM_1>;
+            drive = "";
+        };
+        lsio_nvram2: lsio_nvram2@0x2a000000 {
+            /* Generic NV RAM memory chip of size 16 MiB */
+            compatible = "offchip-sram";
+            reg   = <0x2a000000 0x0 0x1000000 0x0>;
+            size = <0x01000000>;
+            pflash-index = <DRIVE_PFLASH__LSIO_NVRAM_2>;
+            drive = "";
+        };
+        lsio_nvram3: lsio_nvram3@0x2b000000 {
+            /* Generic NV RAM memory chip of size 16 MiB */
+            compatible = "offchip-sram";
+            reg   = <0x2b000000 0x0 0x1000000 0x0>;
+            size = <0x01000000>;
+            pflash-index = <DRIVE_PFLASH__LSIO_NVRAM_3>;
+            drive = "";
+        };
+#endif /* CONFIG_LSIO_SMC_SRAM__* */
+
+#if CONFIG_LSIO_SMC_NAND
+        lsio_nand: lsio_nand@0x2c000000 {
+            /* Generic NAND 64MiB 8-bit, 64B OOB */
+            compatible = "nand";
+#ifndef SMC_REG_HACK
+            reg = <0x2c000000 0x0 0x04000000 0x0>;
+#else
+            start-addr-high = <0x0>;
+            start-addr-low= <0x2c000000>;
+            region-size =   <0x04000000>;
+#endif
+            chip-id = <0xa2>;
+            manufacturer-id = <0x2c>;
+
+            pflash-index = <DRIVE_PFLASH__LSIO_NAND>;
+            label = "lsio-nand";
+            drive = "";
+        };
+#endif /* CONFIG_LSIO_SMC_NAND */
+
         lsio_smc353: lsio_smc353@0x30006000 {
             compatible = "arm,pl35x";
             x = <3>;
             reg = <0x30006000  0x0 0x1000 /* prio = */ 0x0>;
 
-            arm,addr25 = <0x0>;
-
-            clock-names = "memclk", "aclk";
-            clocks = <&misc_clk>, <&misc_clk>;
-
-            interrupts = <0>;
-            interrupt-map-mask = <0 0 0xffff>;
-            interrupt-map =  <0 0 0 &trch_nvic TRCH_IRQ__LSIO_SMC_SRAM>;
-
-            #address-cells = <2>;
-            #size-cells = <2>;
-            #priority-cells = <0>;
-            ranges ;
-
-            lsio-sram@0x28000000 {
-                compatible = "offchip-sram";
-#ifndef SMC_REG_HACK
-                reg = <0x0 0x28000000 0x0 0x1000000>;
-#else
-                start_addr_high = <0x0>;
-                start_addr_low= <0x28000000>;
-                region_size = <0x01000000>;
-#endif
-
-                pflash_index = <DRIVE_PFLASH__LSIO_SMC_SRAM_0>;
+#if CONFIG_LSIO_SMC_SRAM__NVRAM
+            lsio_smc353_sram_itf0: lsio_smc353_sram_itf0 {
+                compatible = "pl35x-itf";
+                dev-type = "sram";
+                interface = <0>;
                 rank = <0>;
-                drive = "";
+                chip = &lsio_nvram0;
             };
-            lsio-sram@0x29000000 {
-                compatible = "offchip-sram";
-#ifndef SMC_REG_HACK
-                reg = <0x0 0x2a000000 0x0 0x1000000>;
-#else
-                start_addr_high = <0x0>;
-                start_addr_low= <0x2a000000>;
-                region_size = <0x01000000>;
-#endif
-
-                pflash_index = <DRIVE_PFLASH__LSIO_SMC_SRAM_1>;
+            lsio_smc353_sram_itf1: lsio_smc353_sram_itf1 {
+                compatible = "pl35x-itf";
+                dev-type = "sram";
+                interface = <0>;
                 rank = <1>;
-                drive = "";
+                chip = &lsio_nvram1;
             };
-            lsio-sram@0x2a000000 {
-                compatible = "offchip-sram";
-#ifndef SMC_REG_HACK
-                reg = <0x0 0x2c000000 0x0 0x1000000>;
-#else
-                start_addr_high = <0x0>;
-                start_addr_low= <0x2c000000>;
-                region_size = <0x01000000>;
-#endif
-
-                pflash_index = <DRIVE_PFLASH__LSIO_SMC_SRAM_2>;
+            lsio_smc353_sram_itf2: lsio_smc353_sram_itf2 {
+                compatible = "pl35x-itf";
+                dev-type = "sram";
+                interface = <0>;
                 rank = <2>;
-                drive = "";
+                chip = &lsio_nvram2;
             };
-            lsio-sram@0x2b000000 {
-                compatible = "offchip-sram";
-#ifndef SMC_REG_HACK
-                reg = <0x0 0x2e000000 0x0 0x1000000>;
-#else
-                start_addr_high = <0x0>;
-                start_addr_low= <0x2e000000>;
-                region_size = <0x01000000>;
-#endif
-
-                pflash_index = <DRIVE_PFLASH__LSIO_SMC_SRAM_3>;
+            lsio_smc353_sram_itf3: lsio_smc353_sram_itf3 {
+                compatible = "pl35x-itf";
+                dev-type = "sram";
+                interface = <0>;
                 rank = <3>;
-                drive = "";
+                chip = &lsio_nvram3;
             };
-            lsio-nand@0x2c000000 {
-                compatible = "nand";
-#ifndef SMC_REG_HACK
-                reg = <0x0 0x2c000000 0x0 0x04000000>;
-#else
-                start_addr_high = <0x0>;
-                start_addr_low= <0x2c000000>;
-                region_size = <0x04000000>;
-#endif
+#endif /* CONFIG_LSIO_SMC_SRAM__* */
 
-                pflash_index = <DRIVE_PFLASH__LSIO_SMC_NAND_0>;
-                rank = <0>;
-                label = "lsio-nand-0";
-                drive = "";
-
-                NAND_CHIP_64MIB_8BIT
-            };
+#if CONFIG_LSIO_SMC_NAND
+            lsio_smc353_nand_itf0: lsio_smc353_nand_itf0 {
+		compatible = "pl35x-itf";
+                dev-type = "nand";
+		interface = <1>;
+		rank = <0>;
+                chip = &lsio_nand;
+	    };
+#endif /* CONFIG_LSIO_SMC_NAND */
         };
 #endif /* CONFIG_LSIO_SMC */
 
@@ -2092,6 +2080,84 @@
         };
 
 #if CONFIG_HPPS_SMC
+
+#if CONFIG_HPPS_SMC_SRAM__NOR
+        hpps_nor: hpps_nor@0x600000000 {
+            /* Micron MT28 32MB NOR Flash chip */
+            compatible = "cfi.pflash01";
+            reg   = <0x6 0x00000000 0x0 0x20000000 0x0>;
+
+            id0 = <0x89>;
+            id1 = <0x7e>;
+            id2 = <0x23>;
+            id3 = <0x01>;
+            sector-length = <0x10000>;
+            num-blocks = <0x100>;
+            width = <4>;
+            big-endian = <0>;
+
+            name = "hpps_nor";
+            new-name = "hpps_nor";
+            pflash-index = <DRIVE_PFLASH__HPPS_NOR>;
+            drive = "";
+        };
+#elif CONFIG_HPPS_SMC_SRAM__NVRAM
+        hpps_nvram0: hpps_nvram@0x600000000 {
+            /* Generic NVRAM chip of size 16KB */
+            compatible = "offchip-sram";
+            reg   = <0x6 0x00000000 0x0 0x00004000 0x0>;
+            size = <0x4000>;
+            pflash-index = <DRIVE_PFLASH__HPPS_NVRAM_0>;
+            drive = "";
+        };
+        hpps_nvram1: hpps_nvram@0x600004000 {
+            /* Generic NVRAM chip of size 16KB */
+            compatible = "offchip-sram";
+            reg   = <0x6 0x00004000 0x0 0x00004000 0x0>;
+            size = <0x4000>;
+            pflash-index = <DRIVE_PFLASH__HPPS_NVRAM_1>;
+            drive = "";
+        };
+        hpps_nvram2: hpps_nvram@0x600008000 {
+            /* Generic NVRAM chip of size 16KB */
+            compatible = "offchip-sram";
+            reg   = <0x6 0x00008000 0x0 0x00004000 0x0>;
+            size = <0x4000>;
+            pflash-index = <DRIVE_PFLASH__HPPS_NVRAM_2>;
+            drive = "";
+        };
+        hpps_nvram3: hpps_nvram@0x60000c000 {
+            /* Generic NVRAM chip of size 16KB */
+            compatible = "offchip-sram";
+            reg   = <0x6 0x0000c000 0x0 0x00004000 0x0>;
+            size = <0x4000>;
+            pflash-index = <DRIVE_PFLASH__HPPS_NVRAM_3>;
+            drive = "";
+        };
+#endif /* CONFIG_HPPS_SMC_SRAM__* */
+
+#if CONFIG_HPPS_SMC_NAND
+        hpps_nand: hpps_nand@0x680000000 {
+            /* AMD/Spansion NAND 4Gb 1.8V 16-bit, 128B OOB */
+            compatible = "nand";
+#ifndef SMC_REG_HACK
+            reg = <0x6 0x80000000 0x0 0x1000000>;
+#else
+            start-addr-high = <0x6>;
+            start-addr-low= <0x80000000>;
+            region-size = <0x1000000>;
+#endif
+            chip-id = <0xbc>;
+            manufacturer-id = <0x01>;
+            full-id-low = <0x5590bc01>;
+            full-id-high = <0xbc010056>;
+
+            label = "hpps-nand";
+            pflash-index = <DRIVE_PFLASH__HPPS_NAND>;
+            drive = "";
+        };
+#endif /* CONFIG_HPPS_SMC_NAND */
+
         hpps_smc353: hpps_smc353@0xf92d0000 {
             compatible = "arm,pl35x";
             x = <3>;
@@ -2111,80 +2177,56 @@
             #priority-cells = <0>;
             ranges ;
 
-            hpps-sram@0x600000000 {
-                compatible = "offchip-sram";
-#ifndef SMC_REG_HACK
-                reg   = <0x6 0x00000000 0x0 0x4000>;
-#else
-                start_addr_high = <0x6>;
-                start_addr_low= <0x00000000>;
-                region_size = <0x4000>;
-#endif
+#if CONFIG_HPPS_SMC_SRAM__NOR
+            hppc_smc353_sram_itf0: hpps_smc353_sram_itf0 {
+                compatible = "pl35x-itf";
+                dev-type = "sram";
 
-                pflash_index = <DRIVE_PFLASH__HPPS_SMC_SRAM_0>;
+                interface = <0>;
                 rank = <0>;
-                drive = "";
+                chip = &hpps_nor;
             };
-            hpps-sram@0x600004000 {
-                compatible = "offchip-sram";
-#ifndef SMC_REG_HACK
-                reg   = <0x6 0x00004000 0x0 0x4000>;
-#else
-                start_addr_high = <0x6>;
-                start_addr_low= <0x4000>;
-                region_size = <0x4000>;
-#endif
-
-                pflash_index = <DRIVE_PFLASH__HPPS_SMC_SRAM_1>;
+#elif CONFIG_HPPS_SMC_SRAM__NVRAM
+            hppc_smc353_sram_itf0: hpps_smc353_sram_itf0 {
+                compatible = "pl35x-itf";
+                dev-type = "sram";
+                interface = <0>;
+                rank = <0>;
+                chip = &hpps_nvram0;
+            };
+            hppc_smc353_sram_itf1: hpps_smc353_sram_itf1 {
+                compatible = "pl35x-itf";
+                dev-type = "sram";
+                interface = <0>;
                 rank = <1>;
-                drive = "";
+                chip = &hpps_nvram1;
             };
-            hpps-sram@0x600008000 {
-                compatible = "offchip-sram";
-#ifndef SMC_REG_HACK
-                reg   = <0x6 0x80000000 0x0 0x4000>;
-#else
-                start_addr_high = <0x6>;
-                start_addr_low= <0x8000>;
-                region_size = <0x4000>;
-#endif
-
-                pflash_index = <DRIVE_PFLASH__HPPS_SMC_SRAM_2>;
+            hppc_smc353_sram_itf2: hpps_smc353_sram_itf2 {
+                compatible = "pl35x-itf";
+                dev-type = "sram";
+                interface = <0>;
                 rank = <2>;
-                drive = "";
+                chip = &hpps_nvram1;
             };
-            hpps-sram@0x60000c000 {
-                compatible = "offchip-sram";
-#ifndef SMC_REG_HACK
-                reg   = <0x6 0x0000c000 0x0 0x4000>;
-#else
-
-                start_addr_high = <0x6>;
-                start_addr_low= <0xc000>;
-                region_size = <0x4000>;
-#endif
-
-                pflash_index = <DRIVE_PFLASH__HPPS_SMC_SRAM_3>;
+            hppc_smc353_sram_itf3: hpps_smc353_sram_itf3 {
+                compatible = "pl35x-itf";
+                dev-type = "sram";
+                interface = <0>;
                 rank = <3>;
-                drive = "";
-            };
-            hpps-nand@0x680000000 {
-                compatible = "nand";
-#ifndef SMC_REG_HACK
-                reg = <0x6 0x80000000 0x0 0x1000000>;
-#else
-                start_addr_high = <0x6>;
-                start_addr_low= <0x80000000>;
-                region_size = <0x1000000>;
-#endif
+                chip = &hpps_nvram1;
+        };
+#endif /* CONFIG_HPPS_SMC_SRAM__* */
 
-                pflash_index = <DRIVE_PFLASH__HPPS_SMC_NAND_0>;
+#if CONFIG_HPPS_SMC_NAND
+            hpps_smc353_nand_itf0: hpps_smc353_nand_itf0 {
+                compatible = "pl35x-itf";
+                dev-type = "nand";
+
+                interface = <1>;
                 rank = <0>;
-                label = "hpps-nand-0";
-                drive = "";
-
-                NAND_CHIP_512MIB_16BIT_128OOB_SPANSION
-            };
+                chip = &hpps_nand;
+           };
+#endif /* CONFIG_HPPS_SMC_NAND */
         };
 #endif /* CONFIG_HPPS_SMC */
 
