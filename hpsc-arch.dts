@@ -2234,14 +2234,15 @@
         hpps_smmu: smmu@0xf9300000 {
             compatible = "arm,mmu-500";
             reg-extended = <&nic6 0x0 0xf9300000  0x0 0x20000     /* prio = */ 0x0
-                            &hpps_smmu_tbu0 0x0 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu1 0x0 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu2 0x0 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu3 0x0 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu4 0x0 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu5 0x0 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu6 0x0 0 0x1 0x00000000  /* prio = */ 0x0
-                            &hpps_smmu_tbu7 0x0 0 0x1 0x00000000  /* prio = */ 0x0>;
+                            /* address-cells of refererenced node apply: <1> */
+                            &hpps_smmu_tbu0 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu1 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu2 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu3 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu4 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu5 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu6 0 0x1 0x00000000  /* prio = */ 0x0
+                            &hpps_smmu_tbu7 0 0x1 0x00000000  /* prio = */ 0x0>;
 
             interrupts = <0 /* global irq */
                           1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16>; /* context irqs (16 contexts hardcoded in model) */
