@@ -350,6 +350,10 @@
                 memory_ns = <&hpps>;                      \
                 arm-system-counter = <&elapsed_timer>;    \
 
+            /* NOTE: we don't put CPUs behind CONFIG_HPPS_A53_CLx because this
+               changes the CPU indexes, making it difficult to implement
+               library profiles, because indexes would have to be set outside
+               of the library profiles, leading to extra complexity. */
 
             hpps_memattr_cpu0_s: hpps_memattr_cpu_s@0 {
                 compatible = "qemu:memory-transaction-attr";
@@ -404,6 +408,7 @@
                 secure = <0>;
                 master-id = <MASTER_ID_HPPS_CPU1>;
             };
+
             hpps_cpu1: hpps_cpu@1 {
                 HPPS_CPU_PROPS
                 gdb-id = "HPPS Cortex-A53 #1";
@@ -1072,10 +1077,14 @@
             compatible = "xlnx,apu";
             #gpio-cells = <1>;
             reg = <0xfd5c0000  0x0 0x1000 /* prio= */ 0x0>;
+#if CONFIG_HPPS_A53_CL0
             cpu0 = <&hpps_cpu0>;
             cpu1 = <&hpps_cpu1>;
             cpu2 = <&hpps_cpu2>;
             cpu3 = <&hpps_cpu3>;
+#else /* !CONFIG_HPPS_A53_CL0 */
+            cpu0 = <&hpps_cpu0>;
+#endif /* !CONFIG_HPPS_A53_CL0 */
 
             /* APU GPIO outputs:
                   wfi_out   *4 (NOT connected)
@@ -1089,10 +1098,12 @@
             compatible = "xlnx,apu";
             #gpio-cells = <1>;
             reg = <0xfd5c1000  0x0 0x1000 /* prio= */ 0x0>;
+#if CONFIG_HPPS_A53_CL1
             cpu0 = <&hpps_cpu4>;
             cpu1 = <&hpps_cpu5>;
             cpu2 = <&hpps_cpu6>;
             cpu3 = <&hpps_cpu7>;
+#endif /* CONFIG_HPPS_A53_CL1 */
         };
     };
 #endif /* CONFIG_HPPS_A53 */
@@ -1126,26 +1137,6 @@
                 cpu5 = <&hpps_cpu5>;
                 cpu6 = <&hpps_cpu6>;
                 cpu7 = <&hpps_cpu7>;
-#elif CONFIG_HPPS_A53_CL0
-                num-cpu = <4>;
-                cpu0 = <&hpps_cpu0>;
-                cpu1 = <&hpps_cpu1>;
-                cpu2 = <&hpps_cpu2>;
-                cpu3 = <&hpps_cpu3>;
-#elif CONFIG_HPPS_A53_CL1
-#error Invalid CONFIG_HPPS_A53_CL*: expected: !CL0 && !CL1, CL0, or CL0 && CL1
-#else /* single processor (not SMP) */
-                num-cpu = <1>;
-                cpu0 = <&hpps_cpu0>;
-#endif /* CONFIG_HPPS_A53_CL* */
-
-                has-security-extensions = <1>;
-                /* gicd-tyer: based on the code (arm_gicv3_dist.c) */
-                /*            support of nonzero value of (Affinity level 3)    (1 << 24)    */
-                /*            no support of (DVIS, LPIS, MBIS)     */
-                /*            IDBits 0b01111 (INTID is 16 bits) ( 0b01111 << 19)   */
-                /*            Security Extn (1 << 10) */
-                gicd-typer = <0x0378041e>;	
 
                 interrupts-extended = /* signals output by the interrupt controller */
                         /* IRQ * #cpus; each wired to input signal 0=IRQ on each CPU */
@@ -1160,6 +1151,46 @@
                         /* vFIQ * #cpus, each wired to input signal 3=vFIQ on each CPU */
                         <&hpps_cpu0 3>, <&hpps_cpu1 3>, <&hpps_cpu2 3>, <&hpps_cpu3 3>,
                         <&hpps_cpu4 3>, <&hpps_cpu5 3>, <&hpps_cpu6 3>, <&hpps_cpu7 3>;
+#elif CONFIG_HPPS_A53_CL0
+                num-cpu = <4>;
+                cpu0 = <&hpps_cpu0>;
+                cpu1 = <&hpps_cpu1>;
+                cpu2 = <&hpps_cpu2>;
+                cpu3 = <&hpps_cpu3>;
+
+                interrupts-extended = /* signals output by the interrupt controller */
+                        /* IRQ * #cpus; each wired to input signal 0=IRQ on each CPU */
+                        <&hpps_cpu0 0>, <&hpps_cpu1 0>, <&hpps_cpu2 0>, <&hpps_cpu3 0>,
+                        /* FIQ * #cpus, each wired to input signal 1=FIQ on each CPU */
+                        <&hpps_cpu0 1>, <&hpps_cpu1 1>, <&hpps_cpu2 1>, <&hpps_cpu3 1>,
+                        /* vIRQ * #cpus, each wired to input signal 2=vIRQ on each CPU */
+                        <&hpps_cpu0 2>, <&hpps_cpu1 2>, <&hpps_cpu2 2>, <&hpps_cpu3 2>,
+                        /* vFIQ * #cpus, each wired to input signal 3=vFIQ on each CPU */
+                        <&hpps_cpu0 3>, <&hpps_cpu1 3>, <&hpps_cpu2 3>, <&hpps_cpu3 3>;
+#elif CONFIG_HPPS_A53_CL1
+#error Invalid CONFIG_HPPS_A53_CL*: expected: !CL0 && !CL1, CL0, or CL0 && CL1
+#else /* single processor (not SMP) */
+                num-cpu = <1>;
+                cpu0 = <&hpps_cpu0>;
+
+                interrupts-extended = /* signals output by the interrupt controller */
+                        /* IRQ * #cpus; each wired to input signal 0=IRQ on each CPU */
+                        <&hpps_cpu0 0>,
+                        /* FIQ * #cpus, each wired to input signal 1=FIQ on each CPU */
+                        <&hpps_cpu0 1>,
+                        /* vIRQ * #cpus, each wired to input signal 2=vIRQ on each CPU */
+                        <&hpps_cpu0 2>,
+                        /* vFIQ * #cpus, each wired to input signal 3=vFIQ on each CPU */
+                        <&hpps_cpu0 3>;
+#endif /* CONFIG_HPPS_A53_CL* */
+
+                has-security-extensions = <1>;
+                /* gicd-tyer: based on the code (arm_gicv3_dist.c) */
+                /*            support of nonzero value of (Affinity level 3)    (1 << 24)    */
+                /*            no support of (DVIS, LPIS, MBIS)     */
+                /*            IDBits 0b01111 (INTID is 16 bits) ( 0b01111 << 19)   */
+                /*            Security Extn (1 << 10) */
+                gicd-typer = <0x0378041e>;	
 
                 gpios = /* input signals into the interrupt controller */
                         </* resetn */ &crf 8 /* RST_GIC */>;
