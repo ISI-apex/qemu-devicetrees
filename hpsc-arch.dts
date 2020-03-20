@@ -1821,6 +1821,8 @@
 #if CONFIG_LSIO_SMC
 
 #if CONFIG_LSIO_SMC_SRAM__NVRAM
+        /* NOTE: the SMC-353 region in the memory map only has space for up to
+         * 16 MiB x4 for the SRAM interface plus 16 MiB for NAND interface. */
         lsio_nvram0: lsio_nvram0@0x28000000 {
             /* Generic NV RAM memory chip of size 16 MiB */
             compatible = "offchip-sram";
